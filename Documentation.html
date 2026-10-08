@@ -1,0 +1,5272 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Giten Enhancement Documentation</title><style>body{font:17px/1.7 system-ui,sans-serif;background:#f4f1ea;color:#222;max-width:1000px;margin:auto;padding:32px}section{margin:50px 0}h1{border-bottom:2px solid #823628}h2{margin-top:32px}a{color:#823628}code{background:#e8e2d8;padding:2px 4px;overflow-wrap:anywhere}table{display:block;overflow-x:auto;border-collapse:collapse;font-size:14px}td,th{border:1px solid #ccc;padding:8px;text-align:left;vertical-align:top}th{background:#e8e2d8}</style><nav><a href="#README">Readme</a> · <a href="#FIXES">Fixes</a> · <a href="#WINDOWS-ARTWORK">Windows Artwork</a> · <a href="#REBALANCE">Rebalance</a> · <a href="#REFERENCE">Reference</a> · <a href="#TROUBLESHOOTING">Troubleshooting</a> · <a href="#CREDITS">Credits</a> · <a href="#VALIDATION">Validation</a></nav><section id="README"><h1>Giten Megami Tensei — PC-98 Enhancement Patches</h1>
+<p>English patch interfaces and documentation for <strong>Giten Megami Tensei: Tokyo Mokushiroku</strong>. The game remains in Japanese. These packages do not translate its story, menus or item names into English.</p>
+<h2>Choose a package</h2>
+<table>
+<thead>
+<tr>
+<th>Package</th>
+<th>Open this file</th>
+<th>Purpose</th>
+<th>Prerequisite</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Giten Fixes (EN)</td>
+<td>Apply Fixes.html</td>
+<td>The gameplay repairs and convenience changes from the standard Chinese release, without Chinese localization</td>
+<td>Supported Japanese game HDI</td>
+</tr>
+<tr>
+<td>Giten Windows Artwork (EN)</td>
+<td>Apply Windows Artwork.html</td>
+<td>Windows remake graphics adapted to the PC-98 engine</td>
+<td>Supported Japanese game HDI; Fixes is optional</td>
+</tr>
+<tr>
+<td>Giten Rebalance (EN)</td>
+<td>Apply Rebalance.html</td>
+<td>New combat formulas, growth, boss tuning and learning pools</td>
+<td>An image already processed by Fixes</td>
+</tr>
+</tbody>
+</table>
+<p>For the original combat rules with repairs, use <strong>Fixes</strong>. For redesigned combat, use <strong>Fixes → Rebalance</strong>. Add <strong>Windows Artwork</strong> whenever desired. Artwork works before or after either gameplay patch. You can also use Artwork alone on the original game.</p>
+<h2>Apply a patch</h2>
+<ol>
+<li>Close the emulator before selecting a disk. Back up your game and saves.</li>
+<li>Extract the chosen ZIP to an ordinary folder. Open its <code>Apply ...html</code> file in your browser.</li>
+<li>Select or drop the <code>.hdi</code> file. Click <strong>Apply patch</strong> and wait for the result.</li>
+<li>Click <strong>Save</strong> to download the new disk. The browser may use its Downloads directory or ask where to save it.</li>
+<li>When applying another package, select the disk downloaded in step 4, not the original disk again.</li>
+<li>Mount the final disk in your emulator and start the game normally.</li>
+</ol>
+<p>The default download names are <code>Giten_Fixed.hdi</code>, <code>Giten_WIN.hdi</code> and <code>Giten_Rebalanced.hdi</code>. The name describes the most recent patch, not the complete set installed: an Artwork result can also contain Fixes and Rebalance. Renaming a disk does not add or remove patches.</p>
+<p>The patch reads the selected file and creates a separate result in memory. It never writes back to your selected file. No image is uploaded, and no network connection, Python installation or command line is needed. Use a browser that supports <code>DecompressionStream</code> with <code>deflate-raw</code>; the page reports an error if decompression is unavailable.</p>
+<h2>Supported starting image</h2>
+<p>The reference input is the PepsimanGB <strong>Pre-Made Hard Disk and Boot Floppy</strong> edition, <code>Giten Megami Tensei HD.hdi</code>:</p>
+<ul>
+<li>Size: 31,177,216 bytes.</li>
+<li>SHA-256: <code>33ba81310d5cbf0e8459c5f09ea50360715591129a46f72c94e1b1ec0c49e77f</code>.</li>
+<li>Its 1,548 game files match the project's original Japanese game baseline.</li>
+</ul>
+<p>The patch checks the game files it depends on, rather than requiring that entire-disk checksum. A different disk layout can therefore work if the required files are identical. Custom executable, script, map or balance edits may be rejected. These language-preserving gameplay patches are not upgrades for Chinese-localized images or third-party game translations.</p>
+<h2>Booting the PepsimanGB edition</h2>
+<p>Keep <code>Giten Megami Tensei Boot FD.fdi</code> from your own copy. Configure a PC-98 emulator to attach the patched HDI as its hard disk and that FDI as its boot floppy, then boot from the floppy. Its startup script loads the mouse and sound drivers and launches the game from <code>C:\DDS98</code>.</p>
+<p>The patches preserve the disk's existing DOS files and startup configuration. This edition is not a standalone bootable HDI: opening only its hard disk is insufficient. The packages contain no emulator, BIOS, DOS system files, boot floppy or complete game image. Use the emulator and boot media with which your original Japanese copy works.</p>
+<h2>Saves and switching editions</h2>
+<p>In-game save files on the selected image are retained. Start from an in-game save after changing patches. An emulator save state includes the old running executable and memory; loading one can bypass the newly installed code or mix incompatible states.</p>
+<p>The expanded inventory reads original saves. Loading an expanded-inventory save in an unpatched game discards items beyond slot 48; preserve a backup before going back. Rebalance recalculates party statistics at battle entry, but it cannot undo changes already made to story flags or past character growth.</p>
+<p>To return to the original graphics or rules, rebuild from your untouched original and apply only the packages you want. Do not apply Fixes over Rebalance to try to remove it: that combination is rejected. This release supplies complete patch profiles, not the Chinese release's individual BAT switches or editors.</p>
+<h2>Documentation</h2>
+<p><code>Documentation.html</code> combines the following English documents for offline reading:</p>
+<ul>
+<li><code>FIXES.md</code>: repairs and convenience features.</li>
+<li><code>WINDOWS-ARTWORK.md</code>: graphics conversion, scope and compatibility.</li>
+<li><code>REBALANCE.md</code>: combat and progression rules.</li>
+<li><code>REFERENCE.md</code>: exact derived-stat formulas, learning-pool additions and numerical edit ledger.</li>
+<li><code>Rebalance-Changes.csv</code>: machine-readable changes using original record IDs and byte offsets.</li>
+<li><code>TROUBLESHOOTING.md</code>: controls, booting, errors and saves.</li>
+<li><code>CREDITS.md</code>: project and original-work credits.</li>
+<li><code>VALIDATION.md</code>: checks performed and their limits.</li>
+</ul>
+<p><code>SHA256SUMS.txt</code> lists the files shipped in each package. The three ZIPs share documentation so each can be understood on its own.</p></section>
+<section id="FIXES"><h1>Fixes and convenience features</h1>
+<p>Fixes uses the same repair pipeline as the standard Chinese release, with the original Japanese game text and native font. The battle formulas remain those of the original game after correcting the implementation defects below. Rebalance is a separate, optional package.</p>
+<h2>Inventory and stability</h2>
+<ul>
+<li>Prevents blank inventory entries created when a disarmed weapon is equipped again. The repair acts on the game program; existing DOS files and boot scripts are preserved.</li>
+<li>Expands the ordinary inventory from 48 to 111 slots. The separate 16 body-part slots remain unchanged. Original saves load with the extra slots empty.</li>
+<li>Releases script context memory after use. The original leak could exhaust memory during prolonged play or automatic battles.</li>
+<li>Moves the game's temporary memory-compaction swap from disk to XMS. This removes the dependency on a <code>DDS98\VM</code> directory that could be missing after restoring a save state onto a fresh disk, producing a <code>VM double fault</code> exit. An XMS-capable DOS setup remains required; this is not a general promise of emulator save-state compatibility.</li>
+</ul>
+<h2>Eight story repairs</h2>
+<ol>
+<li>Jukai appears at Gokokuji after Baal Hadad is defeated even if the party leaves Chuu by teleportation.</li>
+<li>Event tiles are checked after every step, so walking backwards cannot bypass guards or other events that pushed the party back.</li>
+<li>The old Shimbashi subway platform returns the party to the north side facing Ginza when entry is refused outside the new moon, preventing a pushback loop.</li>
+<li>Entering the sickroom during the Hatsudai escape no longer repeats the B8F purification briefing.</li>
+<li>Takeminakata's negotiations at the waterfront arena require accepting Amaterasu's proposal first.</li>
+<li>Rainbow Bridge remains available to the party already acting as Amaterasu's envoys when Decarabia kills Hiruko, preserving access to Ariake.</li>
+<li>After the Harajuku rescue, serious injuries trigger the intended doctor's dialogue and transfer to the administration section, instead of leaving its doors locked.</li>
+<li>Teleporting into the Shinjuku ground-zero arena cannot bypass reception and take Sonoda into the Adonis duel with Rui, which previously left Sonoda permanently in the party.</li>
+</ol>
+<h2>Story checks and rewards</h2>
+<p>Seven checks originally replace an intended small random threshold with a random number from 0 to 32,767, although attributes cannot exceed 100. They now use the intended threshold. Affected events include the Baal fusion ending, the DB practical test's gun actions, responding to Emi while secluded, and looking at Rui when she brings food.</p>
+<p>Two Rui dialogue choices now apply the intended +2/-2 affection changes without falling through into another answer's -1/+1 adjustment. Wendy, Miranda and Josephine correctly award their intended 20, 30 and 3,000 EXP; if a reward crosses a level threshold, the next EXP gain processes the level-up.</p>
+<h2>Attributes, equipment, items and EXP</h2>
+<ul>
+<li>Eleven weapons/armor pieces now grant their intended attribute bonuses instead of repeatedly increasing base Luck during recalculation. Accessories target their specified attributes instead of all targeting Luck; unspecified Luck accessories retain their original effect.</li>
+<li>Weapon magic accuracy and the barrier unit's magic evasion take effect. Three armor effects that doubled a nonexistent accuracy contribution instead double that item's evasion contribution.</li>
+<li>Gun critical modifiers are counted. Sword and gun skills read the critical modifier of the weapon actually used.</li>
+<li>Attack items use their own power, accuracy, element and additional effects, with the user's magic accuracy. Status items apply their specified statuses.</li>
+<li>Scripted attribute rewards and penalties modify the base value without permanently baking in a cap or temporary halving effect.</li>
+<li>Corrects two 16-bit overflow cases in status-infliction checks and a 150% multiplier. Heavy armor cannot underflow action speed into a huge positive number; minimum speed is 1.</li>
+<li>The ash state counts as incapacitated, and battle EXP distribution handles a party with no eligible recipients without dividing by zero.</li>
+<li>Successful COMP attack programs award COMP skill EXP instead of magic skill EXP, at three points per hit.</li>
+<li>The battle summary reports the EXP each eligible party member actually receives. The ordinary distribution remains total defeated-enemy EXP × 2 ÷ eligible members. Fixes alone does not include the optional level-gap EXP system; Rebalance does.</li>
+</ul>
+<h2>Attack skills</h2>
+<p>The previously zero-power handgun, shotgun, machine gun and laser gun templates now function as gun attacks. They consume HP rather than ammunition and use gun accuracy. Handgun fires twice at one target; shotgun attacks each target in the chosen group; machine gun fires four to six shots among that group; laser gun penetrates the target and the two positions behind it.</p>
+<p>Bomb attacks up to three targets in its group and costs 5 HP. Gun skills, including Bomb and enemy projectile skills, use the gun's attack contribution without ammunition power. Ordinary gunshots still use ammunition, and the status screen still displays gun plus ammunition power. The Execution Rider receives its intended Type 89 rifle.</p>
+<p>Previously ineffective zero-power physical templates, including sword, blunt, thrust and whip attacks, become real physical attacks. The executable also deducts costs for the affected low-numbered skills.</p>
+<h2>Dialogue and graphics repairs</h2>
+<ul>
+<li>Adds a click-to-continue wait to the last line of 843 dialogue passages that previously closed immediately.</li>
+<li>Adds 23 missing demon-negotiation prompts, written in Japanese to fit their speakers. These are newly supplied prompts, not a claim to recovered official dialogue.</li>
+<li>Removes the ceiling/floor flash just before overworld battles fade out, using a black texture.</li>
+<li>Supplies neighboring area's battle backdrops where roughly a quarter of overworld areas otherwise specified none.</li>
+<li>Suppresses the persistent <code>no space</code> palette debug text.</li>
+<li>Allocates enemy palettes from the high end, reducing battle-background recoloring when the combined content fits the engine's six usable palette slots. The hardware palette budget still applies.</li>
+</ul>
+<h2>Convenience changes included in Fixes</h2>
+<p><strong>Keyboard:</strong> W/Z/A/D move forward/back/left/right, Q/E turn left/right, and S turns around. Enter or Space advances dialogue and battle-message waits. Menus still use the mouse. See <code>TROUBLESHOOTING.md</code>.</p>
+<p><strong>Message pacing:</strong> battle messages pause for approximately one second after being drawn; clicking or pressing an advance key can shorten a wait.</p>
+<p><strong>Dantalion's second form:</strong> fire, ice, force and electricity damage multipliers change from 40% to 60%, matching the final form. A larger percentage means more damage passes through.</p>
+<p><strong>Faster moon:</strong> the visible phase changes after about 60 steps instead of about 300. Moon-dependent battles, negotiation and events follow the faster phase. Monthly chests, refillable Soma/Kushinada vessels, the core shield duration and body-part drying limits retain their original time scale. The vessels refill on an eligible full moon after the original monthly interval; they cannot be farmed every accelerated cycle. The core shield description is adjusted in Japanese to reflect a duration of at most about one day.</p>
+<p>These features are installed together. The standalone artwork patch is not required for any of them.</p></section>
+<section id="WINDOWS-ARTWORK"><h1>Windows Artwork</h1>
+<p>This independent patch adapts graphics from the Windows remake for the PC-98 game. It can be applied to the original supported Japanese image, a Fixes image, or a Fixes + Rebalance image. It does not require the Fixes package and does not change the game's language.</p>
+<h2>Replaced graphics</h2>
+<ul>
+<li>Dungeon walls, doors and stairs.</li>
+<li>Room and event pictures.</li>
+<li>Demon sprites and poses.</li>
+<li>Title screen.</li>
+<li>The surrounding gold frame and lower compass panel become gray metal while retaining the original geometry, screws, seams, black panels and white lines. Command buttons, direction controls and menu text retain their original green.</li>
+</ul>
+<p>This is a palette conversion for the PC-98 renderer, not a port of the Windows executable. Every entry is mapped to its available colors and original palette-slot budget. Transparent outlines and drawing structure follow the PC-98 format.</p>
+<p>Demon sprites use the Windows rendition's scale and position, consistently across poses. The footprint demon is represented by its whole body standing over its footprints; the mist sprite occupies a larger part of the battle window.</p>
+<h2>Doors, overlays and palette compatibility</h2>
+<p>Doors are supplied per wall set, and each dungeon section's door selector is changed to match its wall selector. This prevents locations such as Hatsudai from inheriting the wrong area's door. Applying Fixes after Artwork reapplies that door mapping when it replaces maps.</p>
+<p>Overlaid room graphics share palettes with their backgrounds: cell bars, shrine close-ups, train doors, the Yata mirror and the fusion-room palette follow the original drawing relationships. The rock and opened passage beneath Togo Shrine use the Windows wall palette. The item-shop backdrop retains the pale gray-blue shared with its shopkeeper.</p>
+<p>The spring scene uses one fewer palette slot to leave room for two enemies; its water glow is dithered using the remaining colors. The PC-98 engine still has a finite palette budget, so this conversion cannot eliminate every possible overlap with arbitrary custom graphics.</p>
+<p>The patch also suppresses <code>no space</code> debug text and changes the two enemy palette-allocation sites in <code>DDS98.EXE</code>. Those repairs are already present in Fixes. No other Fixes or Rebalance features are installed by Artwork alone.</p>
+<h2>File checks and applying again</h2>
+<p>The reference PepsimanGB disk has fourteen unused cylinders after its DOS partition. Its original free space is slightly too small for the complete artwork. On that exact recognized layout, this package extends the existing FAT12 partition into the unused 693 KiB tail. The HDI file size, cluster size, existing file locations and startup code stay unchanged. It checks the partition table, FAT capacity and unused tail before doing so; unexpected tail data causes refusal. Other disk layouts are not resized.</p>
+<p>Before replacement, artwork hashes distinguish original files, files already supplied by this patch, missing entries and files modified by something else. Unrecognized modified artwork or unsupported executable patch sites cause refusal instead of overwriting another mod.</p>
+<p>The patch replaces the selected <code>DDS98\FC*.BIN</code> graphics, remaps door selectors in <code>M0*.BIN</code> and updates the palette sites. It retains saves, unrelated files and DOS startup configuration. If every artwork file, door mapping and executable site is already patched, the page reports that no new image is needed.</p>
+<p>To restore PC-98 artwork, return to your original image and apply only the gameplay packages you want. The artwork package is an installer, not an uninstall or graphics-toggle tool.</p></section>
+<section id="REBALANCE"><h1>Rebalance</h1>
+<p>Apply <strong>Fixes first</strong>, then select that output in <code>Apply Rebalance.html</code>. Windows Artwork may be installed before or after this step. The result contains the same combat and progression redesign used by the Chinese rebalanced edition, with Japanese game text.</p>
+<h2>What changes</h2>
+<p>Rebalance replaces derived battle-stat formulas, hit/damage curves, critical hits and some progression rules. It retunes bosses and strengthens Newton and his equipment, expands the protagonist's learning pools, makes combat summoning cost an action, and adjusts EXP by level difference. All underlying Fixes repairs remain installed.</p>
+<p><code>REFERENCE.md</code> contains the exact derived-stat formulas and a complete numerical ledger generated from the authoritative balance data. IDs refer to the original game's records; names that appear in Japanese are included for matching them to the game.</p>
+<h2>Derived stats and leadership</h2>
+<p>Attributes and character level contribute more strongly relative to equipment. Equipment contributions use the same weights for humans, demons, allies and enemies: sword attack ×0.3, sword accuracy ×0.8, sword evasion ×0.5, defense ×0.75 and gun attack ×0.5. Gun accuracy/evasion and magic contributions retain full weight. These weights are already included in the reference formulas; do not apply them twice.</p>
+<p>Human skill levels add attack to their matching category: sword +0.25 per level, gun +0.5, magic +0.5 and COMP +0.75. Demons have no such human skill levels.</p>
+<p>If the protagonist has awakened COMP, allied demons use the protagonist's Charm as leadership <code>L</code>; other combatants use zero. Leadership adds 0.25L to accuracy/evasion and multiplies the indicated attack values by <code>(2000 + L) / 2000</code>. Derived values are rounded once and limited to 1–999 before the game's subsequent modifiers.</p>
+<h2>HP, MP, healing and speed</h2>
+<ul>
+<li>Party maximum HP = <code>5 + Grace + Luck + level × (0.99 + 0.297 × Vitality + 0.198 × level)</code>. The HP-doubling state and 9,999 cap remain; enemies use their recorded HP.</li>
+<li>Maximum MP is unchanged: <code>min(999, 1.5 × Magic × sqrt(level) + 0.5 × (Willpower + Charm))</code>.</li>
+<li>Healing = <code>power + 0.75 × Magic + sqrt(Magic)</code>, then the original random factor of 80–120%.</li>
+<li>Action speed = <code>4 × sqrt(Agility) − 0.25 × armor weight / max(1, sqrt(Strength))</code>, with a minimum of 1. Strength replaces Vitality as the weight-bearing attribute.</li>
+</ul>
+<h2>Physical attacks</h2>
+<p>Hit chance = <code>1 / (1 + (0.4 × evasion / accuracy)^2)</code>, limited to 5–97%. Half of missed attacks become grazes. The inputs already include the game's applicable blindness, position and other modifiers.</p>
+<p>Base damage = <code>0.5227 × attack^2 / (attack + max(1, defense))</code>. Critical damage is ×2.5. Subsequent hits of an ordinary sword attack are halved. Existing immobility, position, graze, skill, moon and random modifiers still apply; graze damage is ×0.25, and the random factor remains 80–120%.</p>
+<p>Gun attack = <code>(0.5 × base + 5 × gunDexterity + 0.5 × level + 0.5 × gunSkillLevel) × (2000 + L) / 2000</code>. For a human with an equipped gun, <code>gunDexterity</code> is Dexterity; otherwise it is zero. Ordinary shots use the current shot's power; special gun attacks use the gun contribution without ammunition. Special gun attack output is scaled by ×0.4, or ×0.35 for machine gun. The derived gun attack is clamped to 1–999 before subsequent buffs.</p>
+<h2>Critical hits and instant death</h2>
+<p>Critical probability = <code>clamp(0.03 + 0.04 × (attacker Intuition + 0.5 × attacker Intelligence − defender Grace) + 0.0025 × B, 0, 0.35)</code>, where <code>B</code> is weapon critical modifier minus armor critical protection. Critical hits are tested for each attack without the original moon gate.</p>
+<p>For the instant-death comparison, <code>K = (Intuition + 0.5 × Intelligence) / 2 + Luck</code>. Probability = <code>0.30 × clamp(attacker K / defender K − 1, 0, 1)</code>. Its original moon gate remains: the original 0–255 random draw must be below <code>(((moonAge + 13) mod 14 + 1)^2) / 4</code>. Allies cannot instantly kill enemies in a boss battle; enemy instant-death attempts retain the game's existing eligibility checks.</p>
+<h2>Magic and COMP programs</h2>
+<p>Magic hit chance = <code>1 / (1 + (0.8 × magic evasion / S')^2)</code>, limited to 5–97%. Here <code>S' = (skill accuracy + magic accuracy) × (1 − attenuation) × R / 50</code>. <code>R</code> is the skill's multiplier code: negative values use 50, while zero means no hit.</p>
+<p>Magic base damage = <code>1.9008 × S^2 / (S + max(1, magic defense))</code>, where <code>S = (0.5 × skill power + magic attack) × (1 − attenuation)</code>. The existing additional damage modifiers remain.</p>
+<p>COMP attack programs use COMP accuracy and COMP attack in these formulas rather than magic accuracy/attack. Magic attack and accuracy buffs/debuffs also affect the corresponding COMP values by the same increment. COMP additions are excluded from the game's sum used to report that a buff has no effect; the six groups' original increments remain unchanged.</p>
+<h2>Moon damage</h2>
+<p>The damage multiplier becomes <code>sqrt(v / 50)</code> instead of <code>2v / 100</code>, using the attacker's existing moon-age table value <code>v</code>. This applies to sword, gun and magic damage. Examples: <code>v=10</code> gives about ×0.447, <code>50</code> gives ×1, <code>100</code> gives about ×1.414, and <code>200</code> gives ×2.</p>
+<p>Instant-death moon gates and full-moon refusal to negotiate retain their original rules. The faster visible moon from Fixes remains active.</p>
+<h2>Growth and learning</h2>
+<p>One quarter of inclination growth points is redirected to the currently lowest attribute, taking the first in attribute order on a tie. If that minimum is capped, the original reroll behavior applies. Humans additionally gain one Vitality every third level, shown on the level-up screen. Existing hidden Luck growth remains: humans on even levels, demons every third level.</p>
+<p>The magic route gains the Megi line, and the gun route gains a dedicated learning pool. See <code>REFERENCE.md</code> for the exact lists and IDs. Acquisition still uses the game's existing level-up checks; eligibility does not guarantee learning a skill on that exact level.</p>
+<h2>Summoning, battle entry and negotiation</h2>
+<p>Summoning a demon from COMP during battle consumes one action of the COMP holder: the protagonist, or Emi if the protagonist is absent or unable to act. A character already counting down waits an additional action interval. Summoning outside battle remains free.</p>
+<p>At each battle's start, derived stats, maximum HP/MP and speed are recalculated for everyone. This lets existing in-game saves pick up the new formulas; it does not retroactively redistribute past level-up points.</p>
+<p>During negotiation, the protagonist's Intuition, Magic, Intelligence, Agility, Dexterity, Charm and Luck checks use <code>attribute × (100 + C) / 100</code>, where <code>C</code> is COMP level. The recruitment level gate uses <code>protagonist level × (200 + C) / 200</code>. Willpower, Strength, Vitality and Grace receive no such boost, and demon-side values and other conditions remain unchanged.</p>
+<h2>Level-gap EXP</h2>
+<p>For every defeated enemy and every eligible member, multiply the enemy's EXP by <code>2^(clamp(enemy level − member level, −10, 10) / 5)</code>, then retain the ordinary ×2 and division by the eligible-member count. Five levels below the enemy gives ×2, ten or more gives ×4; five above gives ×0.5, ten or more gives ×0.25. Equal levels give ×1.</p>
+<p>The summary reports the protagonist's actual award, since party members can receive different amounts. Eligibility rules remain, including incapacitation and the level-99 limit.</p>
+<h2>Content tuning and unchanged systems</h2>
+<p>The package includes all 36 record edits in the rebalanced boss/Newton equipment plan, plus the shared Dantalion correction already installed by Fixes. The ledger gives original and replacement values by record and field. Newton's skill set includes attacks, a COMP program and resurrection support; his three special equipment records are also strengthened.</p>
+<table>
+<thead>
+<tr>
+<th>Newton's starting equipment</th>
+<th>Adjustments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10 mm composite armor, item 438</td>
+<td>Defense 10 → 38; evasion 7 → 12; magic defense 5 → 24; critical protection 15 → 40</td>
+</tr>
+<tr>
+<td>Newton Blade, item 733</td>
+<td>Attack 11 → 45; accuracy 10 → 35; critical modifier 7 → 15; maximum hits 2 → 3; magic accuracy 0 → 25; magic attack 0 → 18</td>
+</tr>
+<tr>
+<td>Neutron, item 744</td>
+<td>Attack 15 → 45; accuracy 22 → 40; critical modifier 10 → 12; magazine 20 → 60; six shots that can be distributed among one to six targets</td>
+</tr>
+</tbody>
+</table>
+<p>Status sources/caps, MP rules, status effects, existing resistance mechanics, encounter/flee rules, story checks, chests, bargaining and terminal behavior retain their existing logic except for the explicit Fixes repairs and numerical edits. Rebalance is a designed alternate ruleset, not a promise that every play style has identical difficulty.</p></section>
+<section id="REFERENCE"><h1>Formula and data reference</h1>
+<h2>Derived battle stats</h2>
+<p>Generated from the same coefficients used to patch the executable. Multiplications shown here already include equipment weights.</p>
+<table>
+<thead>
+<tr>
+<th>Statistic</th>
+<th>Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sword accuracy</td>
+<td><code>Agility + 0.5 * Dexterity + 0.25 * Intuition + 0.125 * Intelligence + 0.8 * equipmentSwordAccuracy + 0.25 * L</code></td>
+</tr>
+<tr>
+<td>Sword attack</td>
+<td><code>(2 * Strength + 0.3 * equipmentSwordAttack + 0.5 * level + 0.25 * swordSkillLevel) * (2000 + L) / 2000</code></td>
+</tr>
+<tr>
+<td>Sword evasion</td>
+<td><code>Agility + Intuition + 0.5 * Intelligence + 0.5 * equipmentEvasion + 0.25 * L</code></td>
+</tr>
+<tr>
+<td>Physical defense</td>
+<td><code>Vitality + 0.4 * Grace + 0.75 * equipmentDefense</code></td>
+</tr>
+<tr>
+<td>Gun accuracy</td>
+<td><code>Dexterity + 0.2 * Intuition + 0.1 * Intelligence + equipmentGunAccuracy + gunLevelBonus + 0.25 * L</code></td>
+</tr>
+<tr>
+<td>Gun attack (status screen)</td>
+<td><code>(0.5 * equipmentGunAndAmmoAttack + 5 * gunDexterity + 0.5 * level + 0.5 * gunSkillLevel) * (2000 + L) / 2000</code></td>
+</tr>
+<tr>
+<td>Gun evasion</td>
+<td><code>0.9 * Intuition + 0.45 * Intelligence + 0.4 * Grace + equipmentEvasion + 0.25 * L</code></td>
+</tr>
+<tr>
+<td>Magic accuracy</td>
+<td><code>0.75 * Intelligence + 0.25 * Magic + equipmentMagicAccuracy + 0.25 * L</code></td>
+</tr>
+<tr>
+<td>Magic attack</td>
+<td><code>(1.75 * Magic + equipmentMagicAttack + 0.5 * level + 0.5 * magicSkillLevel) * (2000 + L) / 2000</code></td>
+</tr>
+<tr>
+<td>Magic evasion</td>
+<td><code>0.25 * Intelligence + 0.5 * Grace + 0.5 * Willpower + equipmentMagicEvasion + 0.25 * L</code></td>
+</tr>
+<tr>
+<td>Magic defense</td>
+<td><code>0.8 * Willpower + 0.4 * Grace + equipmentMagicDefense</code></td>
+</tr>
+<tr>
+<td>COMP accuracy</td>
+<td><code>0.75 * Intelligence + 0.25 * Charm + equipmentMagicAccuracy + 0.25 * L</code></td>
+</tr>
+<tr>
+<td>COMP attack</td>
+<td><code>(Intelligence + 1.25 * Charm + equipmentMagicAttack + level + 0.75 * COMPSkillLevel) * (2000 + L) / 2000</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>gunLevelBonus</code> is <code>2 * (gunSkillLevel + 5)</code> when that skill level is at least 1, otherwise zero. <code>gunDexterity</code> is Dexterity for a human with an equipped gun, otherwise zero. <code>L</code> is the protagonist's Charm for allied demons when the protagonist has awakened COMP, otherwise zero. Skill levels in these formulas are human skill levels; demons use zero.</p>
+<p>The game rounds the total once and clamps derived values to 1–999. HP, damage, hit probability, growth, negotiation and other rules are described in REBALANCE.md.</p>
+<h2>Added learning candidates</h2>
+<p>Japanese labels identify the unchanged in-game skill names. The gun route's learn thresholds are 1, 5, 5, 10, 15, 20, 25, 35 and 35, in the order below. The original learning roll still decides acquisition.</p>
+<table>
+<thead>
+<tr>
+<th>Route</th>
+<th>Skill ID</th>
+<th>In-game name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Magic</td>
+<td>52</td>
+<td>メギ</td>
+</tr>
+<tr>
+<td>Magic</td>
+<td>53</td>
+<td>メギド</td>
+</tr>
+<tr>
+<td>Magic</td>
+<td>54</td>
+<td>メギドラオン</td>
+</tr>
+<tr>
+<td>Gun</td>
+<td>247</td>
+<td>ボンブ</td>
+</tr>
+<tr>
+<td>Gun</td>
+<td>3</td>
+<td>ハンドガン</td>
+</tr>
+<tr>
+<td>Gun</td>
+<td>31</td>
+<td>ダーム</td>
+</tr>
+<tr>
+<td>Gun</td>
+<td>32</td>
+<td>ダムド</td>
+</tr>
+<tr>
+<td>Gun</td>
+<td>9</td>
+<td>ショットガン</td>
+</tr>
+<tr>
+<td>Gun</td>
+<td>33</td>
+<td>ダムドーラ</td>
+</tr>
+<tr>
+<td>Gun</td>
+<td>4</td>
+<td>マシンガン</td>
+</tr>
+<tr>
+<td>Gun</td>
+<td>34</td>
+<td>ダムドラオン</td>
+</tr>
+<tr>
+<td>Gun</td>
+<td>10</td>
+<td>レーザーガン</td>
+</tr>
+</tbody>
+</table>
+<h2>Complete numerical edit ledger</h2>
+<p>This ledger includes the shared Dantalion adjustment and every boss/Newton edit from the rebalanced data plan. Before/after values are the stored integer values against the original Japanese records. Resistance bytes below 250 represent twice their value as a damage percentage; 250–255 are special codes, not ordinary percentages. Skill/equipment values are record IDs. Japanese names help locate records in the game. The same rows are available in Rebalance-Changes.csv. Executable formulas and learning-pool additions are documented separately above.</p>
+<table>
+<thead>
+<tr>
+<th>Profile</th>
+<th>Record</th>
+<th>In-game name</th>
+<th>Field / record offset</th>
+<th>Width</th>
+<th>Original</th>
+<th>Patched</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fixes</td>
+<td>P2177</td>
+<td>ダンタリオン</td>
+<td>Fire resistance code @0x5B</td>
+<td>u8</td>
+<td>20</td>
+<td>30</td>
+</tr>
+<tr>
+<td>Fixes</td>
+<td>P2177</td>
+<td>ダンタリオン</td>
+<td>Ice resistance code @0x5C</td>
+<td>u8</td>
+<td>20</td>
+<td>30</td>
+</tr>
+<tr>
+<td>Fixes</td>
+<td>P2177</td>
+<td>ダンタリオン</td>
+<td>Force resistance code @0x5D</td>
+<td>u8</td>
+<td>20</td>
+<td>30</td>
+</tr>
+<tr>
+<td>Fixes</td>
+<td>P2177</td>
+<td>ダンタリオン</td>
+<td>Electricity resistance code @0x5E</td>
+<td>u8</td>
+<td>20</td>
+<td>30</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>ET0001#438</td>
+<td>１０ミリ複合装甲</td>
+<td>Equipment data @0x09</td>
+<td>u8</td>
+<td>10</td>
+<td>38</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>ET0001#438</td>
+<td>１０ミリ複合装甲</td>
+<td>Equipment data @0x0A</td>
+<td>u8</td>
+<td>7</td>
+<td>12</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>ET0001#438</td>
+<td>１０ミリ複合装甲</td>
+<td>Equipment data @0x0B</td>
+<td>u8</td>
+<td>5</td>
+<td>24</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>ET0001#438</td>
+<td>１０ミリ複合装甲</td>
+<td>Equipment data @0x0C</td>
+<td>u8</td>
+<td>15</td>
+<td>40</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>ET0001#733</td>
+<td>ニュートンブレイド</td>
+<td>Equipment data @0x09</td>
+<td>u8</td>
+<td>11</td>
+<td>45</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>ET0001#733</td>
+<td>ニュートンブレイド</td>
+<td>Equipment data @0x0B</td>
+<td>u8</td>
+<td>10</td>
+<td>35</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>ET0001#733</td>
+<td>ニュートンブレイド</td>
+<td>Equipment data @0x0C</td>
+<td>u8</td>
+<td>7</td>
+<td>15</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>ET0001#733</td>
+<td>ニュートンブレイド</td>
+<td>Equipment data @0x10</td>
+<td>u8</td>
+<td>2</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>ET0001#733</td>
+<td>ニュートンブレイド</td>
+<td>Equipment data @0x1C</td>
+<td>u8</td>
+<td>0</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>ET0001#733</td>
+<td>ニュートンブレイド</td>
+<td>Equipment data @0x1D</td>
+<td>u8</td>
+<td>0</td>
+<td>18</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>ET0001#744</td>
+<td>ニュートロン</td>
+<td>Equipment data @0x09</td>
+<td>u8</td>
+<td>15</td>
+<td>45</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>ET0001#744</td>
+<td>ニュートロン</td>
+<td>Equipment data @0x0A</td>
+<td>u8</td>
+<td>22</td>
+<td>40</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>ET0001#744</td>
+<td>ニュートロン</td>
+<td>Equipment data @0x0B</td>
+<td>u8</td>
+<td>10</td>
+<td>12</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>ET0001#744</td>
+<td>ニュートロン</td>
+<td>Equipment data @0x11</td>
+<td>u8</td>
+<td>20</td>
+<td>60</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>ET0001#744</td>
+<td>ニュートロン</td>
+<td>Equipment data @0x12</td>
+<td>u8</td>
+<td>1</td>
+<td>6</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>ET0001#744</td>
+<td>ニュートロン</td>
+<td>Equipment data @0x13</td>
+<td>u8</td>
+<td>17</td>
+<td>22</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P200D</td>
+<td>ニュートン</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>184</td>
+<td>144</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P200D</td>
+<td>ニュートン</td>
+<td>Skill slot 2 @0x12</td>
+<td>u16</td>
+<td>186</td>
+<td>38</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P200D</td>
+<td>ニュートン</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>259</td>
+<td>19</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P200D</td>
+<td>ニュートン</td>
+<td>Skill slot 4 @0x16</td>
+<td>u16</td>
+<td>142</td>
+<td>163</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P200D</td>
+<td>ニュートン</td>
+<td>Skill slot 5 @0x18</td>
+<td>u16</td>
+<td>0</td>
+<td>259</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P200D</td>
+<td>ニュートン</td>
+<td>Skill slot 6 @0x1A</td>
+<td>u16</td>
+<td>0</td>
+<td>41</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P200D</td>
+<td>ニュートン</td>
+<td>Skill slot 7 @0x1C</td>
+<td>u16</td>
+<td>0</td>
+<td>112</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P200D</td>
+<td>ニュートン</td>
+<td>Skill slot 8 @0x1E</td>
+<td>u16</td>
+<td>0</td>
+<td>113</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2021</td>
+<td>バールハダド</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>47</td>
+<td>94</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2021</td>
+<td>バールハダド</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>46</td>
+<td>92</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2021</td>
+<td>バールハダド</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>18</td>
+<td>31</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2021</td>
+<td>バールハダド</td>
+<td>AI action row @0x6A</td>
+<td>u8</td>
+<td>7</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2021</td>
+<td>バールハダド</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>5276</td>
+<td>7914</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2021</td>
+<td>バールハダド</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>38</td>
+<td>297</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2021</td>
+<td>バールハダド</td>
+<td>Skill slot 2 @0x12</td>
+<td>u16</td>
+<td>41</td>
+<td>305</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2021</td>
+<td>バールハダド</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>305</td>
+<td>41</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2021</td>
+<td>バールハダド</td>
+<td>Skill slot 4 @0x16</td>
+<td>u16</td>
+<td>156</td>
+<td>38</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2021</td>
+<td>バールハダド</td>
+<td>Skill slot 6 @0x1A</td>
+<td>u16</td>
+<td>76</td>
+<td>83</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2021</td>
+<td>バールハダド</td>
+<td>Skill slot 7 @0x1C</td>
+<td>u16</td>
+<td>0</td>
+<td>85</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2021</td>
+<td>バールハダド</td>
+<td>Skill slot 8 @0x1E</td>
+<td>u16</td>
+<td>0</td>
+<td>76</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2045</td>
+<td>トヨタマヒメ</td>
+<td>Intuition @0x4C</td>
+<td>u8</td>
+<td>61</td>
+<td>48</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2045</td>
+<td>トヨタマヒメ</td>
+<td>Willpower @0x4D</td>
+<td>u8</td>
+<td>46</td>
+<td>36</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2045</td>
+<td>トヨタマヒメ</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>55</td>
+<td>43</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2045</td>
+<td>トヨタマヒメ</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>63</td>
+<td>50</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2045</td>
+<td>トヨタマヒメ</td>
+<td>Grace @0x50</td>
+<td>u8</td>
+<td>77</td>
+<td>61</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2045</td>
+<td>トヨタマヒメ</td>
+<td>Strength @0x51</td>
+<td>u8</td>
+<td>80</td>
+<td>63</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2045</td>
+<td>トヨタマヒメ</td>
+<td>Vitality @0x52</td>
+<td>u8</td>
+<td>93</td>
+<td>73</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2045</td>
+<td>トヨタマヒメ</td>
+<td>Agility @0x53</td>
+<td>u8</td>
+<td>54</td>
+<td>43</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2045</td>
+<td>トヨタマヒメ</td>
+<td>Dexterity @0x54</td>
+<td>u8</td>
+<td>56</td>
+<td>44</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2045</td>
+<td>トヨタマヒメ</td>
+<td>Charm @0x55</td>
+<td>u8</td>
+<td>92</td>
+<td>73</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2045</td>
+<td>トヨタマヒメ</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>1952</td>
+<td>1633</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2045</td>
+<td>トヨタマヒメ</td>
+<td>MP @0x0E</td>
+<td>u16</td>
+<td>590</td>
+<td>462</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P204C</td>
+<td>ジャターユ</td>
+<td>Intuition @0x4C</td>
+<td>u8</td>
+<td>35</td>
+<td>24</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P204C</td>
+<td>ジャターユ</td>
+<td>Willpower @0x4D</td>
+<td>u8</td>
+<td>35</td>
+<td>24</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P204C</td>
+<td>ジャターユ</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>42</td>
+<td>29</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P204C</td>
+<td>ジャターユ</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>25</td>
+<td>17</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P204C</td>
+<td>ジャターユ</td>
+<td>Grace @0x50</td>
+<td>u8</td>
+<td>33</td>
+<td>23</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P204C</td>
+<td>ジャターユ</td>
+<td>Strength @0x51</td>
+<td>u8</td>
+<td>50</td>
+<td>34</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P204C</td>
+<td>ジャターユ</td>
+<td>Vitality @0x52</td>
+<td>u8</td>
+<td>49</td>
+<td>33</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P204C</td>
+<td>ジャターユ</td>
+<td>Agility @0x53</td>
+<td>u8</td>
+<td>44</td>
+<td>30</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P204C</td>
+<td>ジャターユ</td>
+<td>Dexterity @0x54</td>
+<td>u8</td>
+<td>20</td>
+<td>14</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P204C</td>
+<td>ジャターユ</td>
+<td>Charm @0x55</td>
+<td>u8</td>
+<td>56</td>
+<td>38</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P204C</td>
+<td>ジャターユ</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>777</td>
+<td>609</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P204C</td>
+<td>ジャターユ</td>
+<td>MP @0x0E</td>
+<td>u16</td>
+<td>384</td>
+<td>265</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2055</td>
+<td>アピス</td>
+<td>Intuition @0x4C</td>
+<td>u8</td>
+<td>43</td>
+<td>29</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2055</td>
+<td>アピス</td>
+<td>Willpower @0x4D</td>
+<td>u8</td>
+<td>34</td>
+<td>23</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2055</td>
+<td>アピス</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>22</td>
+<td>15</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2055</td>
+<td>アピス</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>25</td>
+<td>17</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2055</td>
+<td>アピス</td>
+<td>Grace @0x50</td>
+<td>u8</td>
+<td>45</td>
+<td>31</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2055</td>
+<td>アピス</td>
+<td>Strength @0x51</td>
+<td>u8</td>
+<td>59</td>
+<td>40</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2055</td>
+<td>アピス</td>
+<td>Vitality @0x52</td>
+<td>u8</td>
+<td>47</td>
+<td>32</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2055</td>
+<td>アピス</td>
+<td>Agility @0x53</td>
+<td>u8</td>
+<td>45</td>
+<td>31</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2055</td>
+<td>アピス</td>
+<td>Dexterity @0x54</td>
+<td>u8</td>
+<td>25</td>
+<td>17</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2055</td>
+<td>アピス</td>
+<td>Charm @0x55</td>
+<td>u8</td>
+<td>24</td>
+<td>16</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2055</td>
+<td>アピス</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>483</td>
+<td>367</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2055</td>
+<td>アピス</td>
+<td>MP @0x0E</td>
+<td>u16</td>
+<td>169</td>
+<td>115</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P208C</td>
+<td>ヤト</td>
+<td>Intuition @0x4C</td>
+<td>u8</td>
+<td>24</td>
+<td>14</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P208C</td>
+<td>ヤト</td>
+<td>Willpower @0x4D</td>
+<td>u8</td>
+<td>22</td>
+<td>12</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P208C</td>
+<td>ヤト</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>27</td>
+<td>15</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P208C</td>
+<td>ヤト</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>19</td>
+<td>11</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P208C</td>
+<td>ヤト</td>
+<td>Grace @0x50</td>
+<td>u8</td>
+<td>18</td>
+<td>10</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P208C</td>
+<td>ヤト</td>
+<td>Strength @0x51</td>
+<td>u8</td>
+<td>33</td>
+<td>19</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P208C</td>
+<td>ヤト</td>
+<td>Vitality @0x52</td>
+<td>u8</td>
+<td>33</td>
+<td>19</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P208C</td>
+<td>ヤト</td>
+<td>Agility @0x53</td>
+<td>u8</td>
+<td>31</td>
+<td>17</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P208C</td>
+<td>ヤト</td>
+<td>Dexterity @0x54</td>
+<td>u8</td>
+<td>15</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P208C</td>
+<td>ヤト</td>
+<td>Charm @0x55</td>
+<td>u8</td>
+<td>26</td>
+<td>15</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P208C</td>
+<td>ヤト</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>247</td>
+<td>173</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P208C</td>
+<td>ヤト</td>
+<td>MP @0x0E</td>
+<td>u16</td>
+<td>170</td>
+<td>95</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2098</td>
+<td>タムズ</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>20</td>
+<td>50</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2098</td>
+<td>タムズ</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>15</td>
+<td>38</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2098</td>
+<td>タムズ</td>
+<td>Strength @0x51</td>
+<td>u8</td>
+<td>61</td>
+<td>99</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2098</td>
+<td>タムズ</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>16</td>
+<td>62</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2098</td>
+<td>タムズ</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>5100</td>
+<td>6000</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2098</td>
+<td>タムズ</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>299</td>
+<td>182</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2098</td>
+<td>タムズ</td>
+<td>Skill slot 2 @0x12</td>
+<td>u16</td>
+<td>33</td>
+<td>293</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2098</td>
+<td>タムズ</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>67</td>
+<td>198</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2098</td>
+<td>タムズ</td>
+<td>Skill slot 4 @0x16</td>
+<td>u16</td>
+<td>198</td>
+<td>33</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2098</td>
+<td>タムズ</td>
+<td>Skill slot 5 @0x18</td>
+<td>u16</td>
+<td>293</td>
+<td>299</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2098</td>
+<td>タムズ</td>
+<td>Equipment slot 4 @0x28</td>
+<td>u16</td>
+<td>0</td>
+<td>701</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20ED</td>
+<td>アドニス</td>
+<td>Level @0x47</td>
+<td>u8</td>
+<td>46</td>
+<td>55</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20ED</td>
+<td>アドニス</td>
+<td>Intuition @0x4C</td>
+<td>u8</td>
+<td>28</td>
+<td>31</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20ED</td>
+<td>アドニス</td>
+<td>Willpower @0x4D</td>
+<td>u8</td>
+<td>42</td>
+<td>46</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20ED</td>
+<td>アドニス</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>34</td>
+<td>92</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20ED</td>
+<td>アドニス</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>29</td>
+<td>80</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20ED</td>
+<td>アドニス</td>
+<td>Grace @0x50</td>
+<td>u8</td>
+<td>12</td>
+<td>13</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20ED</td>
+<td>アドニス</td>
+<td>Strength @0x51</td>
+<td>u8</td>
+<td>43</td>
+<td>70</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20ED</td>
+<td>アドニス</td>
+<td>Vitality @0x52</td>
+<td>u8</td>
+<td>38</td>
+<td>42</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20ED</td>
+<td>アドニス</td>
+<td>Agility @0x53</td>
+<td>u8</td>
+<td>36</td>
+<td>39</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20ED</td>
+<td>アドニス</td>
+<td>Dexterity @0x54</td>
+<td>u8</td>
+<td>20</td>
+<td>22</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20ED</td>
+<td>アドニス</td>
+<td>Charm @0x55</td>
+<td>u8</td>
+<td>31</td>
+<td>34</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20ED</td>
+<td>アドニス</td>
+<td>Luck @0x56</td>
+<td>u8</td>
+<td>7</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20ED</td>
+<td>アドニス</td>
+<td>Physical resistance code @0x59</td>
+<td>u8</td>
+<td>50</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20ED</td>
+<td>アドニス</td>
+<td>Curse resistance code @0x61</td>
+<td>u8</td>
+<td>0</td>
+<td>50</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20ED</td>
+<td>アドニス</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>17</td>
+<td>47</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20ED</td>
+<td>アドニス</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>3592</td>
+<td>5927</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20ED</td>
+<td>アドニス</td>
+<td>MP @0x0E</td>
+<td>u16</td>
+<td>1528</td>
+<td>1820</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20ED</td>
+<td>アドニス</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>79</td>
+<td>61</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20ED</td>
+<td>アドニス</td>
+<td>Skill slot 2 @0x12</td>
+<td>u16</td>
+<td>80</td>
+<td>202</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20ED</td>
+<td>アドニス</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>156</td>
+<td>297</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20ED</td>
+<td>アドニス</td>
+<td>Skill slot 4 @0x16</td>
+<td>u16</td>
+<td>292</td>
+<td>41</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20ED</td>
+<td>アドニス</td>
+<td>Skill slot 6 @0x1A</td>
+<td>u16</td>
+<td>41</td>
+<td>292</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20ED</td>
+<td>アドニス</td>
+<td>Skill slot 7 @0x1C</td>
+<td>u16</td>
+<td>81</td>
+<td>76</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F3</td>
+<td>アドニス</td>
+<td>Strength @0x51</td>
+<td>u8</td>
+<td>21</td>
+<td>24</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F3</td>
+<td>アドニス</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>15</td>
+<td>27</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F3</td>
+<td>アドニス</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>207</td>
+<td>248</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F3</td>
+<td>アドニス</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>296</td>
+<td>37</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F3</td>
+<td>アドニス</td>
+<td>Skill slot 2 @0x12</td>
+<td>u16</td>
+<td>198</td>
+<td>296</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F3</td>
+<td>アドニス</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>149</td>
+<td>198</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F3</td>
+<td>アドニス</td>
+<td>Skill slot 4 @0x16</td>
+<td>u16</td>
+<td>201</td>
+<td>149</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F3</td>
+<td>アドニス</td>
+<td>Skill slot 5 @0x18</td>
+<td>u16</td>
+<td>37</td>
+<td>201</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F3</td>
+<td>アドニス</td>
+<td>Equipment slot 1 @0x22</td>
+<td>u16</td>
+<td>0</td>
+<td>482</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F3</td>
+<td>アドニス</td>
+<td>Equipment slot 2 @0x24</td>
+<td>u16</td>
+<td>0</td>
+<td>532</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F3</td>
+<td>アドニス</td>
+<td>Equipment slot 3 @0x26</td>
+<td>u16</td>
+<td>0</td>
+<td>616</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F3</td>
+<td>アドニス</td>
+<td>Equipment slot 4 @0x28</td>
+<td>u16</td>
+<td>0</td>
+<td>658</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>Level @0x47</td>
+<td>u8</td>
+<td>18</td>
+<td>23</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>Intuition @0x4C</td>
+<td>u8</td>
+<td>16</td>
+<td>18</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>Willpower @0x4D</td>
+<td>u8</td>
+<td>21</td>
+<td>24</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>17</td>
+<td>19</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>16</td>
+<td>18</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>Grace @0x50</td>
+<td>u8</td>
+<td>6</td>
+<td>7</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>Strength @0x51</td>
+<td>u8</td>
+<td>20</td>
+<td>58</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>Vitality @0x52</td>
+<td>u8</td>
+<td>18</td>
+<td>20</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>Agility @0x53</td>
+<td>u8</td>
+<td>18</td>
+<td>20</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>Dexterity @0x54</td>
+<td>u8</td>
+<td>10</td>
+<td>11</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>Charm @0x55</td>
+<td>u8</td>
+<td>15</td>
+<td>17</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>Luck @0x56</td>
+<td>u8</td>
+<td>4</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>Magic resistance code @0x60</td>
+<td>u8</td>
+<td>10</td>
+<td>50</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>15</td>
+<td>31</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>AI action row @0x6A</td>
+<td>u8</td>
+<td>12</td>
+<td>27</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>177</td>
+<td>2549</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>MP @0x0E</td>
+<td>u16</td>
+<td>126</td>
+<td>160</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>296</td>
+<td>85</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>Skill slot 2 @0x12</td>
+<td>u16</td>
+<td>198</td>
+<td>37</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>129</td>
+<td>151</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>Skill slot 4 @0x16</td>
+<td>u16</td>
+<td>149</td>
+<td>198</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>Skill slot 5 @0x18</td>
+<td>u16</td>
+<td>37</td>
+<td>296</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>Skill slot 6 @0x1A</td>
+<td>u16</td>
+<td>154</td>
+<td>149</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>Skill slot 7 @0x1C</td>
+<td>u16</td>
+<td>256</td>
+<td>129</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>Skill slot 8 @0x1E</td>
+<td>u16</td>
+<td>130</td>
+<td>254</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>Equipment slot 1 @0x22</td>
+<td>u16</td>
+<td>0</td>
+<td>477</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>Equipment slot 3 @0x26</td>
+<td>u16</td>
+<td>0</td>
+<td>614</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F4</td>
+<td>アドニス</td>
+<td>Equipment slot 4 @0x28</td>
+<td>u16</td>
+<td>0</td>
+<td>655</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>Level @0x47</td>
+<td>u8</td>
+<td>28</td>
+<td>34</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>Intuition @0x4C</td>
+<td>u8</td>
+<td>20</td>
+<td>22</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>Willpower @0x4D</td>
+<td>u8</td>
+<td>28</td>
+<td>31</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>23</td>
+<td>59</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>20</td>
+<td>59</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>Grace @0x50</td>
+<td>u8</td>
+<td>8</td>
+<td>9</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>Strength @0x51</td>
+<td>u8</td>
+<td>28</td>
+<td>31</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>Vitality @0x52</td>
+<td>u8</td>
+<td>25</td>
+<td>28</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>Agility @0x53</td>
+<td>u8</td>
+<td>25</td>
+<td>28</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>Dexterity @0x54</td>
+<td>u8</td>
+<td>14</td>
+<td>15</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>Charm @0x55</td>
+<td>u8</td>
+<td>21</td>
+<td>23</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>Luck @0x56</td>
+<td>u8</td>
+<td>5</td>
+<td>6</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>16</td>
+<td>64</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>AI action row @0x6A</td>
+<td>u8</td>
+<td>14</td>
+<td>27</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>1472</td>
+<td>1435</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>MP @0x0E</td>
+<td>u16</td>
+<td>207</td>
+<td>250</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>60</td>
+<td>163</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>Skill slot 2 @0x12</td>
+<td>u16</td>
+<td>58</td>
+<td>182</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>61</td>
+<td>202</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>Skill slot 4 @0x16</td>
+<td>u16</td>
+<td>138</td>
+<td>41</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>Skill slot 5 @0x18</td>
+<td>u16</td>
+<td>182</td>
+<td>138</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>Skill slot 6 @0x1A</td>
+<td>u16</td>
+<td>202</td>
+<td>61</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>Skill slot 7 @0x1C</td>
+<td>u16</td>
+<td>41</td>
+<td>60</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>Equipment slot 1 @0x22</td>
+<td>u16</td>
+<td>0</td>
+<td>500</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>Equipment slot 2 @0x24</td>
+<td>u16</td>
+<td>0</td>
+<td>578</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>Equipment slot 3 @0x26</td>
+<td>u16</td>
+<td>0</td>
+<td>629</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P20F8</td>
+<td>アリス</td>
+<td>Equipment slot 4 @0x28</td>
+<td>u16</td>
+<td>0</td>
+<td>685</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2173</td>
+<td>ムールムール</td>
+<td>Level @0x47</td>
+<td>u8</td>
+<td>48</td>
+<td>55</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2173</td>
+<td>ムールムール</td>
+<td>Intuition @0x4C</td>
+<td>u8</td>
+<td>22</td>
+<td>24</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2173</td>
+<td>ムールムール</td>
+<td>Willpower @0x4D</td>
+<td>u8</td>
+<td>24</td>
+<td>26</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2173</td>
+<td>ムールムール</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>47</td>
+<td>99</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2173</td>
+<td>ムールムール</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>41</td>
+<td>88</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2173</td>
+<td>ムールムール</td>
+<td>Grace @0x50</td>
+<td>u8</td>
+<td>17</td>
+<td>18</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2173</td>
+<td>ムールムール</td>
+<td>Strength @0x51</td>
+<td>u8</td>
+<td>49</td>
+<td>53</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2173</td>
+<td>ムールムール</td>
+<td>Vitality @0x52</td>
+<td>u8</td>
+<td>33</td>
+<td>35</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2173</td>
+<td>ムールムール</td>
+<td>Agility @0x53</td>
+<td>u8</td>
+<td>23</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2173</td>
+<td>ムールムール</td>
+<td>Dexterity @0x54</td>
+<td>u8</td>
+<td>24</td>
+<td>26</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2173</td>
+<td>ムールムール</td>
+<td>Charm @0x55</td>
+<td>u8</td>
+<td>24</td>
+<td>26</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2173</td>
+<td>ムールムール</td>
+<td>Luck @0x56</td>
+<td>u8</td>
+<td>18</td>
+<td>19</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2173</td>
+<td>ムールムール</td>
+<td>Physical resistance code @0x59</td>
+<td>u8</td>
+<td>50</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2173</td>
+<td>ムールムール</td>
+<td>Gun resistance code @0x5A</td>
+<td>u8</td>
+<td>50</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2173</td>
+<td>ムールムール</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>17</td>
+<td>43</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2173</td>
+<td>ムールムール</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>3328</td>
+<td>2288</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2173</td>
+<td>ムールムール</td>
+<td>MP @0x0E</td>
+<td>u16</td>
+<td>2048</td>
+<td>2339</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2173</td>
+<td>ムールムール</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>174</td>
+<td>202</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2173</td>
+<td>ムールムール</td>
+<td>Skill slot 2 @0x12</td>
+<td>u16</td>
+<td>171</td>
+<td>93</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2173</td>
+<td>ムールムール</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>182</td>
+<td>283</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2173</td>
+<td>ムールムール</td>
+<td>Skill slot 4 @0x16</td>
+<td>u16</td>
+<td>176</td>
+<td>305</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2173</td>
+<td>ムールムール</td>
+<td>Skill slot 5 @0x18</td>
+<td>u16</td>
+<td>70</td>
+<td>182</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2173</td>
+<td>ムールムール</td>
+<td>Skill slot 6 @0x1A</td>
+<td>u16</td>
+<td>273</td>
+<td>102</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2173</td>
+<td>ムールムール</td>
+<td>Skill slot 7 @0x1C</td>
+<td>u16</td>
+<td>273</td>
+<td>88</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2173</td>
+<td>ムールムール</td>
+<td>Skill slot 8 @0x1E</td>
+<td>u16</td>
+<td>88</td>
+<td>76</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2174</td>
+<td>ダンタリオン</td>
+<td>Level @0x47</td>
+<td>u8</td>
+<td>44</td>
+<td>55</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2174</td>
+<td>ダンタリオン</td>
+<td>Intuition @0x4C</td>
+<td>u8</td>
+<td>21</td>
+<td>24</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2174</td>
+<td>ダンタリオン</td>
+<td>Willpower @0x4D</td>
+<td>u8</td>
+<td>22</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2174</td>
+<td>ダンタリオン</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>44</td>
+<td>99</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2174</td>
+<td>ダンタリオン</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>38</td>
+<td>99</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2174</td>
+<td>ダンタリオン</td>
+<td>Grace @0x50</td>
+<td>u8</td>
+<td>16</td>
+<td>18</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2174</td>
+<td>ダンタリオン</td>
+<td>Strength @0x51</td>
+<td>u8</td>
+<td>45</td>
+<td>51</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2174</td>
+<td>ダンタリオン</td>
+<td>Vitality @0x52</td>
+<td>u8</td>
+<td>31</td>
+<td>35</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2174</td>
+<td>ダンタリオン</td>
+<td>Agility @0x53</td>
+<td>u8</td>
+<td>22</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2174</td>
+<td>ダンタリオン</td>
+<td>Dexterity @0x54</td>
+<td>u8</td>
+<td>23</td>
+<td>26</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2174</td>
+<td>ダンタリオン</td>
+<td>Charm @0x55</td>
+<td>u8</td>
+<td>23</td>
+<td>26</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2174</td>
+<td>ダンタリオン</td>
+<td>Luck @0x56</td>
+<td>u8</td>
+<td>17</td>
+<td>19</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2174</td>
+<td>ダンタリオン</td>
+<td>Physical resistance code @0x59</td>
+<td>u8</td>
+<td>50</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2174</td>
+<td>ダンタリオン</td>
+<td>Magic resistance code @0x60</td>
+<td>u8</td>
+<td>50</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2174</td>
+<td>ダンタリオン</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>17</td>
+<td>36</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2174</td>
+<td>ダンタリオン</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>2880</td>
+<td>6048</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2174</td>
+<td>ダンタリオン</td>
+<td>MP @0x0E</td>
+<td>u16</td>
+<td>1840</td>
+<td>2288</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2174</td>
+<td>ダンタリオン</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>25</td>
+<td>202</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2174</td>
+<td>ダンタリオン</td>
+<td>Skill slot 2 @0x12</td>
+<td>u16</td>
+<td>83</td>
+<td>137</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2174</td>
+<td>ダンタリオン</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>17</td>
+<td>140</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2174</td>
+<td>ダンタリオン</td>
+<td>Skill slot 4 @0x16</td>
+<td>u16</td>
+<td>79</td>
+<td>282</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2174</td>
+<td>ダンタリオン</td>
+<td>Skill slot 5 @0x18</td>
+<td>u16</td>
+<td>36</td>
+<td>27</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2174</td>
+<td>ダンタリオン</td>
+<td>Skill slot 6 @0x1A</td>
+<td>u16</td>
+<td>100</td>
+<td>38</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2174</td>
+<td>ダンタリオン</td>
+<td>Skill slot 7 @0x1C</td>
+<td>u16</td>
+<td>75</td>
+<td>102</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2174</td>
+<td>ダンタリオン</td>
+<td>Skill slot 8 @0x1E</td>
+<td>u16</td>
+<td>253</td>
+<td>76</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2177</td>
+<td>ダンタリオン</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>29</td>
+<td>44</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2177</td>
+<td>ダンタリオン</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>25</td>
+<td>38</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2177</td>
+<td>ダンタリオン</td>
+<td>Magic resistance code @0x60</td>
+<td>u8</td>
+<td>50</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2177</td>
+<td>ダンタリオン</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>15</td>
+<td>22</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2177</td>
+<td>ダンタリオン</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>403</td>
+<td>726</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2177</td>
+<td>ダンタリオン</td>
+<td>Skill slot 6 @0x1A</td>
+<td>u16</td>
+<td>100</td>
+<td>85</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2199</td>
+<td>バール</td>
+<td>Level @0x47</td>
+<td>u8</td>
+<td>52</td>
+<td>60</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2199</td>
+<td>バール</td>
+<td>Intuition @0x4C</td>
+<td>u8</td>
+<td>55</td>
+<td>59</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2199</td>
+<td>バール</td>
+<td>Willpower @0x4D</td>
+<td>u8</td>
+<td>53</td>
+<td>57</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2199</td>
+<td>バール</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>58</td>
+<td>99</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2199</td>
+<td>バール</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>36</td>
+<td>68</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2199</td>
+<td>バール</td>
+<td>Grace @0x50</td>
+<td>u8</td>
+<td>42</td>
+<td>45</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2199</td>
+<td>バール</td>
+<td>Strength @0x51</td>
+<td>u8</td>
+<td>90</td>
+<td>97</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2199</td>
+<td>バール</td>
+<td>Vitality @0x52</td>
+<td>u8</td>
+<td>82</td>
+<td>88</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2199</td>
+<td>バール</td>
+<td>Agility @0x53</td>
+<td>u8</td>
+<td>64</td>
+<td>69</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2199</td>
+<td>バール</td>
+<td>Dexterity @0x54</td>
+<td>u8</td>
+<td>27</td>
+<td>29</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2199</td>
+<td>バール</td>
+<td>Charm @0x55</td>
+<td>u8</td>
+<td>77</td>
+<td>83</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2199</td>
+<td>バール</td>
+<td>Luck @0x56</td>
+<td>u8</td>
+<td>10</td>
+<td>11</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2199</td>
+<td>バール</td>
+<td>Physical resistance code @0x59</td>
+<td>u8</td>
+<td>50</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2199</td>
+<td>バール</td>
+<td>Curse resistance code @0x61</td>
+<td>u8</td>
+<td>0</td>
+<td>50</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2199</td>
+<td>バール</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>19</td>
+<td>43</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2199</td>
+<td>バール</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>8756</td>
+<td>4925</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2199</td>
+<td>バール</td>
+<td>MP @0x0E</td>
+<td>u16</td>
+<td>2768</td>
+<td>3184</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2199</td>
+<td>バール</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>132</td>
+<td>297</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2199</td>
+<td>バール</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>282</td>
+<td>305</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2199</td>
+<td>バール</td>
+<td>Skill slot 4 @0x16</td>
+<td>u16</td>
+<td>307</td>
+<td>41</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2199</td>
+<td>バール</td>
+<td>Skill slot 5 @0x18</td>
+<td>u16</td>
+<td>305</td>
+<td>306</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2199</td>
+<td>バール</td>
+<td>Skill slot 6 @0x1A</td>
+<td>u16</td>
+<td>306</td>
+<td>83</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P2199</td>
+<td>バール</td>
+<td>Skill slot 7 @0x1C</td>
+<td>u16</td>
+<td>88</td>
+<td>85</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219B</td>
+<td>ベルフェゴール</td>
+<td>Level @0x47</td>
+<td>u8</td>
+<td>38</td>
+<td>40</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219B</td>
+<td>ベルフェゴール</td>
+<td>Intuition @0x4C</td>
+<td>u8</td>
+<td>44</td>
+<td>45</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219B</td>
+<td>ベルフェゴール</td>
+<td>Willpower @0x4D</td>
+<td>u8</td>
+<td>42</td>
+<td>43</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219B</td>
+<td>ベルフェゴール</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>47</td>
+<td>99</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219B</td>
+<td>ベルフェゴール</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>30</td>
+<td>78</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219B</td>
+<td>ベルフェゴール</td>
+<td>Grace @0x50</td>
+<td>u8</td>
+<td>33</td>
+<td>34</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219B</td>
+<td>ベルフェゴール</td>
+<td>Strength @0x51</td>
+<td>u8</td>
+<td>73</td>
+<td>75</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219B</td>
+<td>ベルフェゴール</td>
+<td>Vitality @0x52</td>
+<td>u8</td>
+<td>68</td>
+<td>70</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219B</td>
+<td>ベルフェゴール</td>
+<td>Agility @0x53</td>
+<td>u8</td>
+<td>52</td>
+<td>53</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219B</td>
+<td>ベルフェゴール</td>
+<td>Dexterity @0x54</td>
+<td>u8</td>
+<td>23</td>
+<td>24</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219B</td>
+<td>ベルフェゴール</td>
+<td>Charm @0x55</td>
+<td>u8</td>
+<td>59</td>
+<td>61</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219B</td>
+<td>ベルフェゴール</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>18</td>
+<td>35</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219B</td>
+<td>ベルフェゴール</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>5360</td>
+<td>6700</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219B</td>
+<td>ベルフェゴール</td>
+<td>MP @0x0E</td>
+<td>u16</td>
+<td>1940</td>
+<td>2040</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219B</td>
+<td>ベルフェゴール</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>294</td>
+<td>297</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219B</td>
+<td>ベルフェゴール</td>
+<td>Skill slot 2 @0x12</td>
+<td>u16</td>
+<td>33</td>
+<td>306</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219B</td>
+<td>ベルフェゴール</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>297</td>
+<td>294</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219B</td>
+<td>ベルフェゴール</td>
+<td>Skill slot 4 @0x16</td>
+<td>u16</td>
+<td>92</td>
+<td>33</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219B</td>
+<td>ベルフェゴール</td>
+<td>Skill slot 5 @0x18</td>
+<td>u16</td>
+<td>98</td>
+<td>88</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219B</td>
+<td>ベルフェゴール</td>
+<td>Skill slot 6 @0x1A</td>
+<td>u16</td>
+<td>250</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219B</td>
+<td>ベルフェゴール</td>
+<td>Skill slot 7 @0x1C</td>
+<td>u16</td>
+<td>88</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219B</td>
+<td>ベルフェゴール</td>
+<td>Skill slot 8 @0x1E</td>
+<td>u16</td>
+<td>306</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219B</td>
+<td>ベルフェゴール</td>
+<td>Equipment slot 1 @0x22</td>
+<td>u16</td>
+<td>0</td>
+<td>504</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219B</td>
+<td>ベルフェゴール</td>
+<td>Equipment slot 2 @0x24</td>
+<td>u16</td>
+<td>0</td>
+<td>586</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219B</td>
+<td>ベルフェゴール</td>
+<td>Equipment slot 3 @0x26</td>
+<td>u16</td>
+<td>0</td>
+<td>640</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219C</td>
+<td>バルベリス</td>
+<td>Level @0x47</td>
+<td>u8</td>
+<td>36</td>
+<td>37</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219C</td>
+<td>バルベリス</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>24</td>
+<td>60</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219C</td>
+<td>バルベリス</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>25</td>
+<td>62</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219C</td>
+<td>バルベリス</td>
+<td>Strength @0x51</td>
+<td>u8</td>
+<td>35</td>
+<td>90</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219C</td>
+<td>バルベリス</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>15</td>
+<td>42</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219C</td>
+<td>バルベリス</td>
+<td>AI action row @0x6A</td>
+<td>u8</td>
+<td>12</td>
+<td>27</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219C</td>
+<td>バルベリス</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>2228</td>
+<td>5570</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219C</td>
+<td>バルベリス</td>
+<td>MP @0x0E</td>
+<td>u16</td>
+<td>936</td>
+<td>961</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219C</td>
+<td>バルベリス</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>292</td>
+<td>282</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219C</td>
+<td>バルベリス</td>
+<td>Skill slot 2 @0x12</td>
+<td>u16</td>
+<td>295</td>
+<td>202</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219C</td>
+<td>バルベリス</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>204</td>
+<td>292</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219C</td>
+<td>バルベリス</td>
+<td>Skill slot 4 @0x16</td>
+<td>u16</td>
+<td>282</td>
+<td>295</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219C</td>
+<td>バルベリス</td>
+<td>Skill slot 6 @0x1A</td>
+<td>u16</td>
+<td>202</td>
+<td>204</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219C</td>
+<td>バルベリス</td>
+<td>Skill slot 7 @0x1C</td>
+<td>u16</td>
+<td>88</td>
+<td>172</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219C</td>
+<td>バルベリス</td>
+<td>Skill slot 8 @0x1E</td>
+<td>u16</td>
+<td>172</td>
+<td>88</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219D</td>
+<td>バエル</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>15</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219D</td>
+<td>バエル</td>
+<td>AI action row @0x6A</td>
+<td>u8</td>
+<td>24</td>
+<td>27</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219D</td>
+<td>バエル</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>1364</td>
+<td>818</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219D</td>
+<td>バエル</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>128</td>
+<td>172</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219D</td>
+<td>バエル</td>
+<td>Skill slot 2 @0x12</td>
+<td>u16</td>
+<td>281</td>
+<td>202</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219D</td>
+<td>バエル</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>129</td>
+<td>281</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219D</td>
+<td>バエル</td>
+<td>Skill slot 4 @0x16</td>
+<td>u16</td>
+<td>132</td>
+<td>29</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219D</td>
+<td>バエル</td>
+<td>Skill slot 5 @0x18</td>
+<td>u16</td>
+<td>130</td>
+<td>132</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219D</td>
+<td>バエル</td>
+<td>Skill slot 6 @0x1A</td>
+<td>u16</td>
+<td>29</td>
+<td>128</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219D</td>
+<td>バエル</td>
+<td>Skill slot 7 @0x1C</td>
+<td>u16</td>
+<td>63</td>
+<td>129</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219E</td>
+<td>バールゼフォン</td>
+<td>Strength @0x51</td>
+<td>u8</td>
+<td>26</td>
+<td>39</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219E</td>
+<td>バールゼフォン</td>
+<td>Magic resistance code @0x60</td>
+<td>u8</td>
+<td>0</td>
+<td>50</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219E</td>
+<td>バールゼフォン</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>14</td>
+<td>13</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219E</td>
+<td>バールゼフォン</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>784</td>
+<td>1098</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219E</td>
+<td>バールゼフォン</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>8</td>
+<td>172</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219E</td>
+<td>バールゼフォン</td>
+<td>Skill slot 2 @0x12</td>
+<td>u16</td>
+<td>280</td>
+<td>83</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219E</td>
+<td>バールゼフォン</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>32</td>
+<td>85</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219E</td>
+<td>バールゼフォン</td>
+<td>Skill slot 4 @0x16</td>
+<td>u16</td>
+<td>100</td>
+<td>280</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219E</td>
+<td>バールゼフォン</td>
+<td>Skill slot 5 @0x18</td>
+<td>u16</td>
+<td>85</td>
+<td>151</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219E</td>
+<td>バールゼフォン</td>
+<td>Skill slot 6 @0x1A</td>
+<td>u16</td>
+<td>84</td>
+<td>149</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219E</td>
+<td>バールゼフォン</td>
+<td>Skill slot 7 @0x1C</td>
+<td>u16</td>
+<td>79</td>
+<td>198</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219E</td>
+<td>バールゼフォン</td>
+<td>Skill slot 8 @0x1E</td>
+<td>u16</td>
+<td>172</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219F</td>
+<td>イシュタル</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>65</td>
+<td>99</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219F</td>
+<td>イシュタル</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>40</td>
+<td>80</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219F</td>
+<td>イシュタル</td>
+<td>Physical resistance code @0x59</td>
+<td>u8</td>
+<td>50</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219F</td>
+<td>イシュタル</td>
+<td>Curse resistance code @0x61</td>
+<td>u8</td>
+<td>0</td>
+<td>70</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219F</td>
+<td>イシュタル</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>20</td>
+<td>51</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219F</td>
+<td>イシュタル</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>9848</td>
+<td>4432</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219F</td>
+<td>イシュタル</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>38</td>
+<td>144</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219F</td>
+<td>イシュタル</td>
+<td>Skill slot 2 @0x12</td>
+<td>u16</td>
+<td>34</td>
+<td>54</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219F</td>
+<td>イシュタル</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>19</td>
+<td>305</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219F</td>
+<td>イシュタル</td>
+<td>Skill slot 4 @0x16</td>
+<td>u16</td>
+<td>45</td>
+<td>41</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219F</td>
+<td>イシュタル</td>
+<td>Skill slot 6 @0x1A</td>
+<td>u16</td>
+<td>48</td>
+<td>76</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219F</td>
+<td>イシュタル</td>
+<td>Skill slot 7 @0x1C</td>
+<td>u16</td>
+<td>0</td>
+<td>91</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P219F</td>
+<td>イシュタル</td>
+<td>Skill slot 8 @0x1E</td>
+<td>u16</td>
+<td>0</td>
+<td>86</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A0</td>
+<td>アシラト</td>
+<td>Physical resistance code @0x59</td>
+<td>u8</td>
+<td>50</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A0</td>
+<td>アシラト</td>
+<td>Gun resistance code @0x5A</td>
+<td>u8</td>
+<td>50</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A0</td>
+<td>アシラト</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>19</td>
+<td>20</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A0</td>
+<td>アシラト</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>7224</td>
+<td>4334</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A0</td>
+<td>アシラト</td>
+<td>Skill slot 4 @0x16</td>
+<td>u16</td>
+<td>38</td>
+<td>41</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A0</td>
+<td>アシラト</td>
+<td>Skill slot 5 @0x18</td>
+<td>u16</td>
+<td>41</td>
+<td>102</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A0</td>
+<td>アシラト</td>
+<td>Skill slot 6 @0x1A</td>
+<td>u16</td>
+<td>102</td>
+<td>195</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A0</td>
+<td>アシラト</td>
+<td>Skill slot 7 @0x1C</td>
+<td>u16</td>
+<td>195</td>
+<td>88</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A0</td>
+<td>アシラト</td>
+<td>Skill slot 8 @0x1E</td>
+<td>u16</td>
+<td>88</td>
+<td>76</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A1</td>
+<td>モラクス</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>47</td>
+<td>94</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A1</td>
+<td>モラクス</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>43</td>
+<td>86</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A1</td>
+<td>モラクス</td>
+<td>Strength @0x51</td>
+<td>u8</td>
+<td>51</td>
+<td>99</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A1</td>
+<td>モラクス</td>
+<td>Physical resistance code @0x59</td>
+<td>u8</td>
+<td>50</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A1</td>
+<td>モラクス</td>
+<td>Gun resistance code @0x5A</td>
+<td>u8</td>
+<td>50</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A1</td>
+<td>モラクス</td>
+<td>Fire resistance code @0x5B</td>
+<td>u8</td>
+<td>30</td>
+<td>251</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A1</td>
+<td>モラクス</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>17</td>
+<td>42</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A1</td>
+<td>モラクス</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>4828</td>
+<td>7242</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A1</td>
+<td>モラクス</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>17</td>
+<td>207</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A1</td>
+<td>モラクス</td>
+<td>Skill slot 2 @0x12</td>
+<td>u16</td>
+<td>33</td>
+<td>293</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A1</td>
+<td>モラクス</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>90</td>
+<td>144</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A1</td>
+<td>モラクス</td>
+<td>Skill slot 4 @0x16</td>
+<td>u16</td>
+<td>144</td>
+<td>92</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A1</td>
+<td>モラクス</td>
+<td>Skill slot 5 @0x18</td>
+<td>u16</td>
+<td>63</td>
+<td>206</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A1</td>
+<td>モラクス</td>
+<td>Skill slot 6 @0x1A</td>
+<td>u16</td>
+<td>187</td>
+<td>63</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A1</td>
+<td>モラクス</td>
+<td>Skill slot 7 @0x1C</td>
+<td>u16</td>
+<td>88</td>
+<td>83</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A1</td>
+<td>モラクス</td>
+<td>Skill slot 8 @0x1E</td>
+<td>u16</td>
+<td>91</td>
+<td>76</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A2</td>
+<td>ハアゲンティ</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>43</td>
+<td>64</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A2</td>
+<td>ハアゲンティ</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>39</td>
+<td>58</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A2</td>
+<td>ハアゲンティ</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>17</td>
+<td>18</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A2</td>
+<td>ハアゲンティ</td>
+<td>AI action row @0x6A</td>
+<td>u8</td>
+<td>15</td>
+<td>27</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A2</td>
+<td>ハアゲンティ</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>3912</td>
+<td>3521</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A2</td>
+<td>ハアゲンティ</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>37</td>
+<td>92</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A2</td>
+<td>ハアゲンティ</td>
+<td>Skill slot 2 @0x12</td>
+<td>u16</td>
+<td>32</td>
+<td>95</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A2</td>
+<td>ハアゲンティ</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>95</td>
+<td>75</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A2</td>
+<td>ハアゲンティ</td>
+<td>Skill slot 4 @0x16</td>
+<td>u16</td>
+<td>303</td>
+<td>37</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A2</td>
+<td>ハアゲンティ</td>
+<td>Skill slot 7 @0x1C</td>
+<td>u16</td>
+<td>75</td>
+<td>32</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A2</td>
+<td>ハアゲンティ</td>
+<td>Skill slot 8 @0x1E</td>
+<td>u16</td>
+<td>92</td>
+<td>303</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A2</td>
+<td>ハアゲンティ</td>
+<td>Equipment slot 1 @0x22</td>
+<td>u16</td>
+<td>0</td>
+<td>504</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A2</td>
+<td>ハアゲンティ</td>
+<td>Equipment slot 3 @0x26</td>
+<td>u16</td>
+<td>0</td>
+<td>640</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A2</td>
+<td>ハアゲンティ</td>
+<td>Equipment slot 4 @0x28</td>
+<td>u16</td>
+<td>0</td>
+<td>693</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>Level @0x47</td>
+<td>u8</td>
+<td>25</td>
+<td>32</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>Intuition @0x4C</td>
+<td>u8</td>
+<td>13</td>
+<td>15</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>Willpower @0x4D</td>
+<td>u8</td>
+<td>15</td>
+<td>17</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>27</td>
+<td>62</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>25</td>
+<td>56</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>Grace @0x50</td>
+<td>u8</td>
+<td>12</td>
+<td>14</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>Strength @0x51</td>
+<td>u8</td>
+<td>27</td>
+<td>31</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>Vitality @0x52</td>
+<td>u8</td>
+<td>23</td>
+<td>26</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>Agility @0x53</td>
+<td>u8</td>
+<td>16</td>
+<td>18</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>Dexterity @0x54</td>
+<td>u8</td>
+<td>17</td>
+<td>19</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>Charm @0x55</td>
+<td>u8</td>
+<td>14</td>
+<td>16</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>Luck @0x56</td>
+<td>u8</td>
+<td>12</td>
+<td>14</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>15</td>
+<td>38</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>AI action row @0x6A</td>
+<td>u8</td>
+<td>20</td>
+<td>27</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>1264</td>
+<td>1589</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>MP @0x0E</td>
+<td>u16</td>
+<td>868</td>
+<td>1105</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>258</td>
+<td>59</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>Skill slot 2 @0x12</td>
+<td>u16</td>
+<td>40</td>
+<td>61</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>195</td>
+<td>40</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>Skill slot 4 @0x16</td>
+<td>u16</td>
+<td>257</td>
+<td>258</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>Skill slot 5 @0x18</td>
+<td>u16</td>
+<td>59</td>
+<td>257</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>Skill slot 6 @0x1A</td>
+<td>u16</td>
+<td>61</td>
+<td>195</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>Equipment slot 1 @0x22</td>
+<td>u16</td>
+<td>0</td>
+<td>495</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>Equipment slot 2 @0x24</td>
+<td>u16</td>
+<td>0</td>
+<td>552</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>Equipment slot 3 @0x26</td>
+<td>u16</td>
+<td>0</td>
+<td>640</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A3</td>
+<td>ヴェパル</td>
+<td>Equipment slot 4 @0x28</td>
+<td>u16</td>
+<td>0</td>
+<td>670</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A4</td>
+<td>ヴェパル</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>34</td>
+<td>68</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A4</td>
+<td>ヴェパル</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>31</td>
+<td>62</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A4</td>
+<td>ヴェパル</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>16</td>
+<td>41</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A4</td>
+<td>ヴェパル</td>
+<td>AI action row @0x6A</td>
+<td>u8</td>
+<td>20</td>
+<td>27</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A4</td>
+<td>ヴェパル</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>2236</td>
+<td>2012</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A4</td>
+<td>ヴェパル</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>258</td>
+<td>308</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A4</td>
+<td>ヴェパル</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>308</td>
+<td>258</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A4</td>
+<td>ヴェパル</td>
+<td>Skill slot 4 @0x16</td>
+<td>u16</td>
+<td>195</td>
+<td>257</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A4</td>
+<td>ヴェパル</td>
+<td>Skill slot 5 @0x18</td>
+<td>u16</td>
+<td>257</td>
+<td>195</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A4</td>
+<td>ヴェパル</td>
+<td>Equipment slot 1 @0x22</td>
+<td>u16</td>
+<td>0</td>
+<td>495</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A4</td>
+<td>ヴェパル</td>
+<td>Equipment slot 3 @0x26</td>
+<td>u16</td>
+<td>0</td>
+<td>640</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A4</td>
+<td>ヴェパル</td>
+<td>Equipment slot 4 @0x28</td>
+<td>u16</td>
+<td>0</td>
+<td>670</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A5</td>
+<td>☆デカラビア</td>
+<td>Level @0x47</td>
+<td>u8</td>
+<td>36</td>
+<td>42</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A5</td>
+<td>☆デカラビア</td>
+<td>Intuition @0x4C</td>
+<td>u8</td>
+<td>16</td>
+<td>17</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A5</td>
+<td>☆デカラビア</td>
+<td>Willpower @0x4D</td>
+<td>u8</td>
+<td>19</td>
+<td>21</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A5</td>
+<td>☆デカラビア</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>34</td>
+<td>99</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A5</td>
+<td>☆デカラビア</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>32</td>
+<td>99</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A5</td>
+<td>☆デカラビア</td>
+<td>Grace @0x50</td>
+<td>u8</td>
+<td>16</td>
+<td>17</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A5</td>
+<td>☆デカラビア</td>
+<td>Strength @0x51</td>
+<td>u8</td>
+<td>36</td>
+<td>39</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A5</td>
+<td>☆デカラビア</td>
+<td>Vitality @0x52</td>
+<td>u8</td>
+<td>31</td>
+<td>34</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A5</td>
+<td>☆デカラビア</td>
+<td>Agility @0x53</td>
+<td>u8</td>
+<td>20</td>
+<td>22</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A5</td>
+<td>☆デカラビア</td>
+<td>Dexterity @0x54</td>
+<td>u8</td>
+<td>21</td>
+<td>23</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A5</td>
+<td>☆デカラビア</td>
+<td>Charm @0x55</td>
+<td>u8</td>
+<td>18</td>
+<td>19</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A5</td>
+<td>☆デカラビア</td>
+<td>Luck @0x56</td>
+<td>u8</td>
+<td>15</td>
+<td>16</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A5</td>
+<td>☆デカラビア</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>16</td>
+<td>68</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A5</td>
+<td>☆デカラビア</td>
+<td>AI action row @0x6A</td>
+<td>u8</td>
+<td>24</td>
+<td>27</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A5</td>
+<td>☆デカラビア</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>1782</td>
+<td>5702</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A5</td>
+<td>☆デカラビア</td>
+<td>MP @0x0E</td>
+<td>u16</td>
+<td>1296</td>
+<td>1507</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A5</td>
+<td>☆デカラビア</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>29</td>
+<td>304</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A5</td>
+<td>☆デカラビア</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>283</td>
+<td>30</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A5</td>
+<td>☆デカラビア</td>
+<td>Skill slot 4 @0x16</td>
+<td>u16</td>
+<td>125</td>
+<td>283</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A5</td>
+<td>☆デカラビア</td>
+<td>Equipment slot 1 @0x22</td>
+<td>u16</td>
+<td>0</td>
+<td>504</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A5</td>
+<td>☆デカラビア</td>
+<td>Equipment slot 2 @0x24</td>
+<td>u16</td>
+<td>0</td>
+<td>586</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A5</td>
+<td>☆デカラビア</td>
+<td>Equipment slot 3 @0x26</td>
+<td>u16</td>
+<td>0</td>
+<td>640</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A5</td>
+<td>☆デカラビア</td>
+<td>Equipment slot 4 @0x28</td>
+<td>u16</td>
+<td>0</td>
+<td>695</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A6</td>
+<td>アバドン</td>
+<td>Level @0x47</td>
+<td>u8</td>
+<td>24</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A6</td>
+<td>アバドン</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>26</td>
+<td>27</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A6</td>
+<td>アバドン</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>24</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A6</td>
+<td>アバドン</td>
+<td>Strength @0x51</td>
+<td>u8</td>
+<td>26</td>
+<td>68</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A6</td>
+<td>アバドン</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>15</td>
+<td>42</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A6</td>
+<td>アバドン</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>1168</td>
+<td>2803</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A6</td>
+<td>アバドン</td>
+<td>MP @0x0E</td>
+<td>u16</td>
+<td>820</td>
+<td>853</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A6</td>
+<td>アバドン</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>201</td>
+<td>227</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A6</td>
+<td>アバドン</td>
+<td>Skill slot 2 @0x12</td>
+<td>u16</td>
+<td>198</td>
+<td>23</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A6</td>
+<td>アバドン</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>17</td>
+<td>201</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A6</td>
+<td>アバドン</td>
+<td>Skill slot 4 @0x16</td>
+<td>u16</td>
+<td>170</td>
+<td>204</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A6</td>
+<td>アバドン</td>
+<td>Skill slot 5 @0x18</td>
+<td>u16</td>
+<td>204</td>
+<td>170</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A6</td>
+<td>アバドン</td>
+<td>Skill slot 6 @0x1A</td>
+<td>u16</td>
+<td>23</td>
+<td>198</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A6</td>
+<td>アバドン</td>
+<td>Skill slot 8 @0x1E</td>
+<td>u16</td>
+<td>227</td>
+<td>17</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A8</td>
+<td>ラマシュトゥ</td>
+<td>Level @0x47</td>
+<td>u8</td>
+<td>44</td>
+<td>49</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A8</td>
+<td>ラマシュトゥ</td>
+<td>Intuition @0x4C</td>
+<td>u8</td>
+<td>29</td>
+<td>62</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A8</td>
+<td>ラマシュトゥ</td>
+<td>Willpower @0x4D</td>
+<td>u8</td>
+<td>19</td>
+<td>40</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A8</td>
+<td>ラマシュトゥ</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>26</td>
+<td>54</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A8</td>
+<td>ラマシュトゥ</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>14</td>
+<td>30</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A8</td>
+<td>ラマシュトゥ</td>
+<td>Grace @0x50</td>
+<td>u8</td>
+<td>24</td>
+<td>50</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A8</td>
+<td>ラマシュトゥ</td>
+<td>Strength @0x51</td>
+<td>u8</td>
+<td>42</td>
+<td>88</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A8</td>
+<td>ラマシュトゥ</td>
+<td>Vitality @0x52</td>
+<td>u8</td>
+<td>52</td>
+<td>99</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A8</td>
+<td>ラマシュトゥ</td>
+<td>Agility @0x53</td>
+<td>u8</td>
+<td>40</td>
+<td>84</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A8</td>
+<td>ラマシュトゥ</td>
+<td>Dexterity @0x54</td>
+<td>u8</td>
+<td>16</td>
+<td>34</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A8</td>
+<td>ラマシュトゥ</td>
+<td>Charm @0x55</td>
+<td>u8</td>
+<td>41</td>
+<td>86</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A8</td>
+<td>ラマシュトゥ</td>
+<td>Luck @0x56</td>
+<td>u8</td>
+<td>13</td>
+<td>14</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A8</td>
+<td>ラマシュトゥ</td>
+<td>Physical resistance code @0x59</td>
+<td>u8</td>
+<td>50</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A8</td>
+<td>ラマシュトゥ</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>16</td>
+<td>34</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A8</td>
+<td>ラマシュトゥ</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>4744</td>
+<td>2965</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A8</td>
+<td>ラマシュトゥ</td>
+<td>MP @0x0E</td>
+<td>u16</td>
+<td>1152</td>
+<td>1280</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A8</td>
+<td>ラマシュトゥ</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>208</td>
+<td>306</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A8</td>
+<td>ラマシュトゥ</td>
+<td>Skill slot 2 @0x12</td>
+<td>u16</td>
+<td>184</td>
+<td>276</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A8</td>
+<td>ラマシュトゥ</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>302</td>
+<td>202</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A8</td>
+<td>ラマシュトゥ</td>
+<td>Skill slot 4 @0x16</td>
+<td>u16</td>
+<td>19</td>
+<td>302</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A8</td>
+<td>ラマシュトゥ</td>
+<td>Skill slot 5 @0x18</td>
+<td>u16</td>
+<td>168</td>
+<td>188</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A8</td>
+<td>ラマシュトゥ</td>
+<td>Skill slot 6 @0x1A</td>
+<td>u16</td>
+<td>34</td>
+<td>168</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A8</td>
+<td>ラマシュトゥ</td>
+<td>Skill slot 8 @0x1E</td>
+<td>u16</td>
+<td>188</td>
+<td>76</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A9</td>
+<td>オセ</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>43</td>
+<td>86</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A9</td>
+<td>オセ</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>37</td>
+<td>74</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A9</td>
+<td>オセ</td>
+<td>Strength @0x51</td>
+<td>u8</td>
+<td>44</td>
+<td>99</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A9</td>
+<td>オセ</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>16</td>
+<td>35</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A9</td>
+<td>オセ</td>
+<td>AI action row @0x6A</td>
+<td>u8</td>
+<td>12</td>
+<td>27</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A9</td>
+<td>オセ</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>2732</td>
+<td>6830</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A9</td>
+<td>オセ</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>208</td>
+<td>283</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A9</td>
+<td>オセ</td>
+<td>Skill slot 2 @0x12</td>
+<td>u16</td>
+<td>184</td>
+<td>63</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A9</td>
+<td>オセ</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>33</td>
+<td>226</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A9</td>
+<td>オセ</td>
+<td>Skill slot 4 @0x16</td>
+<td>u16</td>
+<td>168</td>
+<td>208</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A9</td>
+<td>オセ</td>
+<td>Skill slot 5 @0x18</td>
+<td>u16</td>
+<td>90</td>
+<td>168</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A9</td>
+<td>オセ</td>
+<td>Skill slot 6 @0x1A</td>
+<td>u16</td>
+<td>63</td>
+<td>33</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A9</td>
+<td>オセ</td>
+<td>Skill slot 7 @0x1C</td>
+<td>u16</td>
+<td>75</td>
+<td>90</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A9</td>
+<td>オセ</td>
+<td>Skill slot 8 @0x1E</td>
+<td>u16</td>
+<td>250</td>
+<td>75</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A9</td>
+<td>オセ</td>
+<td>Equipment slot 1 @0x22</td>
+<td>u16</td>
+<td>0</td>
+<td>499</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A9</td>
+<td>オセ</td>
+<td>Equipment slot 2 @0x24</td>
+<td>u16</td>
+<td>0</td>
+<td>586</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21A9</td>
+<td>オセ</td>
+<td>Equipment slot 4 @0x28</td>
+<td>u16</td>
+<td>0</td>
+<td>681</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AA</td>
+<td>アイム</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>34</td>
+<td>85</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AA</td>
+<td>アイム</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>29</td>
+<td>72</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AA</td>
+<td>アイム</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>16</td>
+<td>34</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AA</td>
+<td>アイム</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>2168</td>
+<td>3469</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AA</td>
+<td>アイム</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>20</td>
+<td>139</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AA</td>
+<td>アイム</td>
+<td>Skill slot 2 @0x12</td>
+<td>u16</td>
+<td>289</td>
+<td>20</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AA</td>
+<td>アイム</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>17</td>
+<td>289</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AA</td>
+<td>アイム</td>
+<td>Skill slot 5 @0x18</td>
+<td>u16</td>
+<td>142</td>
+<td>290</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AA</td>
+<td>アイム</td>
+<td>Skill slot 6 @0x1A</td>
+<td>u16</td>
+<td>139</td>
+<td>144</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AA</td>
+<td>アイム</td>
+<td>Skill slot 7 @0x1C</td>
+<td>u16</td>
+<td>290</td>
+<td>17</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AA</td>
+<td>アイム</td>
+<td>Skill slot 8 @0x1E</td>
+<td>u16</td>
+<td>144</td>
+<td>142</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AB</td>
+<td>イポス</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>37</td>
+<td>99</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AB</td>
+<td>イポス</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>32</td>
+<td>96</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AB</td>
+<td>イポス</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>16</td>
+<td>26</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AB</td>
+<td>イポス</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>2652</td>
+<td>5304</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AB</td>
+<td>イポス</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>80</td>
+<td>169</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AB</td>
+<td>イポス</td>
+<td>Skill slot 2 @0x12</td>
+<td>u16</td>
+<td>37</td>
+<td>80</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AB</td>
+<td>イポス</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>210</td>
+<td>88</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AB</td>
+<td>イポス</td>
+<td>Skill slot 4 @0x16</td>
+<td>u16</td>
+<td>186</td>
+<td>37</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AB</td>
+<td>イポス</td>
+<td>Skill slot 5 @0x18</td>
+<td>u16</td>
+<td>41</td>
+<td>210</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AB</td>
+<td>イポス</td>
+<td>Skill slot 6 @0x1A</td>
+<td>u16</td>
+<td>88</td>
+<td>41</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AB</td>
+<td>イポス</td>
+<td>Skill slot 8 @0x1E</td>
+<td>u16</td>
+<td>169</td>
+<td>186</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AC</td>
+<td>アスタルテ</td>
+<td>Magic @0x4E</td>
+<td>u8</td>
+<td>53</td>
+<td>66</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AC</td>
+<td>アスタルテ</td>
+<td>Intelligence @0x4F</td>
+<td>u8</td>
+<td>33</td>
+<td>41</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AC</td>
+<td>アスタルテ</td>
+<td>Physical resistance code @0x59</td>
+<td>u8</td>
+<td>50</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AC</td>
+<td>アスタルテ</td>
+<td>Curse resistance code @0x61</td>
+<td>u8</td>
+<td>0</td>
+<td>50</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AC</td>
+<td>アスタルテ</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>19</td>
+<td>37</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AC</td>
+<td>アスタルテ</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>6960</td>
+<td>3480</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AC</td>
+<td>アスタルテ</td>
+<td>Skill slot 1 @0x10</td>
+<td>u16</td>
+<td>184</td>
+<td>144</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AC</td>
+<td>アスタルテ</td>
+<td>Skill slot 2 @0x12</td>
+<td>u16</td>
+<td>207</td>
+<td>41</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AC</td>
+<td>アスタルテ</td>
+<td>Skill slot 3 @0x14</td>
+<td>u16</td>
+<td>144</td>
+<td>137</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AC</td>
+<td>アスタルテ</td>
+<td>Skill slot 5 @0x18</td>
+<td>u16</td>
+<td>38</td>
+<td>54</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AC</td>
+<td>アスタルテ</td>
+<td>Skill slot 6 @0x1A</td>
+<td>u16</td>
+<td>74</td>
+<td>86</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AC</td>
+<td>アスタルテ</td>
+<td>Skill slot 7 @0x1C</td>
+<td>u16</td>
+<td>41</td>
+<td>102</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AD</td>
+<td>豊饒の山羊</td>
+<td>Physical resistance code @0x59</td>
+<td>u8</td>
+<td>50</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AD</td>
+<td>豊饒の山羊</td>
+<td>Gun resistance code @0x5A</td>
+<td>u8</td>
+<td>50</td>
+<td>25</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AD</td>
+<td>豊饒の山羊</td>
+<td>Enemy speed @0x66</td>
+<td>u8</td>
+<td>13</td>
+<td>14</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>P21AD</td>
+<td>豊饒の山羊</td>
+<td>HP @0x0C</td>
+<td>u16</td>
+<td>4600</td>
+<td>2760</td>
+</tr>
+</tbody>
+</table></section>
+<section id="TROUBLESHOOTING"><h1>Controls and troubleshooting</h1>
+<h2>Controls with Fixes installed</h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>W</td>
+<td>Step forward</td>
+</tr>
+<tr>
+<td>Z</td>
+<td>Step backward</td>
+</tr>
+<tr>
+<td>A / D</td>
+<td>Strafe left / right</td>
+</tr>
+<tr>
+<td>Q / E</td>
+<td>Turn left / right</td>
+</tr>
+<tr>
+<td>S</td>
+<td>Turn around</td>
+</tr>
+<tr>
+<td>Enter / Space</td>
+<td>Advance a dialogue or battle-message wait</td>
+</tr>
+<tr>
+<td>Numeric keypad 8 / 2 / 4 / 6</td>
+<td>Original forward / backward / left / right controls</td>
+</tr>
+<tr>
+<td>Numeric keypad 7 or 1 / 9 or 3 / 5</td>
+<td>Original turn left / turn right / turn around</td>
+</tr>
+</tbody>
+</table>
+<p>Movement keys are case-insensitive. Menus, targets and general interface buttons still need the mouse. Advance keys do not select arbitrary on-screen menu buttons. Artwork alone retains the original game's controls and message timing.</p>
+<h2>The disk does not boot</h2>
+<p>First confirm the unmodified game boots in the same emulator configuration. The PepsimanGB pre-made hard disk uses the companion boot floppy; attach both and boot the floppy. Its script expects the game hard disk at <code>C:</code> and the boot floppy at <code>A:</code>. The enhancement packages preserve that setup rather than installing DOS or replacing your startup script.</p>
+<p>Use a PC-98 emulator configuration. A standard IBM-compatible DOS machine is not the target platform. Configure the emulator's hard-disk path to the final downloaded HDI; a newly saved file is not automatically mounted. The existing floppy's startup script launches the game without manually typing its executable name when mounted as intended.</p>
+<h2>The patch reports unsupported files</h2>
+<p>The listed files do not match the exact original or accepted patched state for this package. Use your untouched supported Japanese disk. If applying Rebalance, first apply Fixes and then select the saved Fixes result. Do not apply a gameplay patch over a translated image or an unrelated mod and assume its changes will be preserved.</p>
+<p>If you installed custom balance changes, keep that customized image separately. These packages do not merge arbitrary modifications. Renaming a file does not bypass the checks.</p>
+<h2>Not enough space</h2>
+<p>This is free space inside the virtual hard disk, not free space on the host computer. Keep the original reference image's capacity and avoid filling it with unrelated files. The page produces no downloadable image on failure. Do not remove game resources to make room.</p>
+<p>For the exact reference layout, Artwork reclaims its unused 693 KiB tail as described in WINDOWS-ARTWORK.md. An unexpected extra partition, occupied FAT tail or nonblank unpartitioned data is refused. Different layouts still need enough existing free space.</p>
+<h2>The page cannot decompress, or never produces a Save link</h2>
+<p>Open the extracted HTML directly in a browser with <code>DecompressionStream</code> support for <code>deflate-raw</code>. Read the error at the end of the log. Keep the page open until processing finishes. The saved HTML already contains the payload; it needs no server or internet access. Corrupted or incomplete copies should be replaced with a fresh extraction and checked against <code>SHA256SUMS.txt</code>.</p>
+<h2>Where did the patched disk go?</h2>
+<p>Applying and saving are separate steps. After processing, click the page's Save link and check your browser's download location. Confirm which disk you selected for the next patch. Browsers may append a number to repeated downloads; use the most recently saved result you intended to patch.</p>
+<h2>No audio, broken fonts or no mouse</h2>
+<p>The packages preserve the Japanese game's existing DOS drivers and native font requirements. They do not bundle an emulator or configure host audio. Check the original game in the same setup, the emulator's PC-98 font/sound support, and that the companion boot floppy loads the mouse and game sound drivers. These are separate from patch processing.</p>
+<h2>Old save states behave strangely</h2>
+<p>Fully restart the emulator on the new disk and load an in-game save. A save state restores memory containing the previous executable and can keep using old formulas, text pointers or graphics. The XMS swap repair solves a particular missing-directory crash, not every combination of save state and changed disk.</p>
+<h2>Can I apply a patch twice?</h2>
+<p>Fixes and Rebalance accept their own complete installed state, preserving the same game-file contents. Applying Fixes over Rebalance is not supported. Artwork reports that no output is needed when everything it installs is already present. To remove an edition or the artwork, rebuild from the original disk and retain your backed-up in-game saves.</p>
+<h2>Reporting a problem</h2>
+<p>Include the package name, input image checksum, browser or emulator details, full patch log, installation order, and an exact description of the failing action. For a game issue, include whether it also occurs in the unmodified original and whether you loaded an in-game save or an emulator save state. Do not distribute a complete game disk as part of a public report.</p></section>
+<section id="CREDITS"><h1>Credits and scope</h1>
+<p><strong>Enhancement project:</strong> gymzatan. These packages reuse the fixes, Windows-artwork conversion and rebalanced ruleset developed for the Chinese localization release.</p>
+<p><strong>Original game and artwork:</strong> Giten Megami Tensei: Tokyo Mokushiroku. The original title screen credits ATLUS, ASCII, Aya Nishitani and SHIPS. Original characters, story, artwork and game code remain the work of their respective creators and rights holders.</p>
+<p><strong>Reference disk preservation:</strong> the PepsimanGB PC-9801 dump's pre-made hard disk and companion boot floppy were used to check input compatibility. That credit identifies the tested source; this release does not include or grant redistribution rights to the complete game, DOS boot media or emulator firmware.</p>
+<p>The 23 newly supplied Japanese negotiation prompts are enhancement-project additions. Existing Japanese dialogue is retained elsewhere except for the specific repaired status/EXP/item-description wording documented in the patches.</p>
+<p>The English packaging is for players using the Japanese game. It is not an English game translation and does not include the Chinese localization's editors, individual BAT switches, scanned-manual translation or walkthrough collection. All documentation needed to install and understand these three enhancement packages is included in English.</p></section>
+<section id="VALIDATION"><h1>Validation scope</h1>
+<p>The supplied PepsimanGB reference HDI was used for 20 runs of the actual scripts and payloads embedded in the English patch pages. The checks cover:</p>
+<ul>
+<li>Fixes and Rebalance outputs matching the shared game's build files exactly.</li>
+<li>Standalone Artwork matching the existing Python artwork patch byte for byte after the documented two-field partition extension.</li>
+<li>Equivalent game-file contents for Fixes/Artwork and Rebalance/Artwork applied in either supported order.</li>
+<li>Repeated installation, prerequisite rejection, modified-executable rejection and already-installed artwork reporting.</li>
+<li>Preservation of an injected original in-game save, a custom startup script and the existing DOS/driver configuration.</li>
+<li>Refusal to consume occupied partition-tail data or a second partition entry.</li>
+<li>All 42 negotiation packs traversed, with all 23 added prompts reachable.</li>
+<li>The original input HDI checksum remaining unchanged.</li>
+</ul>
+<p>The two existing Chinese game payloads remained identical to the accepted release, and all 16 existing Chinese web-patch regression cases passed.</p>
+<p>A copy of the Fixes + Rebalance + Windows Artwork result was booted in the existing DOSBox-X PC-9821 setup with 16 MB RAM and the companion FDI. It reached the Windows-artwork title screen without entering a startup command. This is a startup smoke check, not a complete playthrough. Browser processing was verified through the page's actual embedded JavaScript under Node; a full interactive browser session was not part of this verification.</p></section></html>
