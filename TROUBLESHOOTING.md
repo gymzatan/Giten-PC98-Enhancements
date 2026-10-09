@@ -21,6 +21,10 @@ First confirm the unmodified game boots in the same emulator configuration. The 
 
 Use a PC-98 emulator configuration. A standard IBM-compatible DOS machine is not the target platform. Configure the emulator's hard-disk path to the final downloaded HDI; a newly saved file is not automatically mounted. The existing floppy's startup script launches the game without manually typing its executable name when mounted as intended.
 
+## Can I use an English-translated HDI?
+
+Fixes and Rebalance do not support English-translated images. Windows Artwork has not been verified with an English translation. The `EN` filenames mean English patch interfaces and documentation, not compatibility with an English game translation. The supplied PepsimanGB reference HDI is Japanese, despite its English filename and setup notes. See the compatibility table in README.md.
+
 ## The patch reports unsupported files
 
 The listed files do not match the exact original or accepted patched state for this package. Use your untouched supported Japanese disk. If applying Rebalance, first apply Fixes and then select the saved Fixes result. Do not apply a gameplay patch over a translated image or an unrelated mod and assume its changes will be preserved.

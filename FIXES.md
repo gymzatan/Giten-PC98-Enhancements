@@ -2,6 +2,8 @@
 
 Fixes repairs gameplay defects and adds convenience features while retaining the original Japanese game text and native font. The battle formulas remain those of the original game after correcting the implementation defects below. Rebalance is a separate, optional package.
 
+**Input compatibility:** supported Japanese HDIs only. An English-translated HDI is not supported: this package checks exact file hashes and installs complete Japanese executable, script and data files. It does not merge or preserve an English translation in those replaced files.
+
 ## Inventory and stability
 
 - Prevents blank inventory entries created when a disarmed weapon is equipped again. The repair acts on the game program; existing DOS files and boot scripts are preserved.

@@ -1,5 +1,32 @@
 <!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Giten Enhancement Documentation</title><style>body{font:17px/1.7 system-ui,sans-serif;background:#f4f1ea;color:#222;max-width:1000px;margin:auto;padding:32px}section{margin:50px 0}h1{border-bottom:2px solid #823628}h2{margin-top:32px}a{color:#823628}code{background:#e8e2d8;padding:2px 4px;overflow-wrap:anywhere}table{display:block;overflow-x:auto;border-collapse:collapse;font-size:14px}td,th{border:1px solid #ccc;padding:8px;text-align:left;vertical-align:top}th{background:#e8e2d8}</style><nav><a href="#README">Readme</a> · <a href="#FIXES">Fixes</a> · <a href="#WINDOWS-ARTWORK">Windows Artwork</a> · <a href="#REBALANCE">Rebalance</a> · <a href="#REFERENCE">Reference</a> · <a href="#TROUBLESHOOTING">Troubleshooting</a> · <a href="#CREDITS">Credits</a> · <a href="#VALIDATION">Validation</a></nav><section id="README"><h1>Giten Megami Tensei — PC-98 Enhancement Patches</h1>
-<p>English patch interfaces and documentation for <strong>Giten Megami Tensei: Tokyo Mokushiroku</strong>. The game remains in Japanese. These packages do not translate its story, menus or item names into English.</p>
+<p>Enhancement patches for the <strong>Japanese PC-98 release of Giten Megami Tensei: Tokyo Mokushiroku</strong>, with English interfaces and documentation. The game text remains Japanese. English-translated HDIs are not a supported target of this release.</p>
+<h2>Japanese and English HDI compatibility</h2>
+<p><strong>These packages are not universally compatible with both Japanese and English-translated HDIs.</strong> <code>EN</code> in the filenames refers to the patch interface and documentation language.</p>
+<table>
+<thead>
+<tr>
+<th>Starting game</th>
+<th>Fixes</th>
+<th>Windows Artwork</th>
+<th>Rebalance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Supported Japanese HDI</td>
+<td>Supported</td>
+<td>Supported, independently</td>
+<td>Apply Fixes first</td>
+</tr>
+<tr>
+<td>English fan-translated HDI</td>
+<td>Not supported by this release</td>
+<td>Not verified; do not assume compatibility</td>
+<td>Not supported by this release</td>
+</tr>
+</tbody>
+</table>
+<p>Fixes and Rebalance install complete executable, script and data files built from the Japanese game. They require exact accepted file hashes and do not merge an English translation. Windows Artwork edits graphics, map door selectors and specific executable sites; it does not translate dialogue, but an English translation may modify the same resources or code. Its compatibility must be checked against that particular translation before use. Reversing patch order does not establish compatibility.</p>
 <h2>Choose a package</h2>
 <table>
 <thead>
@@ -48,7 +75,7 @@
 <ul>
 <li>Size: 31,177,216 bytes.</li>
 <li>SHA-256: <code>33ba81310d5cbf0e8459c5f09ea50360715591129a46f72c94e1b1ec0c49e77f</code>.</li>
-<li>Its 1,548 game files match the project's original Japanese game baseline.</li>
+<li>This particular HDI is the Japanese game, not an English translation: 1,548 game files, including the executable and dialogue scripts, are byte-identical to the Japanese baseline. The included English readme explains setup; it does not indicate translated game text.</li>
 </ul>
 <p>The patch checks the game files it depends on, rather than requiring that entire-disk checksum. A different disk layout can therefore work if the required files are identical. Custom executable, script, map or balance edits may be rejected. Start from a supported Japanese game image; compatibility with third-party modifications is not guaranteed.</p>
 <h2>Booting the PepsimanGB edition</h2>
@@ -73,6 +100,7 @@
 <p><code>SHA256SUMS.txt</code> lists the files shipped in each package. The three ZIPs share documentation so each can be understood on its own.</p></section>
 <section id="FIXES"><h1>Fixes and convenience features</h1>
 <p>Fixes repairs gameplay defects and adds convenience features while retaining the original Japanese game text and native font. The battle formulas remain those of the original game after correcting the implementation defects below. Rebalance is a separate, optional package.</p>
+<p><strong>Input compatibility:</strong> supported Japanese HDIs only. An English-translated HDI is not supported: this package checks exact file hashes and installs complete Japanese executable, script and data files. It does not merge or preserve an English translation in those replaced files.</p>
 <h2>Inventory and stability</h2>
 <ul>
 <li>Prevents blank inventory entries created when a disarmed weapon is equipped again. The repair acts on the game program; existing DOS files and boot scripts are preserved.</li>
@@ -126,7 +154,8 @@
 <p><strong>Faster moon:</strong> the visible phase changes after about 60 steps instead of about 300. Moon-dependent battles, negotiation and events follow the faster phase. Monthly chests, refillable Soma/Kushinada vessels, the core shield duration and body-part drying limits retain their original time scale. The vessels refill on an eligible full moon after the original monthly interval; they cannot be farmed every accelerated cycle. The core shield description is adjusted in Japanese to reflect a duration of at most about one day.</p>
 <p>These features are installed together. The standalone artwork patch is not required for any of them.</p></section>
 <section id="WINDOWS-ARTWORK"><h1>Windows Artwork</h1>
-<p>This independent patch adapts graphics from the Windows remake for the PC-98 game. It can be applied to the original supported Japanese image, a Fixes image, or a Fixes + Rebalance image. It does not require the Fixes package and does not change the game's language.</p>
+<p>This independent patch adapts graphics from the Windows remake for the PC-98 game. It can be applied to the original supported Japanese image, a Fixes image, or a Fixes + Rebalance image. It does not require the Fixes package and does not translate game text.</p>
+<p><strong>English-translated HDIs: compatibility is not verified.</strong> Artwork also edits map door selectors and executable palette sites, so it cannot be assumed compatible merely because it is a graphics patch. A translation may change those files or the graphics it replaces. The supported combinations below refer to the Japanese game and this project's enhancement patches.</p>
 <h2>Replaced graphics</h2>
 <ul>
 <li>Dungeon walls, doors and stairs.</li>
@@ -149,6 +178,7 @@
 <p>To restore PC-98 artwork, return to your original image and apply only the gameplay packages you want. The artwork package is an installer, not an uninstall or graphics-toggle tool.</p></section>
 <section id="REBALANCE"><h1>Rebalance</h1>
 <p>Apply <strong>Fixes first</strong>, then select that output in <code>Apply Rebalance.html</code>. Windows Artwork may be installed before or after this step. This package redesigns combat and progression while retaining Japanese game text.</p>
+<p><strong>Input compatibility:</strong> the supported Japanese game after Fixes. An English-translated HDI is not supported; this package does not merge translated executable, script or data files.</p>
 <h2>What changes</h2>
 <p>Rebalance replaces derived battle-stat formulas, hit/damage curves, critical hits and some progression rules. It retunes bosses and strengthens Newton and his equipment, expands the protagonist's learning pools, makes combat summoning cost an action, and adjusts EXP by level difference. All underlying Fixes repairs remain installed.</p>
 <p><code>REFERENCE.md</code> contains the exact derived-stat formulas and a complete numerical ledger generated from the authoritative balance data. IDs refer to the original game's records; names that appear in Japanese are included for matching them to the game.</p>
@@ -5232,6 +5262,8 @@
 <h2>The disk does not boot</h2>
 <p>First confirm the unmodified game boots in the same emulator configuration. The PepsimanGB pre-made hard disk uses the companion boot floppy; attach both and boot the floppy. Its script expects the game hard disk at <code>C:</code> and the boot floppy at <code>A:</code>. The enhancement packages preserve that setup rather than installing DOS or replacing your startup script.</p>
 <p>Use a PC-98 emulator configuration. A standard IBM-compatible DOS machine is not the target platform. Configure the emulator's hard-disk path to the final downloaded HDI; a newly saved file is not automatically mounted. The existing floppy's startup script launches the game without manually typing its executable name when mounted as intended.</p>
+<h2>Can I use an English-translated HDI?</h2>
+<p>Fixes and Rebalance do not support English-translated images. Windows Artwork has not been verified with an English translation. The <code>EN</code> filenames mean English patch interfaces and documentation, not compatibility with an English game translation. The supplied PepsimanGB reference HDI is Japanese, despite its English filename and setup notes. See the compatibility table in README.md.</p>
 <h2>The patch reports unsupported files</h2>
 <p>The listed files do not match the exact original or accepted patched state for this package. Use your untouched supported Japanese disk. If applying Rebalance, first apply Fixes and then select the saved Fixes result. Do not apply a gameplay patch over a translated image or an unrelated mod and assume its changes will be preserved.</p>
 <p>If you installed custom balance changes, keep that customized image separately. These packages do not merge arbitrary modifications. Renaming a file does not bypass the checks.</p>
@@ -5257,7 +5289,8 @@
 <p>The 23 newly supplied Japanese negotiation prompts are enhancement-project additions. Existing Japanese dialogue is retained elsewhere except for the specific repaired status/EXP/item-description wording documented in the patches.</p>
 <p>These packages are for players using the Japanese game. All documentation needed to install and understand the three enhancement patches is included in English; game text remains Japanese.</p></section>
 <section id="VALIDATION"><h1>Validation scope</h1>
-<p>The supplied PepsimanGB reference HDI was used for 20 runs of the actual scripts and payloads embedded in the English patch pages. The checks cover:</p>
+<p>The supplied PepsimanGB reference HDI was verified as Japanese: 1,548 game files match the original Japanese baseline byte for byte, and decoded dialogue samples contain Japanese text. No English-translated HDI was included in these tests.</p>
+<p>This Japanese reference HDI was used for 20 runs of the actual scripts and payloads embedded in the English patch pages. The checks cover:</p>
 <ul>
 <li>Fixes and Rebalance outputs matching the shared game's build files exactly.</li>
 <li>Standalone Artwork matching the existing Python artwork patch byte for byte after the documented two-field partition extension.</li>

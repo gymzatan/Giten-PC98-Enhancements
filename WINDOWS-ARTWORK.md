@@ -1,6 +1,8 @@
 # Windows Artwork
 
-This independent patch adapts graphics from the Windows remake for the PC-98 game. It can be applied to the original supported Japanese image, a Fixes image, or a Fixes + Rebalance image. It does not require the Fixes package and does not change the game's language.
+This independent patch adapts graphics from the Windows remake for the PC-98 game. It can be applied to the original supported Japanese image, a Fixes image, or a Fixes + Rebalance image. It does not require the Fixes package and does not translate game text.
+
+**English-translated HDIs: compatibility is not verified.** Artwork also edits map door selectors and executable palette sites, so it cannot be assumed compatible merely because it is a graphics patch. A translation may change those files or the graphics it replaces. The supported combinations below refer to the Japanese game and this project's enhancement patches.
 
 ## Replaced graphics
 

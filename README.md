@@ -1,8 +1,19 @@
 # Giten Megami Tensei — PC-98 Enhancement Patches
 
-English patch interfaces and documentation for **Giten Megami Tensei: Tokyo Mokushiroku**. The game remains in Japanese. These packages do not translate its story, menus or item names into English.
+Enhancement patches for the **Japanese PC-98 release of Giten Megami Tensei: Tokyo Mokushiroku**, with English interfaces and documentation. The game text remains Japanese. English-translated HDIs are not a supported target of this release.
 
 **[Download the three patch packages from Releases](https://github.com/gymzatan/Giten-PC98-Enhancements/releases/latest).**
+
+## Japanese and English HDI compatibility
+
+**These packages are not universally compatible with both Japanese and English-translated HDIs.** `EN` in the filenames refers to the patch interface and documentation language.
+
+| Starting game | Fixes | Windows Artwork | Rebalance |
+| --- | --- | --- | --- |
+| Supported Japanese HDI | Supported | Supported, independently | Apply Fixes first |
+| English fan-translated HDI | Not supported by this release | Not verified; do not assume compatibility | Not supported by this release |
+
+Fixes and Rebalance install complete executable, script and data files built from the Japanese game. They require exact accepted file hashes and do not merge an English translation. Windows Artwork edits graphics, map door selectors and specific executable sites; it does not translate dialogue, but an English translation may modify the same resources or code. Its compatibility must be checked against that particular translation before use. Reversing patch order does not establish compatibility.
 
 ## Choose a package
 
@@ -33,7 +44,7 @@ The reference input is the PepsimanGB **Pre-Made Hard Disk and Boot Floppy** edi
 
 - Size: 31,177,216 bytes.
 - SHA-256: `33ba81310d5cbf0e8459c5f09ea50360715591129a46f72c94e1b1ec0c49e77f`.
-- Its 1,548 game files match the project's original Japanese game baseline.
+- This particular HDI is the Japanese game, not an English translation: 1,548 game files, including the executable and dialogue scripts, are byte-identical to the Japanese baseline. The included English readme explains setup; it does not indicate translated game text.
 
 The patch checks the game files it depends on, rather than requiring that entire-disk checksum. A different disk layout can therefore work if the required files are identical. Custom executable, script, map or balance edits may be rejected. Start from a supported Japanese game image; compatibility with third-party modifications is not guaranteed.
 

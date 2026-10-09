@@ -2,6 +2,8 @@
 
 Apply **Fixes first**, then select that output in `Apply Rebalance.html`. Windows Artwork may be installed before or after this step. This package redesigns combat and progression while retaining Japanese game text.
 
+**Input compatibility:** the supported Japanese game after Fixes. An English-translated HDI is not supported; this package does not merge translated executable, script or data files.
+
 ## What changes
 
 Rebalance replaces derived battle-stat formulas, hit/damage curves, critical hits and some progression rules. It retunes bosses and strengthens Newton and his equipment, expands the protagonist's learning pools, makes combat summoning cost an action, and adjusts EXP by level difference. All underlying Fixes repairs remain installed.

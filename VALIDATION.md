@@ -1,6 +1,8 @@
 # Validation scope
 
-The supplied PepsimanGB reference HDI was used for 20 runs of the actual scripts and payloads embedded in the English patch pages. The checks cover:
+The supplied PepsimanGB reference HDI was verified as Japanese: 1,548 game files match the original Japanese baseline byte for byte, and decoded dialogue samples contain Japanese text. No English-translated HDI was included in these tests.
+
+This Japanese reference HDI was used for 20 runs of the actual scripts and payloads embedded in the English patch pages. The checks cover:
 
 - Fixes and Rebalance outputs matching the shared game's build files exactly.
 - Standalone Artwork matching the existing Python artwork patch byte for byte after the documented two-field partition extension.
