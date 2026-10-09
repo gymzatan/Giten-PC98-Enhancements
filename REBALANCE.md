@@ -1,8 +1,8 @@
 # Rebalance
 
-Apply **Fixes first**, then select that output in `Apply Rebalance.html`. Windows Artwork may be installed before or after this step. This package redesigns combat and progression while retaining Japanese game text.
+Apply **Fixes first**, then select that output in `Apply Rebalance.html`. Windows Artwork may be installed before or after this step. This package redesigns combat and progression while retaining the selected game's language.
 
-**Input compatibility:** the supported Japanese game after Fixes. An English-translated HDI is not supported; this package does not merge translated executable, script or data files.
+**Input compatibility:** the supported Japanese or tested English game after Fixes. Both languages use the same numerical rules and record IDs. English script text is retained through checked record edits; see README.md for future-update compatibility.
 
 ## What changes
 

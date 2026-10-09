@@ -23,11 +23,11 @@ Use a PC-98 emulator configuration. A standard IBM-compatible DOS machine is not
 
 ## Can I use an English-translated HDI?
 
-Fixes and Rebalance do not support English-translated images. Windows Artwork has not been verified with an English translation. The `EN` filenames mean English patch interfaces and documentation, not compatibility with an English game translation. The supplied PepsimanGB reference HDI is Japanese, despite its English filename and setup notes. See the compatibility table in README.md.
+Yes, all three packages support the tested English BPS output identified in README.md. Apply that translation first, then Fixes and optionally Rebalance; Artwork can be applied independently or in either supported order. The original PepsimanGB HDI is Japanese until the translation BPS is applied.
 
 ## The patch reports unsupported files
 
-The listed files do not match the exact original or accepted patched state for this package. Use your untouched supported Japanese disk. If applying Rebalance, first apply Fixes and then select the saved Fixes result. Do not apply a gameplay patch over a translated image or an unrelated mod and assume its changes will be preserved.
+A required program, resource or instruction does not match an accepted state. For an English script conflict, the error identifies the file, chunk and record ID. Text-only changes can work, but changed event logic or executable code requires a compatibility update. If applying Rebalance, apply Fixes first and select that saved result. Keep a copy of the updated translation and report the exact conflict.
 
 If you installed custom balance changes, keep that customized image separately. These packages do not merge arbitrary modifications. Renaming a file does not bypass the checks.
 
@@ -47,7 +47,7 @@ Applying and saving are separate steps. After processing, click the page's Save 
 
 ## No audio, broken fonts or no mouse
 
-The packages preserve the Japanese game's existing DOS drivers and native font requirements. They do not bundle an emulator or configure host audio. Check the original game in the same setup, the emulator's PC-98 font/sound support, and that the companion boot floppy loads the mouse and game sound drivers. These are separate from patch processing.
+The packages preserve the selected game's existing DOS drivers and font requirements. They do not bundle an emulator or configure host audio. Check the original game in the same setup, the emulator's PC-98 font/sound support, and that the companion boot floppy loads the mouse and game sound drivers. These are separate from patch processing.
 
 ## Old save states behave strangely
 

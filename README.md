@@ -1,26 +1,34 @@
 # Giten Megami Tensei — PC-98 Enhancement Patches
 
-Enhancement patches for the **Japanese PC-98 release of Giten Megami Tensei: Tokyo Mokushiroku**, with English interfaces and documentation. The game text remains Japanese. English-translated HDIs are not a supported target of this release.
+Three enhancement patches for **Giten Megami Tensei: Tokyo Mokushiroku on PC-98**, supporting the original Japanese game and the tested English fan translation. All patch interfaces and documentation are in English. The selected game's language is retained.
 
 **[Download the three patch packages from Releases](https://github.com/gymzatan/Giten-PC98-Enhancements/releases/latest).**
 
 ## Japanese and English HDI compatibility
 
-**These packages are not universally compatible with both Japanese and English-translated HDIs.** `EN` in the filenames refers to the patch interface and documentation language.
+**The same three packages work with the supported Japanese HDI and the tested English-translated HDI.** `EN` identifies the English interface and documentation; these packages do not include the English translation itself.
 
 | Starting game | Fixes | Windows Artwork | Rebalance |
 | --- | --- | --- | --- |
 | Supported Japanese HDI | Supported | Supported, independently | Apply Fixes first |
-| English fan-translated HDI | Not supported by this release | Not verified; do not assume compatibility | Not supported by this release |
+| Tested English fan-translated HDI | Supported; retains translated text | Supported, independently | Apply Fixes first |
 
-Fixes and Rebalance install complete executable, script and data files built from the Japanese game. They require exact accepted file hashes and do not merge an English translation. Windows Artwork edits graphics, map door selectors and specific executable sites; it does not translate dialogue, but an English translation may modify the same resources or code. Its compatibility must be checked against that particular translation before use. Reversing patch order does not establish compatibility.
+For English play, first apply the [English translation BPS](https://www.romhacking.net/translations/7343/) to its required untouched Japanese HDI. Then apply these enhancements to that English result. Applying the translation BPS after enhancements fails its source checksum.
+
+English scripts are patched by chunk, record ID and checked instruction structure. Existing text is copied from your input, and branch offsets are recalculated when instructions are inserted. Dialogue length, line wrapping and additional unrelated records are not tied to whole-script checksums. Numerical edits address data records through their pointer tables. The specific repaired EXP wording, Core Shield description and newly supplied negotiation prompts are in English.
+
+### Future English translation updates
+
+Text edits that retain the relevant instruction structure can continue to work, including longer dialogue and newlines; these cases were tested. Unrelated records and complete printable replacements for the previously missing negotiation questions are retained. A change to a required opcode, event operand, branch destination or numeric field causes a precise conflict report and no output. The executable must still be one of the verified English program states. An update that changes executable code or affected event logic needs a new compatibility check; arbitrary future releases are not automatically certified.
+
+The Japanese path continues to check its accepted native file states. Artwork validates graphics and its executable patch sites independently. These checks protect other modifications from being overwritten.
 
 ## Choose a package
 
 | Package | Open this file | Purpose | Prerequisite |
 | --- | --- | --- | --- |
-| Giten Fixes (EN) | Apply Fixes.html | Gameplay repairs and quality-of-life improvements | Supported Japanese game HDI |
-| Giten Windows Artwork (EN) | Apply Windows Artwork.html | Windows remake graphics adapted to the PC-98 engine | Supported Japanese game HDI; Fixes is optional |
+| Giten Fixes (EN) | Apply Fixes.html | Gameplay repairs and quality-of-life improvements | Supported Japanese or tested English game HDI |
+| Giten Windows Artwork (EN) | Apply Windows Artwork.html | Windows remake graphics adapted to the PC-98 engine | Supported Japanese or tested English game HDI; Fixes is optional |
 | Giten Rebalance (EN) | Apply Rebalance.html | New combat formulas, growth, boss tuning and learning pools | An image already processed by Fixes |
 
 For the original combat rules with repairs, use **Fixes**. For redesigned combat, use **Fixes → Rebalance**. Add **Windows Artwork** whenever desired. Artwork works before or after either gameplay patch. You can also use Artwork alone on the original game.
@@ -46,13 +54,21 @@ The reference input is the PepsimanGB **Pre-Made Hard Disk and Boot Floppy** edi
 - SHA-256: `33ba81310d5cbf0e8459c5f09ea50360715591129a46f72c94e1b1ec0c49e77f`.
 - This particular HDI is the Japanese game, not an English translation: 1,548 game files, including the executable and dialogue scripts, are byte-identical to the Japanese baseline. The included English readme explains setup; it does not indicate translated game text.
 
-The patch checks the game files it depends on, rather than requiring that entire-disk checksum. A different disk layout can therefore work if the required files are identical. Custom executable, script, map or balance edits may be rejected. Start from a supported Japanese game image; compatibility with third-party modifications is not guaranteed.
+The patch checks the game files it depends on, rather than requiring that entire-disk checksum. A different disk layout can therefore work if the required files are identical. Custom executable, script, map or balance edits may be rejected. Start from the supported Japanese game or its tested English translation; compatibility with other modifications is not guaranteed.
+
+The tested English reference was made with the supplied `giten.bps`:
+
+- BPS SHA-256: `844f8cb5bad009f3f7e2fa179187b0d96b524d860223957dedb6497acab5e6d2`.
+- BPS source/target CRC32: `821888c0` / `68968b59`.
+- English HDI SHA-256: `c0ad091cc3dea998d81046ffdb418d8c392c0abe0f41c986776634a93db511b7`.
+
+The whole-disk checksum identifies the tested reference; it is not a requirement for script-text updates at runtime. The translation's existing coverage is retained, including any passages it still leaves in Japanese. These enhancements do not complete the translation.
 
 ## Booting the PepsimanGB edition
 
 Keep `Giten Megami Tensei Boot FD.fdi` from your own copy. Configure a PC-98 emulator to attach the patched HDI as its hard disk and that FDI as its boot floppy, then boot from the floppy. Its startup script loads the mouse and sound drivers and launches the game from `C:\DDS98`.
 
-The patches preserve the disk's existing DOS files and startup configuration. This edition is not a standalone bootable HDI: opening only its hard disk is insufficient. The packages contain no emulator, BIOS, DOS system files, boot floppy or complete game image. Use the emulator and boot media with which your original Japanese copy works.
+The patches preserve the disk's existing DOS files and startup configuration. This edition is not a standalone bootable HDI: opening only its hard disk is insufficient. The packages contain no emulator, BIOS, DOS system files, boot floppy, translation BPS or complete game image. Use the emulator and boot media with which your original copy works.
 
 ## Saves and switching editions
 
@@ -66,13 +82,13 @@ To return to the original graphics or rules, rebuild from your untouched origina
 
 `Documentation.html` combines the following English documents for offline reading:
 
-- [FIXES.md](FIXES.md): repairs and convenience features.
-- [WINDOWS-ARTWORK.md](WINDOWS-ARTWORK.md): graphics conversion, scope and compatibility.
-- [REBALANCE.md](REBALANCE.md): combat and progression rules.
-- [REFERENCE.md](REFERENCE.md): exact derived-stat formulas, learning-pool additions and numerical edit ledger.
-- [Rebalance-Changes.csv](Rebalance-Changes.csv): machine-readable changes using original record IDs and byte offsets.
-- [TROUBLESHOOTING.md](TROUBLESHOOTING.md): controls, booting, errors and saves.
-- [CREDITS.md](CREDITS.md): project and original-work credits.
-- [VALIDATION.md](VALIDATION.md): checks performed and their limits.
+- `FIXES.md`: repairs and convenience features.
+- `WINDOWS-ARTWORK.md`: graphics conversion, scope and compatibility.
+- `REBALANCE.md`: combat and progression rules.
+- `REFERENCE.md`: exact derived-stat formulas, learning-pool additions and numerical edit ledger.
+- `Rebalance-Changes.csv`: machine-readable changes using original record IDs and byte offsets.
+- `TROUBLESHOOTING.md`: controls, booting, errors and saves.
+- `CREDITS.md`: project and original-work credits.
+- `VALIDATION.md`: checks performed and their limits.
 
 `SHA256SUMS.txt` lists the files shipped in each package. The three ZIPs share documentation so each can be understood on its own.

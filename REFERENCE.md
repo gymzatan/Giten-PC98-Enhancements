@@ -26,7 +26,7 @@ The game rounds the total once and clamps derived values to 1–999. HP, damage,
 
 ## Added learning candidates
 
-Japanese labels identify the unchanged in-game skill names. The gun route's learn thresholds are 1, 5, 5, 10, 15, 20, 25, 35 and 35, in the order below. The original learning roll still decides acquisition.
+Japanese labels identify the original skill names; record IDs also apply to the English translation. The gun route's learn thresholds are 1, 5, 5, 10, 15, 20, 25, 35 and 35, in the order below. The original learning roll still decides acquisition.
 
 | Route | Skill ID | In-game name |
 | --- | --- | --- |
@@ -45,7 +45,7 @@ Japanese labels identify the unchanged in-game skill names. The gun route's lear
 
 ## Complete numerical edit ledger
 
-This ledger includes the shared Dantalion adjustment and every boss/Newton edit from the rebalanced data plan. Before/after values are the stored integer values against the original Japanese records. Resistance bytes below 250 represent twice their value as a damage percentage; 250–255 are special codes, not ordinary percentages. Skill/equipment values are record IDs. Japanese names help locate records in the game. The same rows are available in Rebalance-Changes.csv. Executable formulas and learning-pool additions are documented separately above.
+This ledger includes the shared Dantalion adjustment and every boss/Newton edit from the rebalanced data plan. Before/after values are the stored integer values against the original Japanese records. Resistance bytes below 250 represent twice their value as a damage percentage; 250–255 are special codes, not ordinary percentages. Skill/equipment values are record IDs. Japanese names identify the source records; the same record IDs are used in the English translation. The same rows are available in Rebalance-Changes.csv. Executable formulas and learning-pool additions are documented separately above.
 
 | Profile | Record | In-game name | Field / record offset | Width | Original | Patched |
 | --- | --- | --- | --- | --- | --- | --- |

@@ -1,8 +1,8 @@
 # Fixes and convenience features
 
-Fixes repairs gameplay defects and adds convenience features while retaining the original Japanese game text and native font. The battle formulas remain those of the original game after correcting the implementation defects below. Rebalance is a separate, optional package.
+Fixes repairs gameplay defects and adds convenience features while retaining the selected Japanese or English game text and its font. The battle formulas remain those of the original game after correcting the implementation defects below. Rebalance is a separate, optional package.
 
-**Input compatibility:** supported Japanese HDIs only. An English-translated HDI is not supported: this package checks exact file hashes and installs complete Japanese executable, script and data files. It does not merge or preserve an English translation in those replaced files.
+**Input compatibility:** the supported Japanese game and the tested English translation listed in README.md. English scripts receive checked edits to individual records and retain the input text; the Japanese path uses its accepted native files.
 
 ## Inventory and stability
 
@@ -50,8 +50,8 @@ Previously ineffective zero-power physical templates, including sword, blunt, th
 
 ## Dialogue and graphics repairs
 
-- Adds a click-to-continue wait to the last line of 843 dialogue passages that previously closed immediately.
-- Adds 23 missing demon-negotiation prompts, written in Japanese to fit their speakers. These are newly supplied prompts, not a claim to recovered official dialogue.
+- Adds click-to-continue waits to dialogue endings that previously closed immediately. Placement is calculated against each language's actual scripts; the Japanese baseline contains 843 affected passages.
+- Adds 23 missing demon-negotiation prompts, written in the selected game's language to fit their speakers. These are newly supplied prompts, not a claim to recovered official dialogue.
 - Removes the ceiling/floor flash just before overworld battles fade out, using a black texture.
 - Supplies neighboring area's battle backdrops where roughly a quarter of overworld areas otherwise specified none.
 - Suppresses the persistent `no space` palette debug text.
@@ -65,6 +65,6 @@ Previously ineffective zero-power physical templates, including sword, blunt, th
 
 **Dantalion's second form:** fire, ice, force and electricity damage multipliers change from 40% to 60%, matching the final form. A larger percentage means more damage passes through.
 
-**Faster moon:** the visible phase changes after about 60 steps instead of about 300. Moon-dependent battles, negotiation and events follow the faster phase. Monthly chests, refillable Soma/Kushinada vessels, the core shield duration and body-part drying limits retain their original time scale. The vessels refill on an eligible full moon after the original monthly interval; they cannot be farmed every accelerated cycle. The core shield description is adjusted in Japanese to reflect a duration of at most about one day.
+**Faster moon:** the visible phase changes after about 60 steps instead of about 300. Moon-dependent battles, negotiation and events follow the faster phase. Monthly chests, refillable Soma/Kushinada vessels, the core shield duration and body-part drying limits retain their original time scale. The vessels refill on an eligible full moon after the original monthly interval; they cannot be farmed every accelerated cycle. The Core Shield description is adjusted in the selected language to reflect its original time limit; the English line states at most 3000 game minutes.
 
 These features are installed together. The standalone artwork patch is not required for any of them.

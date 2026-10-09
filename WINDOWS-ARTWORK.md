@@ -1,8 +1,8 @@
 # Windows Artwork
 
-This independent patch adapts graphics from the Windows remake for the PC-98 game. It can be applied to the original supported Japanese image, a Fixes image, or a Fixes + Rebalance image. It does not require the Fixes package and does not translate game text.
+This independent patch adapts graphics from the Windows remake for the PC-98 game. It can be applied to the supported Japanese or tested English image, a Fixes image, or a Fixes + Rebalance image. It does not require the Fixes package and does not translate game text.
 
-**English-translated HDIs: compatibility is not verified.** Artwork also edits map door selectors and executable palette sites, so it cannot be assumed compatible merely because it is a graphics patch. A translation may change those files or the graphics it replaces. The supported combinations below refer to the Japanese game and this project's enhancement patches.
+**English translation compatibility is verified for the BPS reference identified in README.md**, including standalone Artwork and combinations with Fixes/Rebalance. Existing dialogue is retained. Other translations or updates must still pass the graphics and executable-site checks.
 
 ## Replaced graphics
 
@@ -28,7 +28,7 @@ The patch also suppresses `no space` debug text and changes the two enemy palett
 
 ## File checks and applying again
 
-The reference PepsimanGB disk has fourteen unused cylinders after its DOS partition. Its original free space is slightly too small for the complete artwork. On that exact recognized layout, this package extends the existing FAT12 partition into the unused 693 KiB tail. The HDI file size, cluster size, existing file locations and startup code stay unchanged. It checks the partition table, FAT capacity and unused tail before doing so; unexpected tail data causes refusal. Other disk layouts are not resized.
+The reference PepsimanGB disk has fourteen unused cylinders after its DOS partition. Its original free space is slightly too small for the complete artwork. On that exact recognized layout, this package extends the existing FAT12 partition into the unused 693 KiB tail. The HDI file size, cluster size, existing file locations and startup code stay unchanged. It checks the partition table, FAT capacity and unused tail before doing so; unexpected tail data causes refusal. Other disk layouts are not resized. Resources that shrink are written before resources that grow, so tight free space does not cause an avoidable temporary allocation failure.
 
 Before replacement, artwork hashes distinguish original files, files already supplied by this patch, missing entries and files modified by something else. Unrecognized modified artwork or unsupported executable patch sites cause refusal instead of overwriting another mod.
 
