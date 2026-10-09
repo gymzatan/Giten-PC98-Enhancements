@@ -1,6 +1,6 @@
 # Fixes and convenience features
 
-Fixes uses the same repair pipeline as the standard Chinese release, with the original Japanese game text and native font. The battle formulas remain those of the original game after correcting the implementation defects below. Rebalance is a separate, optional package.
+Fixes repairs gameplay defects and adds convenience features while retaining the original Japanese game text and native font. The battle formulas remain those of the original game after correcting the implementation defects below. Rebalance is a separate, optional package.
 
 ## Inventory and stability
 

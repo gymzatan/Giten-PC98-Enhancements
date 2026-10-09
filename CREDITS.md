@@ -1,6 +1,6 @@
 # Credits and scope
 
-**Enhancement project:** gymzatan. These packages reuse the fixes, Windows-artwork conversion and rebalanced ruleset developed for the Chinese localization release.
+**Enhancement project:** gymzatan. Gameplay repairs, Windows-artwork conversion, rebalanced ruleset and English patch documentation.
 
 **Original game and artwork:** Giten Megami Tensei: Tokyo Mokushiroku. The original title screen credits ATLUS, ASCII, Aya Nishitani and SHIPS. Original characters, story, artwork and game code remain the work of their respective creators and rights holders.
 
@@ -8,4 +8,4 @@
 
 The 23 newly supplied Japanese negotiation prompts are enhancement-project additions. Existing Japanese dialogue is retained elsewhere except for the specific repaired status/EXP/item-description wording documented in the patches.
 
-The English packaging is for players using the Japanese game. It is not an English game translation and does not include the Chinese localization's editors, individual BAT switches, scanned-manual translation or walkthrough collection. All documentation needed to install and understand these three enhancement packages is included in English.
+These packages are for players using the Japanese game. All documentation needed to install and understand the three enhancement patches is included in English; game text remains Japanese.

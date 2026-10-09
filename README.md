@@ -8,7 +8,7 @@ English patch interfaces and documentation for **Giten Megami Tensei: Tokyo Moku
 
 | Package | Open this file | Purpose | Prerequisite |
 | --- | --- | --- | --- |
-| Giten Fixes (EN) | Apply Fixes.html | The gameplay repairs and convenience changes from the standard Chinese release, without Chinese localization | Supported Japanese game HDI |
+| Giten Fixes (EN) | Apply Fixes.html | Gameplay repairs and quality-of-life improvements | Supported Japanese game HDI |
 | Giten Windows Artwork (EN) | Apply Windows Artwork.html | Windows remake graphics adapted to the PC-98 engine | Supported Japanese game HDI; Fixes is optional |
 | Giten Rebalance (EN) | Apply Rebalance.html | New combat formulas, growth, boss tuning and learning pools | An image already processed by Fixes |
 
@@ -35,7 +35,7 @@ The reference input is the PepsimanGB **Pre-Made Hard Disk and Boot Floppy** edi
 - SHA-256: `33ba81310d5cbf0e8459c5f09ea50360715591129a46f72c94e1b1ec0c49e77f`.
 - Its 1,548 game files match the project's original Japanese game baseline.
 
-The patch checks the game files it depends on, rather than requiring that entire-disk checksum. A different disk layout can therefore work if the required files are identical. Custom executable, script, map or balance edits may be rejected. These language-preserving gameplay patches are not upgrades for Chinese-localized images or third-party game translations.
+The patch checks the game files it depends on, rather than requiring that entire-disk checksum. A different disk layout can therefore work if the required files are identical. Custom executable, script, map or balance edits may be rejected. Start from a supported Japanese game image; compatibility with third-party modifications is not guaranteed.
 
 ## Booting the PepsimanGB edition
 
@@ -49,7 +49,7 @@ In-game save files on the selected image are retained. Start from an in-game sav
 
 The expanded inventory reads original saves. Loading an expanded-inventory save in an unpatched game discards items beyond slot 48; preserve a backup before going back. Rebalance recalculates party statistics at battle entry, but it cannot undo changes already made to story flags or past character growth.
 
-To return to the original graphics or rules, rebuild from your untouched original and apply only the packages you want. Do not apply Fixes over Rebalance to try to remove it: that combination is rejected. This release supplies complete patch profiles, not the Chinese release's individual BAT switches or editors.
+To return to the original graphics or rules, rebuild from your untouched original and apply only the packages you want. Do not apply Fixes over Rebalance to try to remove it: that combination is rejected. Each package installs its features together.
 
 ## Documentation
 

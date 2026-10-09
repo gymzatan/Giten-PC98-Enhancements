@@ -1,6 +1,6 @@
 # Rebalance
 
-Apply **Fixes first**, then select that output in `Apply Rebalance.html`. Windows Artwork may be installed before or after this step. The result contains the same combat and progression redesign used by the Chinese rebalanced edition, with Japanese game text.
+Apply **Fixes first**, then select that output in `Apply Rebalance.html`. Windows Artwork may be installed before or after this step. This package redesigns combat and progression while retaining Japanese game text.
 
 ## What changes
 

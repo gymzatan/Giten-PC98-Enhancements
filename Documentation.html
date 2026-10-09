@@ -14,7 +14,7 @@
 <tr>
 <td>Giten Fixes (EN)</td>
 <td>Apply Fixes.html</td>
-<td>The gameplay repairs and convenience changes from the standard Chinese release, without Chinese localization</td>
+<td>Gameplay repairs and quality-of-life improvements</td>
 <td>Supported Japanese game HDI</td>
 </tr>
 <tr>
@@ -50,14 +50,14 @@
 <li>SHA-256: <code>33ba81310d5cbf0e8459c5f09ea50360715591129a46f72c94e1b1ec0c49e77f</code>.</li>
 <li>Its 1,548 game files match the project's original Japanese game baseline.</li>
 </ul>
-<p>The patch checks the game files it depends on, rather than requiring that entire-disk checksum. A different disk layout can therefore work if the required files are identical. Custom executable, script, map or balance edits may be rejected. These language-preserving gameplay patches are not upgrades for Chinese-localized images or third-party game translations.</p>
+<p>The patch checks the game files it depends on, rather than requiring that entire-disk checksum. A different disk layout can therefore work if the required files are identical. Custom executable, script, map or balance edits may be rejected. Start from a supported Japanese game image; compatibility with third-party modifications is not guaranteed.</p>
 <h2>Booting the PepsimanGB edition</h2>
 <p>Keep <code>Giten Megami Tensei Boot FD.fdi</code> from your own copy. Configure a PC-98 emulator to attach the patched HDI as its hard disk and that FDI as its boot floppy, then boot from the floppy. Its startup script loads the mouse and sound drivers and launches the game from <code>C:\DDS98</code>.</p>
 <p>The patches preserve the disk's existing DOS files and startup configuration. This edition is not a standalone bootable HDI: opening only its hard disk is insufficient. The packages contain no emulator, BIOS, DOS system files, boot floppy or complete game image. Use the emulator and boot media with which your original Japanese copy works.</p>
 <h2>Saves and switching editions</h2>
 <p>In-game save files on the selected image are retained. Start from an in-game save after changing patches. An emulator save state includes the old running executable and memory; loading one can bypass the newly installed code or mix incompatible states.</p>
 <p>The expanded inventory reads original saves. Loading an expanded-inventory save in an unpatched game discards items beyond slot 48; preserve a backup before going back. Rebalance recalculates party statistics at battle entry, but it cannot undo changes already made to story flags or past character growth.</p>
-<p>To return to the original graphics or rules, rebuild from your untouched original and apply only the packages you want. Do not apply Fixes over Rebalance to try to remove it: that combination is rejected. This release supplies complete patch profiles, not the Chinese release's individual BAT switches or editors.</p>
+<p>To return to the original graphics or rules, rebuild from your untouched original and apply only the packages you want. Do not apply Fixes over Rebalance to try to remove it: that combination is rejected. Each package installs its features together.</p>
 <h2>Documentation</h2>
 <p><code>Documentation.html</code> combines the following English documents for offline reading:</p>
 <ul>
@@ -72,7 +72,7 @@
 </ul>
 <p><code>SHA256SUMS.txt</code> lists the files shipped in each package. The three ZIPs share documentation so each can be understood on its own.</p></section>
 <section id="FIXES"><h1>Fixes and convenience features</h1>
-<p>Fixes uses the same repair pipeline as the standard Chinese release, with the original Japanese game text and native font. The battle formulas remain those of the original game after correcting the implementation defects below. Rebalance is a separate, optional package.</p>
+<p>Fixes repairs gameplay defects and adds convenience features while retaining the original Japanese game text and native font. The battle formulas remain those of the original game after correcting the implementation defects below. Rebalance is a separate, optional package.</p>
 <h2>Inventory and stability</h2>
 <ul>
 <li>Prevents blank inventory entries created when a disarmed weapon is equipped again. The repair acts on the game program; existing DOS files and boot scripts are preserved.</li>
@@ -148,7 +148,7 @@
 <p>The patch replaces the selected <code>DDS98\FC*.BIN</code> graphics, remaps door selectors in <code>M0*.BIN</code> and updates the palette sites. It retains saves, unrelated files and DOS startup configuration. If every artwork file, door mapping and executable site is already patched, the page reports that no new image is needed.</p>
 <p>To restore PC-98 artwork, return to your original image and apply only the gameplay packages you want. The artwork package is an installer, not an uninstall or graphics-toggle tool.</p></section>
 <section id="REBALANCE"><h1>Rebalance</h1>
-<p>Apply <strong>Fixes first</strong>, then select that output in <code>Apply Rebalance.html</code>. Windows Artwork may be installed before or after this step. The result contains the same combat and progression redesign used by the Chinese rebalanced edition, with Japanese game text.</p>
+<p>Apply <strong>Fixes first</strong>, then select that output in <code>Apply Rebalance.html</code>. Windows Artwork may be installed before or after this step. This package redesigns combat and progression while retaining Japanese game text.</p>
 <h2>What changes</h2>
 <p>Rebalance replaces derived battle-stat formulas, hit/damage curves, critical hits and some progression rules. It retunes bosses and strengthens Newton and his equipment, expands the protagonist's learning pools, makes combat summoning cost an action, and adjusts EXP by level difference. All underlying Fixes repairs remain installed.</p>
 <p><code>REFERENCE.md</code> contains the exact derived-stat formulas and a complete numerical ledger generated from the authoritative balance data. IDs refer to the original game's records; names that appear in Japanese are included for matching them to the game.</p>
@@ -5251,11 +5251,11 @@
 <h2>Reporting a problem</h2>
 <p>Include the package name, input image checksum, browser or emulator details, full patch log, installation order, and an exact description of the failing action. For a game issue, include whether it also occurs in the unmodified original and whether you loaded an in-game save or an emulator save state. Do not distribute a complete game disk as part of a public report.</p></section>
 <section id="CREDITS"><h1>Credits and scope</h1>
-<p><strong>Enhancement project:</strong> gymzatan. These packages reuse the fixes, Windows-artwork conversion and rebalanced ruleset developed for the Chinese localization release.</p>
+<p><strong>Enhancement project:</strong> gymzatan. Gameplay repairs, Windows-artwork conversion, rebalanced ruleset and English patch documentation.</p>
 <p><strong>Original game and artwork:</strong> Giten Megami Tensei: Tokyo Mokushiroku. The original title screen credits ATLUS, ASCII, Aya Nishitani and SHIPS. Original characters, story, artwork and game code remain the work of their respective creators and rights holders.</p>
 <p><strong>Reference disk preservation:</strong> the PepsimanGB PC-9801 dump's pre-made hard disk and companion boot floppy were used to check input compatibility. That credit identifies the tested source; this release does not include or grant redistribution rights to the complete game, DOS boot media or emulator firmware.</p>
 <p>The 23 newly supplied Japanese negotiation prompts are enhancement-project additions. Existing Japanese dialogue is retained elsewhere except for the specific repaired status/EXP/item-description wording documented in the patches.</p>
-<p>The English packaging is for players using the Japanese game. It is not an English game translation and does not include the Chinese localization's editors, individual BAT switches, scanned-manual translation or walkthrough collection. All documentation needed to install and understand these three enhancement packages is included in English.</p></section>
+<p>These packages are for players using the Japanese game. All documentation needed to install and understand the three enhancement patches is included in English; game text remains Japanese.</p></section>
 <section id="VALIDATION"><h1>Validation scope</h1>
 <p>The supplied PepsimanGB reference HDI was used for 20 runs of the actual scripts and payloads embedded in the English patch pages. The checks cover:</p>
 <ul>
@@ -5268,5 +5268,4 @@
 <li>All 42 negotiation packs traversed, with all 23 added prompts reachable.</li>
 <li>The original input HDI checksum remaining unchanged.</li>
 </ul>
-<p>The two existing Chinese game payloads remained identical to the accepted release, and all 16 existing Chinese web-patch regression cases passed.</p>
 <p>A copy of the Fixes + Rebalance + Windows Artwork result was booted in the existing DOSBox-X PC-9821 setup with 16 MB RAM and the companion FDI. It reached the Windows-artwork title screen without entering a startup command. This is a startup smoke check, not a complete playthrough. Browser processing was verified through the page's actual embedded JavaScript under Node; a full interactive browser session was not part of this verification.</p></section></html>
