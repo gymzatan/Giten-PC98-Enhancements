@@ -3,6 +3,7 @@
 
 python tools/mkenhancements.py --english-image <English.hdi>  build game payloads, pages, documentation and ZIP packages
 python tools/mkenhancements.py --pack-only  reuse build/enhancements game payloads after a documentation/UI edit
+python tools/mkenhancements.py --bundle-only  combine existing patch ZIPs with the START HERE guide
 """
 import argparse
 import csv
@@ -18,17 +19,6 @@ import markdown
 HERE = Path(__file__).resolve().parent
 WORK = HERE.parent
 sys.path[:0] = [str(HERE), str(WORK)]
-import nativebuild
-import mapdoors
-import webpayload
-import nospace
-import slotorder
-import p2fields
-import poolfix
-import rebalance
-import records
-import tables
-import enhancement_plan
 
 STAGE = WORK / "build" / "enhancements"
 OUT = WORK / "dist" / "English"
@@ -48,6 +38,7 @@ def load_files(directory):
 
 
 def build_files():
+    import nativebuild
     for edition, rb in (("fixed", False), ("rebalance", True)):
         built = nativebuild.build(rebalance_on=rb)
         files = {**built["files"], **built["added"]}
@@ -65,6 +56,7 @@ def forms(name, blob):
     """Accepted states are exact existing native/artwork outputs, never a relaxed executable match."""
     if blob is None:
         return [None]
+    import mapdoors, nospace, slotorder
     variants = [blob]
     if name.startswith("M0") and name.endswith(".BIN"):
         variants.append(mapdoors.remap_blob(blob)[0])
@@ -74,6 +66,7 @@ def forms(name, blob):
 
 
 def payload(kind, fixed, rebalanced):
+    import enhancement_plan, webpayload
     blobs = []
     def take(files):
         refs = []
@@ -113,6 +106,7 @@ def payload(kind, fixed, rebalanced):
 
 
 def english_core():
+    import webpayload
     core = Path(webpayload.CORE).read_text(encoding="utf-8")
     messages = json.loads((HERE / "webpatch_en.json").read_text(encoding="utf-8"))
     for source, translated in messages.items():
@@ -129,6 +123,7 @@ def english_core():
 
 def documentation():
     """English presentation of authoritative formula coefficients and balance record edits."""
+    import p2fields, poolfix, rebalance, records, tables
     attributes = dict(zip(rebalance.ATTRS, ("Intuition", "Willpower", "Magic", "Intelligence", "Grace",
                                            "Strength", "Vitality", "Agility", "Dexterity", "Charm", "Luck")))
     sources = {**attributes, "gear_hit": "equipmentSwordAccuracy", "gear_atk": "equipmentSwordAttack",
@@ -196,6 +191,11 @@ def documentation():
         writer = csv.writer(f)
         writer.writerow(("Profile", "Record", "In-game name", "Field / record offset", "Width", "Original", "Patched"))
         writer.writerows(rows)
+    render_documentation()
+
+
+def render_documentation():
+    """Render the existing English documents without rebuilding game-derived references."""
     order = ("README", "FIXES", "WINDOWS-ARTWORK", "REBALANCE", "REFERENCE", "TROUBLESHOOTING", "CREDITS", "VALIDATION")
     sections = [f'<section id="{name}">' + markdown.markdown((DOCS / (name + ".md")).read_text(encoding="utf-8"),
                 extensions=["tables", "fenced_code"]) + "</section>" for name in order]
@@ -209,6 +209,7 @@ def documentation():
 
 
 def page(kind, b64, core):
+    import webpayload
     title, _name, output, desc = PACKAGES[kind]
     css = webpayload.CSS
     prereq = "Use the output of Apply Fixes.html." if kind == "rebalance" else "Select a supported Japanese or tested English PC-98 game image."
@@ -273,11 +274,40 @@ button:disabled{opacity:.5}#drop{border:2px dashed var(--line);padding:20px;bord
 '''
 
 
+def bundle():
+    """Package the already built, standalone installers without changing their bytes."""
+    title = "Giten Megami Tensei Redux"
+    files = {p.name: p.read_bytes() for p in DOCS.iterdir() if p.is_file()}
+    for package, filename, _output, _description in PACKAGES.values():
+        with zipfile.ZipFile(WORK / "dist" / (package + ".zip")) as source:
+            files[filename] = source.read(package + "/" + filename)
+    for name in ("START HERE.html", "START HERE.txt"):
+        files[name] = (DOCS / "bundle" / name).read_bytes()
+    files["SHA256SUMS.txt"] = "".join(
+        f"{hashlib.sha256(blob).hexdigest()}  {name}\n" for name, blob in sorted(files.items())
+        if name != "SHA256SUMS.txt").encode("utf-8")
+    folder = OUT / title
+    folder.mkdir(parents=True, exist_ok=True)
+    for name, blob in files.items():
+        (folder / name).write_bytes(blob)
+    archive = WORK / "dist" / "Giten-Megami-Tensei-Redux.zip"
+    with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as target:
+        for name, blob in sorted(files.items()):
+            target.writestr(title + "/" + name, blob)
+    print(f"{archive}: {archive.stat().st_size:,} bytes; open START HERE.html")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--pack-only", action="store_true")
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--pack-only", action="store_true")
+    mode.add_argument("--bundle-only", action="store_true", help="Combine the existing three patch ZIPs; no game inputs needed")
     parser.add_argument("--english-image", type=Path, help="Verified English BPS output used to rebuild the native English payload")
     args = parser.parse_args()
+    if args.bundle_only:
+        render_documentation()
+        bundle()
+        return
     if not args.pack_only:
         if args.english_image is None:
             parser.error('A native rebuild requires --english-image; use --pack-only to reuse accepted payloads')
@@ -305,6 +335,7 @@ def main():
                 if p.is_file():
                     z.write(p, title + "/" + p.name)
         print(f"{archive}: {archive.stat().st_size:,} bytes")
+    bundle()
 
 
 if __name__ == "__main__":
