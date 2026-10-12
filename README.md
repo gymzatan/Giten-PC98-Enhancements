@@ -2,6 +2,8 @@
 
 Three enhancement patches for **Giten Megami Tensei: Tokyo Mokushiroku on PC-98**, supporting the original Japanese game and the tested English fan translation. All patch interfaces and documentation are in English. The selected game's language is retained.
 
+**English translation patch:** the English translation supported by Redux comes from [Romhacking.net's Giten Megami Tensei translation release](https://www.romhacking.net/translations/7343/). It is distributed separately from the Redux enhancements.
+
 **[Download the three patch packages from Releases](https://github.com/gymzatan/Giten-PC98-Enhancements/releases/latest).**
 
 ## Features
