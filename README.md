@@ -1,27 +1,57 @@
-# Giten Megami Tensei — PC-98 Enhancement Patches
+# Giten Megami Tensei Redux
 
 Three enhancement patches for **Giten Megami Tensei: Tokyo Mokushiroku on PC-98**, supporting the original Japanese game and the tested English fan translation. All patch interfaces and documentation are in English. The selected game's language is retained.
 
 **[Download the three patch packages from Releases](https://github.com/gymzatan/Giten-PC98-Enhancements/releases/latest).**
 
-## Japanese and English HDI compatibility
+## Features
 
-**The same three packages work with the supported Japanese HDI and the tested English-translated HDI.** `EN` identifies the English interface and documentation; these packages do not include the English translation itself.
+### 1. Fixes — Easier controls, more space, and game repairs
 
-| Starting game | Fixes | Windows Artwork | Rebalance |
-| --- | --- | --- | --- |
-| Supported Japanese HDI | Supported | Supported, independently | Apply Fixes first |
-| Tested English fan-translated HDI | Supported; retains translated text | Supported, independently | Apply Fixes first |
+#### Everyday improvements
 
-For English play, first apply the [English translation BPS](https://www.romhacking.net/translations/7343/) to its required untouched Japanese HDI. Then apply these enhancements to that English result. Applying the translation BPS after enhancements fails its source checksum.
+- **Keyboard controls:** W/Z/A/D move forward/back/left/right; Q/E turn; S turns around. Enter or Space advances dialogue and battle-message waits. Menus still use the mouse.
+- **Larger inventory:** ordinary item capacity increases from **48 to 111 slots**. The separate 16 body-part slots remain unchanged, and original saves can be loaded.
+- **Easier-to-read dialogue and battles:** dialogue endings that used to close immediately now wait for input. Battle messages pause for about one second; a click or advance key can shorten the wait.
+- **Faster moon phases:** the visible phase advances after about **60 steps instead of 300**. Monthly chests, refillable vessels and other long-duration timers keep their original time scale.
 
-English scripts are patched by chunk, record ID and checked instruction structure. Existing text is copied from your input, and branch offsets are recalculated when instructions are inserted. Dialogue length, line wrapping and additional unrelated records are not tied to whole-script checksums. Numerical edits address data records through their pointer tables. The specific repaired EXP wording, Core Shield description and newly supplied negotiation prompts are in English.
+#### Story, equipment, and combat repairs
 
-### Future English translation updates
+- **Eight story-event repairs:** prevents blocked routes, repeated briefings, movement exploits and unintended party retention. Examples include Jukai's appearance after teleporting out of Chuu, the Hatsudai sickroom briefing, and reception checks before the Adonis duel.
+- **Correct choices and rewards:** repairs seven attribute checks, Rui's affection changes, and missing EXP awards from Wendy, Miranda and Josephine.
+- **Weapons and equipment work as intended:** restores attribute bonuses, magic accuracy/evasion effects, gun critical modifiers, and the effects of attack/status items. Previously ineffective gun and physical attack skills become usable; gun skills use HP rather than ammunition.
+- **Better feedback and negotiation:** the battle summary shows the actual EXP award. COMP attacks grant COMP skill EXP, and 23 missing demon-negotiation prompts are supplied in the selected game's language.
+- **Fewer interruptions and graphical faults:** fixes blank inventory entries, script-memory leaks, several overflow/divide-by-zero cases and the missing-directory VM error; repairs battle backdrops and palette allocation, and suppresses the persistent `no space` warning.
 
-Text edits that retain the relevant instruction structure can continue to work, including longer dialogue and newlines; these cases were tested. Unrelated records and complete printable replacements for the previously missing negotiation questions are retained. A change to a required opcode, event operand, branch destination or numeric field causes a precise conflict report and no output. The executable must still be one of the verified English program states. An update that changes executable code or affected event logic needs a new compatibility check; arbitrary future releases are not automatically certified.
+Fixes retains the original combat formulas with implementation repairs. The optional Rebalance package changes the rules. [Full Fixes guide](FIXES.md).
 
-The Japanese path continues to check its accepted native file states. Artwork validates graphics and its executable patch sites independently. These checks protect other modifications from being overwritten.
+### 2. Windows Artwork — A visual upgrade you can use on its own
+
+- **Windows remake environments:** replaces dungeon walls, doors and stairs, plus room and story-event pictures.
+- **Windows demon artwork:** replaces demon sprites and poses with the remake's renditions, using their adapted scale and placement.
+- **Remake title screen and metal frame:** replaces the title artwork and turns the surrounding gold interface frame and lower compass panel into gray metal. Command buttons and direction controls retain their familiar green.
+- **Adapted for the PC-98 renderer:** door selectors match each area's wall set, scene overlays use their intended shared palettes, and palette fixes reduce debug warnings and background recoloring.
+
+Artwork works **independently**, or before/after either gameplay patch. It retains the selected game's text and gameplay rules apart from the included graphics/palette repairs. [Full Artwork guide](WINDOWS-ARTWORK.md).
+
+### 3. Rebalance — Broader character builds and revised combat
+
+#### Changes you notice while playing
+
+- **More skills to learn:** the protagonist's magic route gains the Megi line, and the gun route gains a dedicated learning pool. The original level-up learning checks still decide when skills are acquired.
+- **More rounded growth:** one quarter of inclination growth points goes to the lowest attribute. Humans also gain one Vitality every third level. Past level-up allocations are retained.
+- **Retuned bosses and Newton:** revises boss statistics and strengthens Newton's skill set and three special equipment pieces, including resurrection support and a six-shot gun.
+- **Summoning has a combat cost:** calling a demon from COMP during battle consumes one action of the COMP holder. Summoning outside battle remains free.
+- **Level-aware EXP:** lower-level party members receive more EXP from stronger enemies, while over-levelled members receive less. Each member's award is calculated separately.
+- **COMP helps recruitment:** COMP level strengthens specified attribute checks and increases the protagonist's effective recruitment level limit.
+
+#### Combat-system changes
+
+- **Stats matter more:** attributes and human skill levels contribute more to combat, while several equipment contributions are reduced. After COMP awakens, the protagonist's Charm supports allied demons.
+- **Revised hit, damage, and critical-hit rules:** physical and magic attacks use new accuracy/damage curves; some physical misses become grazes, critical hits use a new probability and multiplier, and ordinary critical checks no longer depend on the moon gate.
+- **Updated HP, healing, speed, and moon effects:** adjusts HP growth and healing, uses Strength to handle armor weight, and revises moon damage scaling. Combat stats are recalculated at battle entry so existing in-game saves use the new rules.
+
+Rebalance requires **Fixes first**; Windows Artwork is optional. [Full Rebalance guide](REBALANCE.md) · [Exact formulas and numerical ledger](REFERENCE.md).
 
 ## Choose a package
 
@@ -45,6 +75,25 @@ For the original combat rules with repairs, use **Fixes**. For redesigned combat
 The default download names are `Giten_Fixed.hdi`, `Giten_WIN.hdi` and `Giten_Rebalanced.hdi`. The name describes the most recent patch, not the complete set installed: an Artwork result can also contain Fixes and Rebalance. Renaming a disk does not add or remove patches.
 
 The patch reads the selected file and creates a separate result in memory. It never writes back to your selected file. No image is uploaded, and no network connection, Python installation or command line is needed. Use a browser that supports `DecompressionStream` with `deflate-raw`; the page reports an error if decompression is unavailable.
+
+## Japanese and English HDI compatibility
+
+**The same three packages work with the supported Japanese HDI and the tested English-translated HDI.** `EN` identifies the English interface and documentation; these packages do not include the English translation itself.
+
+| Starting game | Fixes | Windows Artwork | Rebalance |
+| --- | --- | --- | --- |
+| Supported Japanese HDI | Supported | Supported, independently | Apply Fixes first |
+| Tested English fan-translated HDI | Supported; retains translated text | Supported, independently | Apply Fixes first |
+
+For English play, first apply the [English translation BPS](https://www.romhacking.net/translations/7343/) to its required untouched Japanese HDI. Then apply these enhancements to that English result. Applying the translation BPS after enhancements fails its source checksum.
+
+English scripts are patched by chunk, record ID and checked instruction structure. Existing text is copied from your input, and branch offsets are recalculated when instructions are inserted. Dialogue length, line wrapping and additional unrelated records are not tied to whole-script checksums. Numerical edits address data records through their pointer tables. The specific repaired EXP wording, Core Shield description and newly supplied negotiation prompts are in English.
+
+### Future English translation updates
+
+Text edits that retain the relevant instruction structure can continue to work, including longer dialogue and newlines; these cases were tested. Unrelated records and complete printable replacements for the previously missing negotiation questions are retained. A change to a required opcode, event operand, branch destination or numeric field causes a precise conflict report and no output. The executable must still be one of the verified English program states. An update that changes executable code or affected event logic needs a new compatibility check; arbitrary future releases are not automatically certified.
+
+The Japanese path continues to check its accepted native file states. Artwork validates graphics and its executable patch sites independently. These checks protect other modifications from being overwritten.
 
 ## Supported starting image
 
