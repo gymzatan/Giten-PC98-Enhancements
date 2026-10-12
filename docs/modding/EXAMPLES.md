@@ -1,6 +1,6 @@
 # Small modification examples
 
-Run from the repository root. Add `tools/` to the Python import path. These examples call the existing formats and edit engines; they do not infer new offsets or write a complete translation.
+Run from `src/`. Add `tools/` to the Python import path. These examples call the existing formats and edit engines; they do not infer new offsets or write a complete translation.
 
 ## Inspect one event record
 
@@ -10,7 +10,7 @@ python redux.py inspect-script files/DDS98/MS0032.BIN --record 0x26
 
 The output includes the conditional-record metadata, original token start/end offsets, command IDs and branch field/destination pairs. IDs shown by the grammar are logical VM codes; a prefixed code's raw bytes differ from its integer code. A record in another chunk needs `--chunk` explicitly.
 
-To inspect an event repair, look up that file/record in `docs/modding/Event-Edits.json`, then read its corresponding class in `storyfix.py` or `checkfix.py`. For a translated record, re-tokenize and locate the structural precondition rather than copying its Japanese byte position.
+To inspect an event repair, look up that file/record in `../docs/modding/Event-Edits.json`, then read its corresponding class in `storyfix.py` or `checkfix.py`. For a translated record, re-tokenize and locate the structural precondition rather than copying its Japanese byte position.
 
 ## Create and apply a checked numeric table
 

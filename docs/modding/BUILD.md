@@ -1,14 +1,17 @@
 # Build from source
 
-Use Python with Tk support for the editors. The native build is verified with Python 3.13. Install the dependencies from the repository root:
+Use Python with Tk support for the editors. The native build is verified with Python 3.13. Install the dependencies from the repository root, then enter the `src/` workspace. All later commands and input/output paths in this guide are relative to `src/`:
 
 ```powershell
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
+# Optional: CPU tests and Windows executable packaging
+python -m pip install -r requirements-dev.txt
+cd src
 ```
 
-For CPU tests and Windows executable packaging, install `requirements-dev.txt` too. Node is needed only to run the browser patch under `webpatch_run.js`; the distributed HTML pages themselves need no Node or Python.
+Node is needed only to run the browser patch under `webpatch_run.js`; the distributed HTML pages themselves need no Node or Python.
 
 ## Inputs and directories
 
@@ -21,7 +24,7 @@ python redux.py extract inputs\English.hdi files\English
 
 The main build expects `files/DDS98/`. These files supply checked executable bytes, numeric baselines and original graphics. The English reference is separately extracted and normalized by `english_enhancements.py`; do not replace the Japanese reference directory with it.
 
-| Path | Purpose |
+| Path relative to `src/` | Purpose |
 | --- | --- |
 | `tools/` | Parsers, patch definitions, payload planning, editors and tests |
 | `run/holdflow.py`, `run/mk_holds.py` | Existing interpreter-flow analysis and pacing recipe generation |
@@ -32,6 +35,8 @@ The main build expects `files/DDS98/`. These files supply checked executable byt
 | `text/artwork-recipe.json` | Frame selection and authored palette/placement decisions; no pixels |
 | `balance.json`, `balance_redesign.json` | Checked numeric adjustments for Fixes and Rebalance |
 | `build/`, `dist/`, `files/`, `inputs/` | Local inputs and generated outputs; never committed |
+
+`../docs/enhancements/` supplies the installer documentation. `../docs/modding/` contains this reference and the generated address/event ledgers. These document paths are resolved from the source files themselves; generated game data stays inside the ignored `src/` workspace.
 
 ## Native game-file payloads
 
