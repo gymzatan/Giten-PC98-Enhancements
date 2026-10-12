@@ -1,0 +1,121 @@
+[
+  {
+    "module": "storyfix",
+    "file": "MS0061",
+    "chunk": 0,
+    "record": "0x06",
+    "kind": "Fix",
+    "opcode": "0x104",
+    "tail": "00c400bbffff",
+    "fixed_tail": "80da00bbffff",
+    "fixed_code": 260
+  },
+  {
+    "module": "storyfix",
+    "file": "MS0061",
+    "chunk": 0,
+    "record": "0x06",
+    "kind": "Fix",
+    "opcode": "0x103",
+    "tail": "00cf80bb80c4ffff",
+    "fixed_tail": "00cf80bb80d3ffff",
+    "fixed_code": 259
+  },
+  {
+    "module": "storyfix",
+    "file": "MS0051",
+    "chunk": 0,
+    "record": "0x06",
+    "kind": "Fix",
+    "opcode": "0x103",
+    "tail": "090089290918ffff",
+    "fixed_tail": "e4ff89298001ffff",
+    "fixed_code": 259
+  },
+  {
+    "module": "storyfix",
+    "file": "MS0026",
+    "chunk": 0,
+    "record": "0x21",
+    "kind": "OldShinbashi"
+  },
+  {
+    "module": "storyfix",
+    "file": "MS0012",
+    "chunk": 0,
+    "record": "0x04",
+    "kind": "ColosseumProposal"
+  },
+  {
+    "module": "storyfix",
+    "file": "MS0012",
+    "chunk": 0,
+    "record": "0x04",
+    "kind": "EnvoysBridge"
+  },
+  {
+    "module": "storyfix",
+    "file": "MS0052",
+    "chunk": 0,
+    "record": "0x02",
+    "kind": "HarajukuReturn"
+  },
+  {
+    "module": "storyfix",
+    "file": "MS0062",
+    "chunk": 0,
+    "record": "0x06",
+    "kind": "AdonisDuel"
+  },
+  {
+    "module": "storyfix",
+    "file": "MS0062",
+    "chunk": 0,
+    "record": "0x05",
+    "kind": "GroundZeroGuide"
+  },
+  {
+    "module": "checkfix",
+    "file": "MS0020",
+    "chunk": 0,
+    "record": "0x3F",
+    "kind": "Fix",
+    "opcode": "0x14F",
+    "tail": "03170002",
+    "fixed_tail": "03170003",
+    "fixed_code": 335
+  },
+  {
+    "module": "checkfix",
+    "file": "MS0020",
+    "chunk": 0,
+    "record": "0x3F",
+    "kind": "Fix",
+    "opcode": "0x14E",
+    "tail": "03170002",
+    "fixed_tail": "03170003",
+    "fixed_code": 334
+  },
+  {
+    "module": "checkfix",
+    "file": "MS0032",
+    "chunk": 0,
+    "record": "0x26",
+    "kind": "Fix",
+    "opcode": "0x14F",
+    "tail": "03170002",
+    "fixed_tail": "03170003",
+    "fixed_code": 335
+  },
+  {
+    "module": "checkfix",
+    "file": "MS0032",
+    "chunk": 0,
+    "record": "0x26",
+    "kind": "Fix",
+    "opcode": "0x14E",
+    "tail": "03170002",
+    "fixed_tail": "03170003",
+    "fixed_code": 334
+  }
+]
