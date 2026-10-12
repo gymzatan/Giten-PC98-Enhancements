@@ -6,6 +6,12 @@ Three enhancement patches for **Giten Megami Tensei: Tokyo Mokushiroku on PC-98*
 
 **[Download the three patch packages from Releases](https://github.com/gymzatan/Giten-PC98-Enhancements/releases/latest).**
 
+## Open source and modding
+
+The enhancement code, Windows-art conversion tools, numeric/artwork editors and authored technical documentation are available under the [MIT license](LICENSE). [Start with the modder guide](docs/modding/README.md) for build instructions, the disk/file map, numeric fields, combat formulas, event conditions, graphics and save layouts, and checked modification examples. [Source verification](SOURCE-VALIDATION.md) records the reproduced payloads and tests.
+
+Use your own game and Windows inputs. Complete images, original/remake picture pixels, fonts, music and the separate English translation are not included in the source or covered by its MIT license.
+
 ## Features
 
 ### 1. Fixes — Easier controls, more space, and game repairs
