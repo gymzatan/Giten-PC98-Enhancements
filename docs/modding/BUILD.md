@@ -76,9 +76,17 @@ With the Japanese files, verified English HDI and `build/winpatch.zip` prepared:
 python tools/mkenhancements.py --english-image inputs/English.hdi
 ```
 
-Outputs are the three ZIP packages under `dist/`, and editable installer folders under `dist/English/`. The builder keeps its accepted filenames: `(EN)` refers to the interface/documentation language. Its input handling preserves Japanese or tested English game text.
+Outputs are the three individual ZIP packages plus `dist/Giten-Megami-Tensei-Redux.zip`, and editable installer folders under `dist/English/`. The complete ZIP includes all three unchanged standalone patch pages, shared documentation and a `START HERE.html` guide. The builder keeps its accepted filenames: `(EN)` refers to the interface/documentation language. Its input handling preserves Japanese or tested English game text.
 
 `--pack-only` reuses already built payload directories after a documentation or interface edit. It does not validate or synthesize missing game inputs. `tools/webpatch.js` owns HDI/FAT operations; `tools/enhancement_runtime.js` applies the plans exported by `enhancement_plan.py`. `webpayload.py` packs the same manifest/blobs as the existing release.
+
+To rebuild only the complete ZIP after editing its guide, with the three already built ZIPs present:
+
+```powershell
+python tools/mkenhancements.py --bundle-only
+```
+
+This reads `dist/Giten Fixes (EN).zip`, `dist/Giten Rebalance (EN).zip` and `dist/Giten Windows Artwork (EN).zip`, renders the existing English documents, and adds `docs/enhancements/bundle/START HERE.html` and `START HERE.txt` from the repository. It needs no game disk or payload rebuild. The source HTML patch bytes are copied unchanged. `SHA256SUMS.txt` inside the complete ZIP covers its files.
 
 ## Editors
 
