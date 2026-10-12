@@ -44,7 +44,7 @@ RESIST = ["直接", "枪击", "火炎", "冰结", "冲击", "电击", "破魔", 
 
 # Below 0xFA the byte is the percentage halved. 0xFA-0xFF are sentinels; only the two a demon sheet
 # has been seen to spell out are named, the rest are shown raw rather than guessed at.
-RESIST_SPECIAL = {0x00: "无效", 0xFC: "吸收", 0xFF: "反射"}
+RESIST_SPECIAL = {0x00: "Immune", 0xFC: "Absorb", 0xFF: "Reflect"}
 
 # Bytes with no field found for them yet. Listed so a tool can show them rather than pretend the
 # record is fully understood.
@@ -72,4 +72,4 @@ def skills(plain):
 def resist_text(v):
     if v in RESIST_SPECIAL:
         return RESIST_SPECIAL[v]
-    return f"特殊{v:02X}" if v >= 0xFA else f"{v * 2}%"
+    return f"Special {v:02X}" if v >= 0xFA else f"{v * 2}%"

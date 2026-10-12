@@ -278,11 +278,11 @@ class Game:
         head = len(base)
         out, taken = [], set()
         for off, width, zh, ja in known:
-            out.append(("数值", "数値", zh, ja, off, width, et_kind(ja)))
+            out.append(("Values", "数値", zh, ja, off, width, et_kind(ja)))
             taken.update(range(off, off + width))
         for off in range(head):
             if off not in taken:
-                out.append(("未知", "不明", f"0x{off:02X}", f"0x{off:02X}", off, 1, RAW))
+                out.append(("Unknown", "不明", f"0x{off:02X}", f"0x{off:02X}", off, 1, RAW))
         return out
 
     # ---- reading and editing ----------------------------------------------
