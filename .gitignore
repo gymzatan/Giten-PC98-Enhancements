@@ -13,8 +13,8 @@ wingfx_new/
 windoors/
 winhud/
 windows-bmp/
-tools/gamebase.json
-tools/moon.json
+src/tools/gamebase.json
+src/tools/moon.json
 *.hdi
 *.fdi
 *.rom

@@ -10,6 +10,8 @@ Three enhancement patches for **Giten Megami Tensei: Tokyo Mokushiroku on PC-98*
 
 The enhancement code, Windows-art conversion tools, numeric/artwork editors and authored technical documentation are available under the [MIT license](LICENSE). [Start with the modder guide](docs/modding/README.md) for build instructions, the disk/file map, numeric fields, combat formulas, event conditions, graphics and save layouts, and checked modification examples. [Source verification](SOURCE-VALIDATION.md) records the reproduced payloads and tests.
 
+All executable source, tests and authored patch recipes are in [`src/`](src/README.md). Player documents remain at the repository root; installer document inputs are in `docs/enhancements/`, and the technical reference is in `docs/modding/`. Run build commands from `src/` as described in [the build guide](docs/modding/BUILD.md).
+
 Use your own game and Windows inputs. Complete images, original/remake picture pixels, fonts, music and the separate English translation are not included in the source or covered by its MIT license.
 
 ## Features

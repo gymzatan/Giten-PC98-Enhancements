@@ -4,6 +4,8 @@ The source code and authored documentation are MIT licensed. Keep the copyright 
 
 Start with [the modder documentation](docs/modding/README.md) and [the build instructions](docs/modding/BUILD.md). Work on copies of your own game files. Please describe the file, record or executable site you changed, the input it was tested against, the behavior before and after, and the checks you ran.
 
+All code and authored recipes live in `src/`; run tools from that directory. The root contains player documents and dependency lists. `docs/enhancements/` supplies installer documents, and `docs/modding/` contains the technical reference.
+
 Use the existing parsers and patch definitions. `buildcore.py` owns the repair sequence; `nativebuild.py` selects the language-preserving inputs; `enhancement_plan.py` describes their outputs for the browser. Do not put a second implementation of a repair in the web installer. Numeric edits use `records.py` and `balance.py`, graphics use `fcimage.py` / `fcencode.py` / `fcfit.py`, and script relocation uses the VM token identities from `ddsvm.py`.
 
 Unknown fields stay unknown until their meaning is supported by program analysis or a reproducible input/output comparison. A free-looking byte range is not sufficient evidence of unused executable space. Record the address kind and original bytes when adding a hook. Refuse an unsupported or ambiguous input rather than overwriting unrelated changes.
