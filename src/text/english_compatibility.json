@@ -1,0 +1,465 @@
+{
+  "image_sha256": "c0ad091cc3dea998d81046ffdb418d8c392c0abe0f41c986776634a93db511b7",
+  "counts": [
+    [
+      "ID0099.BIN",
+      0,
+      51,
+      1
+    ],
+    [
+      "ID0099.BIN",
+      2,
+      16,
+      1
+    ],
+    [
+      "ID0099.BIN",
+      15,
+      46,
+      5
+    ],
+    [
+      "ID009B.BIN",
+      5,
+      19,
+      1
+    ],
+    [
+      "ID009D.BIN",
+      0,
+      158,
+      1
+    ],
+    [
+      "ID009D.BIN",
+      5,
+      13,
+      1
+    ],
+    [
+      "ID009D.BIN",
+      12,
+      247,
+      1
+    ],
+    [
+      "ID009D.BIN",
+      15,
+      16,
+      3
+    ],
+    [
+      "ID009F.BIN",
+      0,
+      147,
+      1
+    ],
+    [
+      "ID00A2.BIN",
+      0,
+      169,
+      1
+    ],
+    [
+      "ID00A2.BIN",
+      15,
+      13,
+      2
+    ],
+    [
+      "ID00A3.BIN",
+      0,
+      197,
+      1
+    ],
+    [
+      "ID00A3.BIN",
+      15,
+      13,
+      2
+    ],
+    [
+      "ID012B.BIN",
+      0,
+      201,
+      1
+    ],
+    [
+      "ID0132.BIN",
+      0,
+      201,
+      1
+    ],
+    [
+      "ID014E.BIN",
+      15,
+      2,
+      5
+    ],
+    [
+      "MS6000.BIN",
+      0,
+      42,
+      198
+    ],
+    [
+      "MS6000.BIN",
+      1,
+      161,
+      177
+    ],
+    [
+      "MS6000.BIN",
+      2,
+      169,
+      97
+    ],
+    [
+      "MS6000.BIN",
+      3,
+      79,
+      51
+    ],
+    [
+      "MS6000.BIN",
+      8,
+      11,
+      89
+    ],
+    [
+      "MS6000.BIN",
+      11,
+      215,
+      24
+    ],
+    [
+      "MS6000.BIN",
+      12,
+      75,
+      215
+    ],
+    [
+      "MS6001.BIN",
+      0,
+      183,
+      34
+    ],
+    [
+      "MS6001.BIN",
+      1,
+      40,
+      18
+    ],
+    [
+      "MS6001.BIN",
+      4,
+      129,
+      160
+    ],
+    [
+      "MS6002.BIN",
+      0,
+      230,
+      18
+    ],
+    [
+      "MS6002.BIN",
+      5,
+      193,
+      1
+    ],
+    [
+      "MS6004.BIN",
+      6,
+      15,
+      3
+    ],
+    [
+      "MS6006.BIN",
+      0,
+      104,
+      1
+    ],
+    [
+      "MS6007.BIN",
+      4,
+      87,
+      160
+    ],
+    [
+      "MS6008.BIN",
+      4,
+      238,
+      160
+    ],
+    [
+      "MS6009.BIN",
+      4,
+      179,
+      160
+    ],
+    [
+      "MS600A.BIN",
+      0,
+      3,
+      6
+    ],
+    [
+      "MS600A.BIN",
+      1,
+      21,
+      26
+    ],
+    [
+      "MS600A.BIN",
+      2,
+      45,
+      10
+    ],
+    [
+      "MS600A.BIN",
+      4,
+      217,
+      163
+    ],
+    [
+      "MS600E.BIN",
+      4,
+      173,
+      163
+    ],
+    [
+      "MS600E.BIN",
+      8,
+      1,
+      14
+    ],
+    [
+      "MS6011.BIN",
+      0,
+      36,
+      6
+    ],
+    [
+      "MS6011.BIN",
+      2,
+      172,
+      27
+    ],
+    [
+      "MS6100.BIN",
+      0,
+      173,
+      1
+    ],
+    [
+      "MS6107.BIN",
+      3,
+      107,
+      5
+    ],
+    [
+      "MS6109.BIN",
+      3,
+      115,
+      5
+    ],
+    [
+      "MS610B.BIN",
+      0,
+      234,
+      1
+    ],
+    [
+      "MS610B.BIN",
+      2,
+      51,
+      4
+    ],
+    [
+      "MS610B.BIN",
+      3,
+      66,
+      7
+    ],
+    [
+      "MS610B.BIN",
+      4,
+      12,
+      10
+    ],
+    [
+      "MS610B.BIN",
+      9,
+      10,
+      9
+    ],
+    [
+      "MS610B.BIN",
+      15,
+      18,
+      172
+    ],
+    [
+      "MS610C.BIN",
+      0,
+      24,
+      1
+    ]
+  ],
+  "branches": [
+    {
+      "file": "MS00DB.BIN",
+      "chunk": 0,
+      "record": 1,
+      "field": 656,
+      "before": "5700",
+      "after": "4a00"
+    },
+    {
+      "file": "MS00DB.BIN",
+      "chunk": 0,
+      "record": 1,
+      "field": 660,
+      "before": "6500",
+      "after": "6100"
+    },
+    {
+      "file": "MS00DB.BIN",
+      "chunk": 0,
+      "record": 1,
+      "field": 664,
+      "before": "6f00",
+      "after": "7800"
+    },
+    {
+      "file": "MS00DB.BIN",
+      "chunk": 0,
+      "record": 1,
+      "field": 668,
+      "before": "7900",
+      "after": "8900"
+    },
+    {
+      "file": "MS00DB.BIN",
+      "chunk": 0,
+      "record": 1,
+      "field": 672,
+      "before": "8900",
+      "after": "a500"
+    },
+    {
+      "file": "MS00DB.BIN",
+      "chunk": 0,
+      "record": 1,
+      "field": 1166,
+      "before": "bd00",
+      "after": "c600"
+    },
+    {
+      "file": "MS00DB.BIN",
+      "chunk": 0,
+      "record": 1,
+      "field": 1170,
+      "before": "d100",
+      "after": "df00"
+    },
+    {
+      "file": "MS00DB.BIN",
+      "chunk": 0,
+      "record": 1,
+      "field": 1174,
+      "before": "fcfe",
+      "after": "affe"
+    },
+    {
+      "file": "MS00DB.BIN",
+      "chunk": 0,
+      "record": 1,
+      "field": 1178,
+      "before": "1301",
+      "after": "3301"
+    },
+    {
+      "file": "MS00DB.BIN",
+      "chunk": 0,
+      "record": 1,
+      "field": 1182,
+      "before": "4001",
+      "after": "6701"
+    },
+    {
+      "file": "MS00DB.BIN",
+      "chunk": 0,
+      "record": 1,
+      "field": 1186,
+      "before": "2cfe",
+      "after": "adfd"
+    },
+    {
+      "file": "MS6000.BIN",
+      "chunk": 0,
+      "record": 24,
+      "field": 1,
+      "before": "5000",
+      "after": "5e00"
+    },
+    {
+      "file": "MS6000.BIN",
+      "chunk": 0,
+      "record": 41,
+      "field": 102,
+      "before": "3a00",
+      "after": "4600"
+    },
+    {
+      "file": "MS6000.BIN",
+      "chunk": 2,
+      "record": 3,
+      "field": 2,
+      "before": "e700",
+      "after": "0f01"
+    },
+    {
+      "file": "MS6000.BIN",
+      "chunk": 12,
+      "record": 55,
+      "field": 2,
+      "before": "3000",
+      "after": "3c00"
+    },
+    {
+      "file": "MS6000.BIN",
+      "chunk": 12,
+      "record": 205,
+      "field": 116,
+      "before": "3700",
+      "after": "3d00"
+    },
+    {
+      "file": "MS6001.BIN",
+      "chunk": 0,
+      "record": 115,
+      "field": 76,
+      "before": "3400",
+      "after": "3500"
+    },
+    {
+      "file": "MS6002.BIN",
+      "chunk": 5,
+      "record": 0,
+      "field": 1,
+      "before": "8701",
+      "after": "9101"
+    },
+    {
+      "file": "MS610B.BIN",
+      "chunk": 15,
+      "record": 1,
+      "field": 23,
+      "before": "3200",
+      "after": "3300"
+    }
+  ]
+}

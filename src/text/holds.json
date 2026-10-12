@@ -1,0 +1,2461 @@
+[
+  {
+    "at": "MS00DB/0/1@0291",
+    "original": 30,
+    "hold": 30
+  },
+  {
+    "at": "MS00DB/0/1@048E",
+    "original": 40,
+    "hold": 40
+  },
+  {
+    "at": "MS00DB/0/1@04BD",
+    "original": 40,
+    "hold": 40
+  },
+  {
+    "at": "MS00DB/0/1@058F",
+    "original": 20,
+    "hold": 20
+  },
+  {
+    "at": "MS00DB/0/1@05C2",
+    "original": 20,
+    "hold": 20
+  },
+  {
+    "at": "MS00DB/0/1@0851",
+    "original": 150,
+    "hold": 150
+  },
+  {
+    "message": "MS00DC/0/1@0026",
+    "hold": 0,
+    "own": "（字典 3 的词条 0E，不在译文单元里）",
+    "can_end": false,
+    "after": [
+      "MS00DC/0/1@0026"
+    ]
+  },
+  {
+    "message": "MS00DC/0/2@0003",
+    "hold": 60,
+    "own": "陷入了{name:130000}状态{call:3:0F}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DC/0/2@0003"
+    ]
+  },
+  {
+    "message": "MS00DC/0/3@0003",
+    "hold": 60,
+    "own": "中了{name:130000}{call:3:11}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DC/0/3@0003"
+    ]
+  },
+  {
+    "message": "MS00DC/0/4@0003",
+    "hold": 60,
+    "own": "受到了{name:130000}的侵袭{call:3:0F}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DC/0/4@0003"
+    ]
+  },
+  {
+    "message": "MS00DC/0/5@0012",
+    "hold": 60,
+    "own": "施加了{name:130000}{call:3:0F}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DC/0/5@0012"
+    ]
+  },
+  {
+    "message": "MS00DC/0/6@0003",
+    "hold": 60,
+    "own": "陷入了{name:130000}状态{call:3:12}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DC/0/6@0003"
+    ]
+  },
+  {
+    "message": "MS00DC/0/7@001D",
+    "hold": 60,
+    "own": "了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DC/0/7@001D"
+    ]
+  },
+  {
+    "message": "MS00DC/0/8@0003",
+    "hold": 60,
+    "own": "跳起舞来了{call:3:15}{call:3:16}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DC/0/8@0003"
+    ]
+  },
+  {
+    "message": "MS00DC/0/9@001F",
+    "hold": 60,
+    "own": "了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DC/0/9@001F"
+    ]
+  },
+  {
+    "message": "MS00DC/0/10@0007",
+    "hold": 60,
+    "own": "打起瞌睡来了{call:3:11}{call:3:16}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DC/0/10@0007"
+    ]
+  },
+  {
+    "message": "MS00DC/0/11@0003",
+    "hold": 60,
+    "own": "睡着了{call:3:15}",
+    "can_end": true,
+    "after": [
+      "MS00DC/0/11@0003"
+    ]
+  },
+  {
+    "message": "MS00DC/0/12@0014",
+    "hold": 60,
+    "own": "幻觉缠住了{call:3:17}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DC/0/12@0014"
+    ]
+  },
+  {
+    "message": "MS00DC/0/13@0007",
+    "hold": 60,
+    "own": "眼睛看不见了{call:3:13}{call:3:12}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DC/0/13@0007"
+    ]
+  },
+  {
+    "message": "MS00DC/0/14@0007",
+    "hold": 60,
+    "own": "魔法被封印了{call:3:0C}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DC/0/14@0007"
+    ]
+  },
+  {
+    "message": "MS00DC/0/15@0003",
+    "hold": 60,
+    "own": "理智断线了{call:3:18}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DC/0/15@0003"
+    ]
+  },
+  {
+    "message": "MS00DD/0/3@0000",
+    "hold": 60,
+    "own": "对{call:3:05}没有效果⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/3@0000"
+    ]
+  },
+  {
+    "message": "MS00DD/0/4@0000",
+    "hold": 60,
+    "own": "可是被{call:3:05}躲开了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/4@0000"
+    ]
+  },
+  {
+    "message": "MS00DD/0/10@0007",
+    "hold": 60,
+    "own": "{call:3:05}巧妙地躲开了！⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/10@0007"
+    ]
+  },
+  {
+    "message": "MS00DD/0/10@0019",
+    "hold": 60,
+    "own": "可是被{call:3:05}躲开了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/10@0019"
+    ]
+  },
+  {
+    "message": "MS00DD/0/11@0007",
+    "hold": 60,
+    "own": "对{call:3:05}没有造成伤害⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/11@0007"
+    ]
+  },
+  {
+    "message": "MS00DD/0/11@001F",
+    "hold": 60,
+    "own": "未能对{call:3:05}造成伤害⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/11@001F"
+    ]
+  },
+  {
+    "message": "MS00DD/0/12@000D",
+    "hold": 0,
+    "own": "受到了擦伤，⏎",
+    "can_end": false,
+    "after": [
+      "MS00DD/0/12@000D"
+    ]
+  },
+  {
+    "message": "MS00DD/0/13@0000",
+    "hold": 0,
+    "own": "{call:3:05}{call:3:09}⏎",
+    "can_end": false,
+    "after": [
+      "MS00DD/0/13@0000"
+    ]
+  },
+  {
+    "message": "MS00DD/0/14@0007",
+    "hold": 0,
+    "own": "会心一击！⏎",
+    "can_end": false,
+    "after": [
+      "MS00DD/0/14@0007"
+    ]
+  },
+  {
+    "message": "MS00DD/0/14@0017",
+    "hold": 0,
+    "own": "痛烈一击！⏎",
+    "can_end": false,
+    "after": [
+      "MS00DD/0/14@0017"
+    ]
+  },
+  {
+    "message": "MS00DD/0/15@0012",
+    "hold": 60,
+    "own": "必杀一击！⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/15@0012"
+    ]
+  },
+  {
+    "message": "MS00DD/0/15@0022",
+    "hold": 60,
+    "own": "痛恨一击！⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/15@0022"
+    ]
+  },
+  {
+    "message": "MS00DD/0/16@0007",
+    "hold": 60,
+    "own": "对{name:000004EB}不起作用",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/16@0007"
+    ]
+  },
+  {
+    "message": "MS00DD/0/16@001A",
+    "hold": 60,
+    "own": "对{name:000004EB}完全不起作用",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/16@001A"
+    ]
+  },
+  {
+    "message": "MS00DD/0/17@0007",
+    "hold": 60,
+    "own": "可是，{call:3:05}把攻击弹了回去！⏎对{name:000004EC}造成了{num:4B0001}点ＨＰ伤害",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/17@0007"
+    ]
+  },
+  {
+    "message": "MS00DD/0/17@003A",
+    "hold": 60,
+    "own": "可是，被{call:3:05}弹了回来！⏎{name:000004EC}受到了{num:4B0001}点ＨＰ伤害",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/17@003A"
+    ]
+  },
+  {
+    "message": "MS00DD/0/18@0009",
+    "hold": 60,
+    "own": "吸收了攻击，获得了{num:4C0001}点ＨＰ",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/18@0009"
+    ]
+  },
+  {
+    "message": "MS00DD/0/18@0023",
+    "hold": 60,
+    "own": "吸收了ＨＰ",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/18@0023"
+    ]
+  },
+  {
+    "message": "MS00DD/0/19@0009",
+    "hold": 60,
+    "own": "吸收了攻击，获得了{num:4D0001}点ＭＰ⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/19@0009"
+    ]
+  },
+  {
+    "message": "MS00DD/0/19@0024",
+    "hold": 60,
+    "own": "吸收了ＭＰ⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/19@0024"
+    ]
+  },
+  {
+    "message": "MS00DD/0/20@0009",
+    "hold": 60,
+    "own": "回避了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/20@0009"
+    ]
+  },
+  {
+    "message": "MS00DD/0/20@0015",
+    "hold": 60,
+    "own": "回避了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/20@0015"
+    ]
+  },
+  {
+    "message": "MS00DD/0/21@0009",
+    "hold": 60,
+    "own": "承受住了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/21@0009"
+    ]
+  },
+  {
+    "message": "MS00DD/0/21@0013",
+    "hold": 60,
+    "own": "身上没有效果⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/21@0013"
+    ]
+  },
+  {
+    "message": "MS00DD/0/23@0009",
+    "hold": 0,
+    "own": "受到了擦伤⏎",
+    "can_end": false,
+    "after": [
+      "MS00DD/0/23@0009"
+    ]
+  },
+  {
+    "message": "MS00DD/0/23@001D",
+    "hold": 0,
+    "own": "被擦伤了⏎",
+    "can_end": false,
+    "after": [
+      "MS00DD/0/23@001D"
+    ]
+  },
+  {
+    "message": "MS00DD/0/25@0015",
+    "hold": 60,
+    "own": "被吸走了{call:3:0C}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/25@0015"
+    ]
+  },
+  {
+    "message": "MS00DD/0/25@0023",
+    "hold": 0,
+    "own": "{num:4B0001}点ＨＰ",
+    "can_end": false,
+    "after": [
+      "MS00DD/0/25@0023"
+    ]
+  },
+  {
+    "message": "MS00DD/0/25@002B",
+    "hold": 0,
+    "own": "{num:4B0002}点ＭＰ",
+    "can_end": false,
+    "after": [
+      "MS00DD/0/25@002B"
+    ]
+  },
+  {
+    "message": "MS00DD/0/25@0033",
+    "hold": 0,
+    "own": "{num:4B0003}点ＥＸＰ",
+    "can_end": false,
+    "after": [
+      "MS00DD/0/25@0033"
+    ]
+  },
+  {
+    "message": "MS00DD/0/26@0028",
+    "hold": 60,
+    "own": "{call:3:03}的ＭＰ增加了{num:0316}点⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/26@0028"
+    ]
+  },
+  {
+    "message": "MS00DD/0/27@003D",
+    "hold": 60,
+    "own": "{call:3:05}的ＨＰ已经ＭＡＸ了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/27@003D"
+    ]
+  },
+  {
+    "message": "MS00DD/0/28@002B",
+    "hold": 60,
+    "own": "{call:3:05}的ＭＰ已经ＭＡＸ了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/28@002B"
+    ]
+  },
+  {
+    "message": "MS00DD/0/29@0009",
+    "hold": 60,
+    "own": "的ＨＰ完全恢复了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/29@0009"
+    ]
+  },
+  {
+    "message": "MS00DD/0/29@001B",
+    "hold": 60,
+    "own": "的伤势完全痊愈了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/29@001B"
+    ]
+  },
+  {
+    "message": "MS00DD/0/30@0009",
+    "hold": 60,
+    "own": "的ＭＰ完全恢复了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/30@0009"
+    ]
+  },
+  {
+    "message": "MS00DD/0/30@001B",
+    "hold": 60,
+    "own": "恢复了魔法之力⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/30@001B"
+    ]
+  },
+  {
+    "message": "MS00DD/0/31@0009",
+    "hold": 60,
+    "own": "的ＨＰ增加了{num:4C0000}点⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/31@0009"
+    ]
+  },
+  {
+    "message": "MS00DD/0/31@001C",
+    "hold": 60,
+    "own": "增加了ＨＰ⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/31@001C"
+    ]
+  },
+  {
+    "message": "MS00DD/0/33@001A",
+    "hold": 60,
+    "own": "{call:3:05}回归了电脑之中⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/33@001A"
+    ]
+  },
+  {
+    "message": "MS00DD/0/33@002C",
+    "hold": 60,
+    "own": "{call:3:05}回归了魔界⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/33@002C"
+    ]
+  },
+  {
+    "message": "MS00DD/0/34@0009",
+    "hold": 60,
+    "own": "恢复了{num:4C0000}点ＨＰ",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/34@0031"
+    ]
+  },
+  {
+    "message": "MS00DD/0/34@001C",
+    "hold": 60,
+    "own": "，⏎ＨＰ变成ＭＡＸ了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/34@001C"
+    ]
+  },
+  {
+    "message": "MS00DD/0/34@0037",
+    "hold": 60,
+    "own": "的ＨＰ⏎恢复了{num:4C0000}点⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/34@0037"
+    ]
+  },
+  {
+    "message": "MS00DD/0/36@0009",
+    "hold": 60,
+    "own": "恢复了{num:4D0000}点ＭＰ",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/36@0031"
+    ]
+  },
+  {
+    "message": "MS00DD/0/36@001C",
+    "hold": 60,
+    "own": "，⏎ＭＰ变成ＭＡＸ了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/36@001C"
+    ]
+  },
+  {
+    "message": "MS00DD/0/36@0037",
+    "hold": 60,
+    "own": "恢复了魔法之力⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/36@0037"
+    ]
+  },
+  {
+    "message": "MS00DD/0/38@000F",
+    "hold": 60,
+    "own": "{call:3:05}{call:3:0E}攻击力下降了{call:3:13}{call:3:0C}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/38@000F"
+    ]
+  },
+  {
+    "message": "MS00DD/0/39@000F",
+    "hold": 60,
+    "own": "{call:3:05}{call:3:0E}命中率下降了{call:3:13}{call:3:0C}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/39@000F"
+    ]
+  },
+  {
+    "message": "MS00DD/0/40@000F",
+    "hold": 60,
+    "own": "{call:3:05}{call:3:0E}防御力下降了{call:3:13}{call:3:0C}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/40@000F"
+    ]
+  },
+  {
+    "message": "MS00DD/0/41@000F",
+    "hold": 60,
+    "own": "{call:3:05}{call:3:0E}魔法能力下降了{call:3:13}{call:3:0C}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/41@000F"
+    ]
+  },
+  {
+    "message": "MS00DD/0/42@000F",
+    "hold": 60,
+    "own": "{call:3:05}{call:3:0E}攻击力提升了{call:3:14}{call:3:10}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/42@000F"
+    ]
+  },
+  {
+    "message": "MS00DD/0/43@000F",
+    "hold": 60,
+    "own": "{call:3:05}{call:3:0E}命中率提升了{call:3:14}{call:3:10}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/43@000F"
+    ]
+  },
+  {
+    "message": "MS00DD/0/44@000F",
+    "hold": 60,
+    "own": "{call:3:05}{call:3:0E}防御力提升了{call:3:14}{call:3:10}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/44@000F"
+    ]
+  },
+  {
+    "message": "MS00DD/0/45@000F",
+    "hold": 60,
+    "own": "{call:3:05}{call:3:0E}魔法能力提升了{call:3:14}{call:3:10}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/45@000F"
+    ]
+  },
+  {
+    "message": "MS00DD/0/46@000F",
+    "hold": 60,
+    "own": "{call:3:06}的周围张开了魔法结界⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/46@000F"
+    ]
+  },
+  {
+    "message": "MS00DD/0/47@000F",
+    "hold": 60,
+    "own": "{call:3:06}的面前出现了黑洞⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/47@000F"
+    ]
+  },
+  {
+    "message": "MS00DD/0/48@000F",
+    "hold": 60,
+    "own": "消除了缠着{call:3:05}的幻影⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/48@000F"
+    ]
+  },
+  {
+    "message": "MS00DD/0/49@0052",
+    "hold": 60,
+    "own": "可是，⏎{call:3:07}并没有装备武器⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/49@0052"
+    ]
+  },
+  {
+    "message": "MS00DD/0/49@0074",
+    "hold": 60,
+    "own": "可是，{name:040312}没有被打落⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/49@0074"
+    ]
+  },
+  {
+    "message": "MS00DD/0/49@008D",
+    "hold": 60,
+    "own": "{call:3:07}{call:3:0E}{name:040312}被打落了{call:3:0F}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/49@008D"
+    ]
+  },
+  {
+    "message": "MS00DD/0/49@00C9",
+    "hold": 60,
+    "own": "飞快地捡起了{name:040312}！⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/49@00C9"
+    ]
+  },
+  {
+    "message": "MS00DD/0/50@0000",
+    "hold": 60,
+    "own": "{name:000004EB}正处于{name:120004EB}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/50@0000"
+    ]
+  },
+  {
+    "message": "MS00DD/0/51@0000",
+    "hold": 60,
+    "own": "{name:000004EB}正在跳舞⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/51@0000"
+    ]
+  },
+  {
+    "message": "MS00DD/0/52@0000",
+    "hold": 60,
+    "own": "可是魔法被封印着⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/52@0000"
+    ]
+  },
+  {
+    "message": "MS00DD/0/53@0000",
+    "hold": 60,
+    "own": "{name:000004EB}正{name:120004EB}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/53@0000"
+    ]
+  },
+  {
+    "message": "MS00DD/0/54@001F",
+    "hold": 60,
+    "own": "并且恢复了{num:4C0000}点ＨＰ⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/54@001F"
+    ]
+  },
+  {
+    "message": "MS00DD/0/54@0036",
+    "hold": 60,
+    "own": "而且恢复了{num:4D0000}点ＭＰ⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/54@0036"
+    ]
+  },
+  {
+    "message": "MS00DD/0/54@0096",
+    "hold": 60,
+    "own": "可是，复活失败了！⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/54@0096"
+    ]
+  },
+  {
+    "message": "MS00DD/0/54@00B5",
+    "hold": 60,
+    "own": "可是，魔法没有效果⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/54@00B5"
+    ]
+  },
+  {
+    "message": "MS00DD/0/56@0004",
+    "hold": 60,
+    "own": "{name:000004EB}复活了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/56@0004"
+    ]
+  },
+  {
+    "message": "MS00DD/0/57@0004",
+    "hold": 60,
+    "own": "{name:000004EB}醒来了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/57@0004"
+    ]
+  },
+  {
+    "message": "MS00DD/0/58@0004",
+    "hold": 60,
+    "own": "{name:000004EB}恢复了理智⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/58@0004"
+    ]
+  },
+  {
+    "message": "MS00DD/0/59@0004",
+    "hold": 60,
+    "own": "{name:000004EB}猛然回过神来⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/59@0004"
+    ]
+  },
+  {
+    "message": "MS00DD/0/60@0004",
+    "hold": 60,
+    "own": "{name:000004EB}的身体恢复了自由⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/60@0004"
+    ]
+  },
+  {
+    "message": "MS00DD/0/61@0004",
+    "hold": 60,
+    "own": "{name:000004EB}恢复了原状⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/61@0004"
+    ]
+  },
+  {
+    "message": "MS00DD/0/62@0004",
+    "hold": 60,
+    "own": "{name:000004EB}的睡意渐渐消退了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/62@0004"
+    ]
+  },
+  {
+    "message": "MS00DD/0/63@0000",
+    "hold": 60,
+    "own": "{name:000004EB}身上的冰开始融化了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/63@0000"
+    ]
+  },
+  {
+    "message": "MS00DD/0/64@0000",
+    "hold": 60,
+    "own": "{name:000004EB}的醉意稍微退去了一些⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/64@0000"
+    ]
+  },
+  {
+    "message": "MS00DD/0/65@0004",
+    "hold": 60,
+    "own": "{name:000004EB}的眼睛能看见了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/65@0004"
+    ]
+  },
+  {
+    "message": "MS00DD/0/66@0004",
+    "hold": 60,
+    "own": "{name:000004EB}的醉意退去了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/66@0004"
+    ]
+  },
+  {
+    "message": "MS00DD/0/67@0014",
+    "hold": 60,
+    "own": "封魔解除了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/67@0014"
+    ]
+  },
+  {
+    "message": "MS00DD/0/67@0022",
+    "hold": 60,
+    "own": "诅咒解除了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/67@0022"
+    ]
+  },
+  {
+    "message": "MS00DD/0/68@0004",
+    "hold": 60,
+    "own": "{name:000004EB}身上的火熄灭了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/68@0004"
+    ]
+  },
+  {
+    "message": "MS00DD/0/69@0014",
+    "hold": 60,
+    "own": "毒性消退了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/69@0014"
+    ]
+  },
+  {
+    "message": "MS00DD/0/69@0020",
+    "hold": 60,
+    "own": "麻痹恢复了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/69@0020"
+    ]
+  },
+  {
+    "message": "MS00DD/0/70@0004",
+    "hold": 60,
+    "own": "{name:000004EB}的毒性稍微消退了一些⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/70@0004"
+    ]
+  },
+  {
+    "message": "MS00DD/0/71@0004",
+    "hold": 60,
+    "own": "{name:000004EB}化身为狂战士了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/71@0004"
+    ]
+  },
+  {
+    "message": "MS00DD/0/72@0004",
+    "hold": 60,
+    "own": "{name:000004EB}开始混乱了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/72@0004"
+    ]
+  },
+  {
+    "message": "MS00DD/0/73@0004",
+    "hold": 60,
+    "own": "{name:000004EB}开始跳起舞来了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/73@0004"
+    ]
+  },
+  {
+    "message": "MS00DD/0/74@0004",
+    "hold": 60,
+    "own": "{name:000004EB}燃烧了起来⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/74@0004"
+    ]
+  },
+  {
+    "message": "MS00DD/0/75@0004",
+    "hold": 60,
+    "own": "新出现了{name:000004EC}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/75@0004"
+    ]
+  },
+  {
+    "message": "MS00DD/0/76@0007",
+    "hold": 60,
+    "own": "{call:3:0A}了{num:0308}点ＨＰ的伤害",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/76@0007"
+    ]
+  },
+  {
+    "message": "MS00DD/0/76@0071",
+    "hold": 60,
+    "own": "{name:000004EB}从瞌睡中醒了过来⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/76@0071"
+    ]
+  },
+  {
+    "message": "MS00DD/0/76@00A4",
+    "hold": 60,
+    "own": "{name:000004EB}从沉睡中醒到了瞌睡状态⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/76@00A4"
+    ]
+  },
+  {
+    "at": "MS00DD/0/76@011A",
+    "original": 60,
+    "hold": 0
+  },
+  {
+    "message": "MS00DD/0/77@0000",
+    "hold": 60,
+    "own": "，失去了{num:4B0002}点ＭＰ",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/77@0000"
+    ]
+  },
+  {
+    "at": "MS00DD/0/77@004C",
+    "original": 60,
+    "hold": 0
+  },
+  {
+    "at": "MS00DD/0/79@0000",
+    "original": 100,
+    "hold": 100
+  },
+  {
+    "message": "MS00DD/0/79@005A",
+    "hold": 60,
+    "own": "被击败了！⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/79@005A"
+    ]
+  },
+  {
+    "message": "MS00DD/0/79@0062",
+    "hold": 60,
+    "own": "机能停止了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/79@0062"
+    ]
+  },
+  {
+    "message": "MS00DD/0/79@0072",
+    "hold": 60,
+    "own": "消失无踪了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/79@0072"
+    ]
+  },
+  {
+    "message": "MS00DD/0/79@007E",
+    "hold": 60,
+    "own": "崩塌倒下了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/79@007E"
+    ]
+  },
+  {
+    "message": "MS00DD/0/79@008C",
+    "hold": 60,
+    "own": "灰化了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/79@008C"
+    ]
+  },
+  {
+    "message": "MS00DD/0/79@009A",
+    "hold": 60,
+    "own": "轰然倒下了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/79@009A"
+    ]
+  },
+  {
+    "message": "MS00DD/0/79@00A6",
+    "hold": 60,
+    "own": "坠落身亡了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/79@00A6"
+    ]
+  },
+  {
+    "at": "MS00DD/0/80@0000",
+    "original": 100,
+    "hold": 100
+  },
+  {
+    "message": "MS00DD/0/80@0009",
+    "hold": 60,
+    "own": "{name:000004EB}颓然力竭而倒⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/80@0009"
+    ]
+  },
+  {
+    "message": "MS00DD/0/86@0000",
+    "hold": 60,
+    "own": "{call:3:19}在战斗中取得了胜利⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/86@0000"
+    ]
+  },
+  {
+    "message": "MS00DD/0/88@0000",
+    "hold": 60,
+    "own": "{call:3:19}，在战斗中活了下来⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/88@0000"
+    ]
+  },
+  {
+    "at": "MS00DD/0/89@008C",
+    "original": 60,
+    "hold": 60
+  },
+  {
+    "message": "MS00DD/0/90@0017",
+    "hold": 60,
+    "own": "{call:3:03}拒绝战斗⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/90@0017"
+    ]
+  },
+  {
+    "message": "MS00DD/0/90@0030",
+    "hold": 60,
+    "own": "{call:3:03}回归了电脑之中⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/90@0030"
+    ]
+  },
+  {
+    "message": "MS00DD/0/91@0000",
+    "hold": 60,
+    "own": "附身在{name:000004EB}身上的恶魔脱离了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/91@0000"
+    ]
+  },
+  {
+    "message": "MS00DD/0/92@0000",
+    "hold": 60,
+    "own": "{call:3:06}恢复了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/92@0000"
+    ]
+  },
+  {
+    "message": "MS00DD/0/94@004B",
+    "hold": 60,
+    "own": "可是，⏎{call:3:07}并没有装备武器⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/94@004B"
+    ]
+  },
+  {
+    "message": "MS00DD/0/94@0076",
+    "hold": 60,
+    "own": "被碰了一下，但什么都没发生⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/94@0076"
+    ]
+  },
+  {
+    "message": "MS00DD/0/94@008E",
+    "hold": 60,
+    "own": "变成了黄金⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/94@008E"
+    ]
+  },
+  {
+    "message": "MS00DD/0/95@0000",
+    "hold": 60,
+    "own": "{call:3:05}的幻影出现了！⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/95@0000"
+    ]
+  },
+  {
+    "message": "MS00DD/0/96@0000",
+    "hold": 60,
+    "own": "{call:3:05}的结界失效了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/96@0000"
+    ]
+  },
+  {
+    "message": "MS00DD/0/97@0000",
+    "hold": 60,
+    "own": "{call:3:05}受到了结界的守护⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/97@0000"
+    ]
+  },
+  {
+    "message": "MS00DD/0/98@0000",
+    "hold": 60,
+    "own": "{call:3:05}的身影消失了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/98@0000"
+    ]
+  },
+  {
+    "message": "MS00DD/0/99@0012",
+    "hold": 60,
+    "own": "必杀一击！⏎让对方失去了全部ＭＰ！⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/99@0012"
+    ]
+  },
+  {
+    "message": "MS00DD/0/99@0039",
+    "hold": 60,
+    "own": "痛恨一击！⏎失去了全部ＭＰ！⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/99@0039"
+    ]
+  },
+  {
+    "message": "MS00DE/0/0@0000",
+    "hold": 60,
+    "own": "{name:000004EC}正在窥探情况⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/0@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/2@0016",
+    "hold": 60,
+    "own": "朝同伴挥舞起了刀刃！⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/2@0016"
+    ]
+  },
+  {
+    "message": "MS00DE/0/2@0034",
+    "hold": 60,
+    "own": "把刀刃对准了自己⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/2@0034"
+    ]
+  },
+  {
+    "message": "MS00DE/0/2@0044",
+    "hold": 60,
+    "own": "朝{name:000004EB}砍了过去⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/2@0044"
+    ]
+  },
+  {
+    "message": "MS00DE/0/2@0060",
+    "hold": 60,
+    "own": "用{call:3:01}砍了过去⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/2@0060"
+    ]
+  },
+  {
+    "message": "MS00DE/0/2@006E",
+    "hold": 60,
+    "own": "用{call:3:01}疯狂乱砍⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/2@006E"
+    ]
+  },
+  {
+    "message": "MS00DE/0/2@0084",
+    "hold": 60,
+    "own": "正把自己乱刀砍碎⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/2@0084"
+    ]
+  },
+  {
+    "message": "MS00DE/0/2@009F",
+    "hold": 60,
+    "own": "正朝同伴砍去⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/2@009F"
+    ]
+  },
+  {
+    "message": "MS00DE/0/2@00B7",
+    "hold": 60,
+    "own": "⏎用{call:3:01}砍了过来⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/2@00B7"
+    ]
+  },
+  {
+    "message": "MS00DE/0/2@00CC",
+    "hold": 60,
+    "own": "的{call:3:01}挥舞而起⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/2@00CC"
+    ]
+  },
+  {
+    "message": "MS00DE/0/3@000F",
+    "hold": 60,
+    "own": "开始攻击起自己来了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/3@000F"
+    ]
+  },
+  {
+    "message": "MS00DE/0/3@0028",
+    "hold": 60,
+    "own": "朝{name:000004EB}扑了过来⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/3@0028"
+    ]
+  },
+  {
+    "message": "MS00DE/0/3@003E",
+    "hold": 60,
+    "own": "开始攻击起同伴来了！⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/3@003E"
+    ]
+  },
+  {
+    "message": "MS00DE/0/3@004C",
+    "hold": 60,
+    "own": "发动了攻击⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/3@004C"
+    ]
+  },
+  {
+    "message": "MS00DE/0/3@005A",
+    "hold": 60,
+    "own": "正在攻击自己⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/3@005A"
+    ]
+  },
+  {
+    "message": "MS00DE/0/3@006D",
+    "hold": 60,
+    "own": "正在攻击同伴⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/3@006D"
+    ]
+  },
+  {
+    "message": "MS00DE/0/3@0079",
+    "hold": 60,
+    "own": "发动了攻击⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/3@0079"
+    ]
+  },
+  {
+    "message": "MS00DE/0/4@000F",
+    "hold": 60,
+    "own": "把枪口对准了自己⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/4@000F"
+    ]
+  },
+  {
+    "message": "MS00DE/0/4@0028",
+    "hold": 60,
+    "own": "把枪口对准了{name:000004EB}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/4@0028"
+    ]
+  },
+  {
+    "message": "MS00DE/0/4@0038",
+    "hold": 60,
+    "own": "把枪口对准了同伴⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/4@0038"
+    ]
+  },
+  {
+    "message": "MS00DE/0/4@004A",
+    "hold": 60,
+    "own": "的{call:3:02}喷出了火光⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/4@004A"
+    ]
+  },
+  {
+    "message": "MS00DE/0/4@005C",
+    "hold": 60,
+    "own": "用{call:3:02}疯狂扫射⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/4@005C"
+    ]
+  },
+  {
+    "message": "MS00DE/0/4@0076",
+    "hold": 60,
+    "own": "把枪口对准了自己⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/4@0076"
+    ]
+  },
+  {
+    "message": "MS00DE/0/4@0087",
+    "hold": 60,
+    "own": "把枪口对准了同伴⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/4@0087"
+    ]
+  },
+  {
+    "message": "MS00DE/0/4@0099",
+    "hold": 60,
+    "own": "开枪射击了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/4@0099"
+    ]
+  },
+  {
+    "message": "MS00DE/0/4@00A7",
+    "hold": 60,
+    "own": "疯狂扫射了起来⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/4@00A7"
+    ]
+  },
+  {
+    "message": "MS00DE/0/5@000F",
+    "hold": 60,
+    "own": "正在欺负自己⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/5@000F"
+    ]
+  },
+  {
+    "message": "MS00DE/0/5@0042",
+    "hold": 60,
+    "own": "扑了过去！⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/5@0042"
+    ]
+  },
+  {
+    "message": "MS00DE/0/5@0054",
+    "hold": 60,
+    "own": "正在挣扎⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/5@0054"
+    ]
+  },
+  {
+    "message": "MS00DE/0/5@0069",
+    "hold": 60,
+    "own": "朝同伴扑了过去！⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/5@0069"
+    ]
+  },
+  {
+    "message": "MS00DE/0/5@0079",
+    "hold": 60,
+    "own": "扑了过来⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/5@0079"
+    ]
+  },
+  {
+    "message": "MS00DE/0/6@000F",
+    "hold": 60,
+    "own": "狠狠打了自己一顿⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/6@000F"
+    ]
+  },
+  {
+    "message": "MS00DE/0/6@0042",
+    "hold": 60,
+    "own": "挥下了{call:3:01}！⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/6@0042"
+    ]
+  },
+  {
+    "message": "MS00DE/0/6@005C",
+    "hold": 60,
+    "own": "正狠狠打着自己⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/6@005C"
+    ]
+  },
+  {
+    "message": "MS00DE/0/6@0077",
+    "hold": 60,
+    "own": "朝同伴挥下了{call:3:01}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/6@0077"
+    ]
+  },
+  {
+    "message": "MS00DE/0/6@008F",
+    "hold": 60,
+    "own": "用{call:3:01}打了过来⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/6@008F"
+    ]
+  },
+  {
+    "message": "MS00DE/0/7@0009",
+    "hold": 0,
+    "own": "用{call:3:01}⏎",
+    "can_end": false,
+    "after": [
+      "MS00DE/0/7@0009"
+    ]
+  },
+  {
+    "message": "MS00DE/0/7@0038",
+    "hold": 60,
+    "own": "被刺中了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/7@0038"
+    ]
+  },
+  {
+    "message": "MS00DE/0/7@0048",
+    "hold": 60,
+    "own": "正刺着自己⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/7@0048"
+    ]
+  },
+  {
+    "message": "MS00DE/0/7@005F",
+    "hold": 60,
+    "own": "正刺着同伴⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/7@005F"
+    ]
+  },
+  {
+    "message": "MS00DE/0/7@006F",
+    "hold": 60,
+    "own": "使出了突刺！⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/7@006F"
+    ]
+  },
+  {
+    "message": "MS00DE/0/8@0009",
+    "hold": 0,
+    "own": "的{call:3:01}呼啸而起，⏎",
+    "can_end": false,
+    "after": [
+      "MS00DE/0/8@0009"
+    ]
+  },
+  {
+    "message": "MS00DE/0/8@003E",
+    "hold": 60,
+    "own": "被狠狠鞭打⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/8@003E"
+    ]
+  },
+  {
+    "message": "MS00DE/0/8@0050",
+    "hold": 60,
+    "own": "鞭打起了自己⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/8@0050"
+    ]
+  },
+  {
+    "message": "MS00DE/0/8@0067",
+    "hold": 60,
+    "own": "鞭打起了同伴⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/8@0067"
+    ]
+  },
+  {
+    "message": "MS00DE/0/8@0077",
+    "hold": 60,
+    "own": "使出了鞭打！⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/8@0077"
+    ]
+  },
+  {
+    "message": "MS00DE/0/9@0011",
+    "hold": 0,
+    "own": "朝自己⏎",
+    "can_end": false,
+    "after": [
+      "MS00DE/0/9@0011"
+    ]
+  },
+  {
+    "message": "MS00DE/0/9@0035",
+    "hold": 60,
+    "own": "（字典 3 的词条 00，不在译文单元里）",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/9@0035"
+    ]
+  },
+  {
+    "message": "MS00DE/0/9@0040",
+    "hold": 60,
+    "own": "朝自己⏎{call:3:00}",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/9@0040"
+    ]
+  },
+  {
+    "message": "MS00DE/0/9@0051",
+    "hold": 60,
+    "own": "朝自己的同伴⏎{call:3:00}",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/9@0051"
+    ]
+  },
+  {
+    "message": "MS00DE/0/9@005F",
+    "hold": 60,
+    "own": "使用了{name:110000}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/9@005F"
+    ]
+  },
+  {
+    "message": "MS00DE/0/10@0039",
+    "hold": 60,
+    "own": "（字典 3 的词条 00，不在译文单元里）",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/10@0039"
+    ]
+  },
+  {
+    "message": "MS00DE/0/10@0058",
+    "hold": 0,
+    "own": "朝自己⏎",
+    "can_end": false,
+    "after": [
+      "MS00DE/0/10@0058"
+    ]
+  },
+  {
+    "message": "MS00DE/0/10@005E",
+    "hold": 0,
+    "own": "朝仲魔⏎",
+    "can_end": false,
+    "after": [
+      "MS00DE/0/10@005E"
+    ]
+  },
+  {
+    "message": "MS00DE/0/10@0063",
+    "hold": 60,
+    "own": "（字典 3 的词条 00，不在译文单元里）",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/10@0063"
+    ]
+  },
+  {
+    "message": "MS00DE/0/11@0009",
+    "hold": 60,
+    "own": "{call:3:00}",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/11@0009"
+    ]
+  },
+  {
+    "message": "MS00DE/0/11@0010",
+    "hold": 60,
+    "own": "使用了{name:110000}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/11@0010"
+    ]
+  },
+  {
+    "message": "MS00DE/0/12@001A",
+    "hold": 60,
+    "own": "（字典 3 的词条 00，不在译文单元里）",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/12@001A"
+    ]
+  },
+  {
+    "message": "MS00DE/0/12@0026",
+    "hold": 60,
+    "own": "使出了{name:110000}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/12@0026"
+    ]
+  },
+  {
+    "message": "MS00DE/0/12@0031",
+    "hold": 60,
+    "own": "朝这边{call:3:00}",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/12@0031"
+    ]
+  },
+  {
+    "message": "MS00DE/0/13@0000",
+    "hold": 60,
+    "own": "{call:3:03}的双眼发出了光芒！⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/13@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/14@0000",
+    "hold": 60,
+    "own": "{call:3:03}炽热的亲吻⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/14@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/15@0000",
+    "hold": 60,
+    "own": "{call:3:03}咧嘴一笑……⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/15@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/16@0000",
+    "hold": 60,
+    "own": "{call:3:03}大叫了一声！⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/16@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/17@0000",
+    "hold": 60,
+    "own": "{call:3:03}发出了低吼声⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/17@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/18@0000",
+    "hold": 60,
+    "own": "{call:3:03}发出恐怖的咆哮！⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/18@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/19@0000",
+    "hold": 60,
+    "own": "{call:3:03}喃喃念着诅咒之言……⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/19@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/20@0000",
+    "hold": 60,
+    "own": "{call:3:03}口中吐出了渎神语⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/20@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/21@0000",
+    "hold": 60,
+    "own": "{call:3:03}吐出了翻卷的烈焰！⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/21@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/22@0000",
+    "hold": 60,
+    "own": "{call:3:03}吐出了{name:110000}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/22@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/23@0000",
+    "hold": 60,
+    "own": "{call:3:03}妖娆地跳起舞来⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/23@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/24@0000",
+    "hold": 60,
+    "own": "{call:3:03}欢快地跳起舞来⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/24@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/25@0000",
+    "hold": 60,
+    "own": "{call:3:03}激烈地跳起舞来⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/25@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/26@0000",
+    "hold": 60,
+    "own": "{call:3:03}唱起了轻快的歌⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/26@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/27@0000",
+    "hold": 60,
+    "own": "{call:3:03}唱起了令人安心的歌⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/27@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/28@0000",
+    "hold": 60,
+    "own": "{call:3:03}的歌声，妖媚地回响在心中⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/28@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/29@0000",
+    "hold": 60,
+    "own": "{call:3:03}开始疯狂地嘶吼起来⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/29@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/30@0000",
+    "hold": 60,
+    "own": "{call:3:03}忽然唱起了什么歌⏎……实在让人不忍卒听⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/30@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/31@0000",
+    "hold": 60,
+    "own": "{call:3:03}在面前张开了{name:110000}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/31@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/32@0000",
+    "hold": 60,
+    "own": "{call:3:03}的身影渐渐消失⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/32@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/33@0000",
+    "hold": 60,
+    "own": "{call:3:03}喷出了{name:110000}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/33@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/34@0000",
+    "hold": 60,
+    "own": "{call:3:03}正燃起火焰⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/34@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/35@0009",
+    "hold": 60,
+    "own": "伸出了被诅咒的手⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/35@0009"
+    ]
+  },
+  {
+    "message": "MS00DE/0/35@001F",
+    "hold": 60,
+    "own": "冰冷的手触碰了过来⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/35@001F"
+    ]
+  },
+  {
+    "message": "MS00DE/0/36@0000",
+    "hold": 60,
+    "own": "啪嗒啪嗒……⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/36@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/37@0009",
+    "hold": 60,
+    "own": "施展了{name:110000}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/37@0009"
+    ]
+  },
+  {
+    "message": "MS00DE/0/37@001A",
+    "hold": 60,
+    "own": "使用了{name:110000}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/37@001A"
+    ]
+  },
+  {
+    "message": "MS00DE/0/38@0009",
+    "hold": 60,
+    "own": "用獠牙扑咬了过去⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/38@0009"
+    ]
+  },
+  {
+    "message": "MS00DE/0/38@0017",
+    "hold": 60,
+    "own": "龇着獠牙扑咬了过来⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/38@0017"
+    ]
+  },
+  {
+    "message": "MS00DE/0/39@0009",
+    "hold": 60,
+    "own": "用利爪扑抓了过去⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/39@0009"
+    ]
+  },
+  {
+    "message": "MS00DE/0/39@0017",
+    "hold": 60,
+    "own": "张着利爪扑抓了过来⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/39@0017"
+    ]
+  },
+  {
+    "message": "MS00DE/0/40@0009",
+    "hold": 60,
+    "own": "使出了{name:110000}攻击⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/40@0009"
+    ]
+  },
+  {
+    "message": "MS00DE/0/40@0020",
+    "hold": 60,
+    "own": "使出了{name:110000}攻击⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/40@0020"
+    ]
+  },
+  {
+    "message": "MS00DE/0/41@0032",
+    "hold": 60,
+    "own": "朝敌人斩了过去！⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/41@0032"
+    ]
+  },
+  {
+    "message": "MS00DE/0/41@0040",
+    "hold": 60,
+    "own": "斩了过来！⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/41@0040"
+    ]
+  },
+  {
+    "message": "MS00DE/0/42@001B",
+    "hold": 60,
+    "own": "朝敌人斩了进去！⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/42@001B"
+    ]
+  },
+  {
+    "message": "MS00DE/0/42@0029",
+    "hold": 60,
+    "own": "斩了进来！⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/42@0029"
+    ]
+  },
+  {
+    "message": "MS00DE/0/43@001F",
+    "hold": 60,
+    "own": "朝敌人袭去⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/43@001F"
+    ]
+  },
+  {
+    "message": "MS00DE/0/43@002F",
+    "hold": 60,
+    "own": "袭了过来⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/43@002F"
+    ]
+  },
+  {
+    "message": "MS00DE/0/44@000A",
+    "hold": 60,
+    "own": "正在保护自己",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/44@000A"
+    ]
+  },
+  {
+    "message": "MS00DE/0/44@0057",
+    "hold": 60,
+    "own": "护在了身前",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/44@0057"
+    ]
+  },
+  {
+    "message": "MS00DE/0/46@0000",
+    "hold": 60,
+    "own": "{call:3:03}正来回徘徊⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/46@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/47@0000",
+    "hold": 60,
+    "own": "{call:3:03}正发出警告⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/47@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/48@0000",
+    "hold": 60,
+    "own": "{call:3:03}浮现出一丝冷笑⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/48@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/49@0000",
+    "hold": 60,
+    "own": "{call:3:03}强忍着没打哈欠⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/49@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/50@0000",
+    "hold": 60,
+    "own": "{call:3:03}正闭着双眼⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/50@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/51@000A",
+    "hold": 60,
+    "own": "们把守护者的制服⏎披在了装备外面⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/51@000A"
+    ]
+  },
+  {
+    "message": "MS00DE/0/51@003A",
+    "hold": 60,
+    "own": "们脱下了守护者的制服⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/51@003A"
+    ]
+  },
+  {
+    "message": "MS00DE/0/52@0000",
+    "hold": 60,
+    "own": "{name:000004EC}召唤出了{name:000004EB}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/52@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/53@0000",
+    "hold": 60,
+    "own": "{call:3:08}拿出来用了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/53@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/54@001E",
+    "hold": 60,
+    "own": "使用了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/54@001E"
+    ]
+  },
+  {
+    "message": "MS00DE/0/55@0008",
+    "hold": 60,
+    "own": "喝下了",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/55@0008"
+    ]
+  },
+  {
+    "message": "MS00DE/0/55@0024",
+    "hold": 60,
+    "own": "喝下了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/55@0024"
+    ]
+  },
+  {
+    "message": "MS00DE/0/56@0008",
+    "hold": 60,
+    "own": "吃下了",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/56@0008"
+    ]
+  },
+  {
+    "message": "MS00DE/0/56@0026",
+    "hold": 60,
+    "own": "吃下了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/56@0026"
+    ]
+  },
+  {
+    "message": "MS00DE/0/57@0000",
+    "hold": 60,
+    "own": "{call:3:08}高高举起⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/57@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/58@0000",
+    "hold": 60,
+    "own": "{call:3:08}扔了出去⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/58@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/59@0000",
+    "hold": 60,
+    "own": "{call:3:08}发射了出去⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/59@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/60@0000",
+    "hold": 60,
+    "own": "{call:3:08}弄响了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/60@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/61@0000",
+    "hold": 60,
+    "own": "{call:3:08}撒了出去⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/61@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/62@0000",
+    "hold": 60,
+    "own": "{call:3:08}打碎了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/62@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/63@0000",
+    "hold": 60,
+    "own": "{name:000004EF}注意到了这边！⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/63@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/64@0000",
+    "hold": 60,
+    "own": "{call:3:03}正在使用{name:110000}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/64@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/65@0000",
+    "hold": 60,
+    "own": "{call:3:03}放出了{name:110000}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/65@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/66@0000",
+    "hold": 60,
+    "own": "{call:3:08}紧紧握在手中⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/66@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/67@0000",
+    "hold": 60,
+    "own": "{call:3:03}向{name:0F0000}许下了愿望⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/67@0000"
+    ]
+  },
+  {
+    "message": "MS00DE/0/68@0000",
+    "hold": 60,
+    "own": "{call:3:03}解放了{name:0F0000}的魔力⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/68@0000"
+    ]
+  },
+  {
+    "at": "MS00DE/0/69@0007",
+    "original": 30,
+    "hold": 0
+  },
+  {
+    "message": "MS00DE/0/69@000C",
+    "hold": 60,
+    "own": "张开了风之结界⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/69@000C"
+    ]
+  },
+  {
+    "at": "MS00DE/0/70@0007",
+    "original": 30,
+    "hold": 0
+  },
+  {
+    "message": "MS00DE/0/70@000C",
+    "hold": 60,
+    "own": "张开了防电结界⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/70@000C"
+    ]
+  },
+  {
+    "message": "MS00DE/0/71@0009",
+    "hold": 60,
+    "own": "施展了{name:110000}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/71@0009"
+    ]
+  },
+  {
+    "message": "MS00DE/0/71@001A",
+    "hold": 60,
+    "own": "对我方施展了{name:110000}⏎",
+    "can_end": true,
+    "after": [
+      "MS00DE/0/71@001A"
+    ]
+  },
+  {
+    "message": "MS00DF/0/3@0000",
+    "hold": 60,
+    "own": "{name:000004EB}的结界被破解了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DF/0/3@0000"
+    ]
+  }
+]
