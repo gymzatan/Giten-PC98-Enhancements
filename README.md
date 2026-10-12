@@ -1,18 +1,24 @@
 # Giten Megami Tensei Redux
 
-Three enhancement patches for **Giten Megami Tensei: Tokyo Mokushiroku on PC-98**, supporting the original Japanese game and the tested English fan translation. All patch interfaces and documentation are in English. The selected game's language is retained.
+Three enhancement patches in one download for **Giten Megami Tensei: Tokyo Mokushiroku on PC-98**, supporting the original Japanese game and the tested English fan translation. All patch interfaces and documentation are in English. The selected game's language is retained.
 
 **English translation patch:** the English translation supported by Redux comes from [Sneikkimies](https://www.romhacking.net/community/8677/)' [Giten Megami Tensei translation release](https://www.romhacking.net/translations/7343/). It is distributed separately from the Redux enhancements.
 
-**[Download the three patch packages from Releases](https://github.com/gymzatan/Giten-PC98-Enhancements/releases/latest).**
+## Start here
 
-## Open source and modding
+1. Download **[Giten-Megami-Tensei-Redux.zip](https://github.com/gymzatan/Giten-PC98-Enhancements/releases/download/english-enhancements/Giten-Megami-Tensei-Redux.zip)**. It contains all three patches and the English manual.
+2. Extract the whole ZIP and open **`START HERE.html`** in your browser.
+3. To install all three, follow this sequence. **Use each newly saved disk as the next input.**
 
-The enhancement code, Windows-art conversion tools, numeric/artwork editors and authored technical documentation are available under the [MIT license](LICENSE). [Start with the modder guide](docs/modding/README.md) for build instructions, the disk/file map, numeric fields, combat formulas, event conditions, graphics and save layouts, and checked modification examples. [Source verification](SOURCE-VALIDATION.md) records the reproduced payloads and tests.
+| Open | Select | Save |
+| --- | --- | --- |
+| `Apply Fixes.html` | Your Japanese game HDI, or the English-translated HDI | `Giten_Fixed.hdi` |
+| `Apply Rebalance.html` | The `Giten_Fixed.hdi` just saved | `Giten_Rebalanced.hdi` |
+| `Apply Windows Artwork.html` | The `Giten_Rebalanced.hdi` just saved | `Giten_WIN.hdi` |
 
-All executable source, tests and authored patch recipes are in [`src/`](src/README.md). Player documents remain at the repository root; installer document inputs are in `docs/enhancements/`, and the technical reference is in `docs/modding/`. Run build commands from `src/` as described in [the build guide](docs/modding/BUILD.md).
+**Play the final `Giten_WIN.hdi`.** In this sequence it contains all three patches. If you want original combat rules with repairs and new artwork, skip Rebalance and feed `Giten_Fixed.hdi` into Artwork. Artwork can also be used alone.
 
-Use your own game and Windows inputs. Complete images, original/remake picture pixels, fonts, music and the separate English translation are not included in the source or covered by its MIT license.
+For English play, apply Sneikkimies' translation **before** Redux. The translation remains a separate download. Use the PC-98 emulator and boot setup that runs your original copy; the PepsimanGB pre-made HDI needs its companion boot floppy. Restart and load an in-game save after changing patches.
 
 ## Features
 
@@ -63,20 +69,20 @@ Artwork works **independently**, or before/after either gameplay patch. It retai
 
 Rebalance requires **Fixes first**; Windows Artwork is optional. [Full Rebalance guide](REBALANCE.md) · [Exact formulas and numerical ledger](REFERENCE.md).
 
-## Choose a package
+## Choose your patches
 
-| Package | Open this file | Purpose | Prerequisite |
+| Patch | Open this file | Purpose | Prerequisite |
 | --- | --- | --- | --- |
-| Giten Fixes (EN) | Apply Fixes.html | Gameplay repairs and quality-of-life improvements | Supported Japanese or tested English game HDI |
-| Giten Windows Artwork (EN) | Apply Windows Artwork.html | Windows remake graphics adapted to the PC-98 engine | Supported Japanese or tested English game HDI; Fixes is optional |
-| Giten Rebalance (EN) | Apply Rebalance.html | New combat formulas, growth, boss tuning and learning pools | An image already processed by Fixes |
+| Fixes | Apply Fixes.html | Gameplay repairs and quality-of-life improvements | Supported Japanese or tested English game HDI |
+| Windows Artwork | Apply Windows Artwork.html | Windows remake graphics adapted to the PC-98 engine | Supported Japanese or tested English game HDI; Fixes is optional |
+| Rebalance | Apply Rebalance.html | New combat formulas, growth, boss tuning and learning pools | An image already processed by Fixes |
 
 For the original combat rules with repairs, use **Fixes**. For redesigned combat, use **Fixes → Rebalance**. Add **Windows Artwork** whenever desired. Artwork works before or after either gameplay patch. You can also use Artwork alone on the original game.
 
 ## Apply a patch
 
 1. Close the emulator before selecting a disk. Back up your game and saves.
-2. Extract the chosen ZIP to an ordinary folder. Open its `Apply ...html` file in your browser.
+2. Extract the complete Redux ZIP and open `START HERE.html`, then choose the patch you want. Individual patch ZIPs also contain their own `Apply ...html` file.
 3. Select or drop the `.hdi` file. Click **Apply patch** and wait for the result.
 4. Click **Save** to download the new disk. The browser may use its Downloads directory or ask where to save it.
 5. When applying another package, select the disk downloaded in step 4, not the original disk again.
@@ -151,3 +157,11 @@ To return to the original graphics or rules, rebuild from your untouched origina
 - `VALIDATION.md`: checks performed and their limits.
 
 `SHA256SUMS.txt` lists the files shipped in each package. The three ZIPs share documentation so each can be understood on its own.
+
+## Open source and modding
+
+The enhancement code, Windows-art conversion tools, numeric/artwork editors and authored technical documentation are available under the [MIT license](LICENSE). [Start with the modder guide](docs/modding/README.md) for build instructions, the disk/file map, numeric fields, combat formulas, event conditions, graphics and save layouts, and checked modification examples. [Source verification](SOURCE-VALIDATION.md) records the reproduced payloads and tests.
+
+All executable source, tests and authored patch recipes are in [`src/`](src/README.md). Player documents remain at the repository root; installer document inputs are in `docs/enhancements/`, and the technical reference is in `docs/modding/`. Run build commands from `src/` as described in [the build guide](docs/modding/BUILD.md).
+
+Use your own game and Windows inputs. Complete images, original/remake picture pixels, fonts, music and the separate English translation are not included in the source or covered by its MIT license.

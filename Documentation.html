@@ -1,6 +1,126 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Giten Enhancement Documentation</title><style>body{font:17px/1.7 system-ui,sans-serif;background:#f4f1ea;color:#222;max-width:1000px;margin:auto;padding:32px}section{margin:50px 0}h1{border-bottom:2px solid #823628}h2{margin-top:32px}a{color:#823628}code{background:#e8e2d8;padding:2px 4px;overflow-wrap:anywhere}table{display:block;overflow-x:auto;border-collapse:collapse;font-size:14px}td,th{border:1px solid #ccc;padding:8px;text-align:left;vertical-align:top}th{background:#e8e2d8}</style><nav><a href="#README">Readme</a> · <a href="#FIXES">Fixes</a> · <a href="#WINDOWS-ARTWORK">Windows Artwork</a> · <a href="#REBALANCE">Rebalance</a> · <a href="#REFERENCE">Reference</a> · <a href="#TROUBLESHOOTING">Troubleshooting</a> · <a href="#CREDITS">Credits</a> · <a href="#VALIDATION">Validation</a></nav><section id="README"><h1>Giten Megami Tensei — PC-98 Enhancement Patches</h1>
-<p>Three enhancement patches for <strong>Giten Megami Tensei: Tokyo Mokushiroku on PC-98</strong>, supporting the original Japanese game and the tested English fan translation. All patch interfaces and documentation are in English. The selected game's language is retained.</p>
-<p><strong><a href="https://github.com/gymzatan/Giten-PC98-Enhancements/releases/latest">Download the three patch packages from Releases</a>.</strong></p>
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Giten Enhancement Documentation</title><style>body{font:17px/1.7 system-ui,sans-serif;background:#f4f1ea;color:#222;max-width:1000px;margin:auto;padding:32px}section{margin:50px 0}h1{border-bottom:2px solid #823628}h2{margin-top:32px}a{color:#823628}code{background:#e8e2d8;padding:2px 4px;overflow-wrap:anywhere}table{display:block;overflow-x:auto;border-collapse:collapse;font-size:14px}td,th{border:1px solid #ccc;padding:8px;text-align:left;vertical-align:top}th{background:#e8e2d8}</style><nav><a href="#README">Readme</a> · <a href="#FIXES">Fixes</a> · <a href="#WINDOWS-ARTWORK">Windows Artwork</a> · <a href="#REBALANCE">Rebalance</a> · <a href="#REFERENCE">Reference</a> · <a href="#TROUBLESHOOTING">Troubleshooting</a> · <a href="#CREDITS">Credits</a> · <a href="#VALIDATION">Validation</a></nav><section id="README"><h1>Giten Megami Tensei Redux</h1>
+<p>Three enhancement patches in one download for <strong>Giten Megami Tensei: Tokyo Mokushiroku on PC-98</strong>, supporting the original Japanese game and the tested English fan translation. All patch interfaces and documentation are in English. The selected game's language is retained.</p>
+<p><strong>English translation patch:</strong> the English translation supported by Redux comes from <a href="https://www.romhacking.net/community/8677/">Sneikkimies</a>' <a href="https://www.romhacking.net/translations/7343/">Giten Megami Tensei translation release</a>. It is distributed separately from the Redux enhancements.</p>
+<h2>Start here</h2>
+<ol>
+<li>Download <strong><a href="https://github.com/gymzatan/Giten-PC98-Enhancements/releases/download/english-enhancements/Giten-Megami-Tensei-Redux.zip">Giten-Megami-Tensei-Redux.zip</a></strong>. It contains all three patches and the English manual.</li>
+<li>Extract the whole ZIP and open <strong><code>START HERE.html</code></strong> in your browser.</li>
+<li>To install all three, follow this sequence. <strong>Use each newly saved disk as the next input.</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Open</th>
+<th>Select</th>
+<th>Save</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Apply Fixes.html</code></td>
+<td>Your Japanese game HDI, or the English-translated HDI</td>
+<td><code>Giten_Fixed.hdi</code></td>
+</tr>
+<tr>
+<td><code>Apply Rebalance.html</code></td>
+<td>The <code>Giten_Fixed.hdi</code> just saved</td>
+<td><code>Giten_Rebalanced.hdi</code></td>
+</tr>
+<tr>
+<td><code>Apply Windows Artwork.html</code></td>
+<td>The <code>Giten_Rebalanced.hdi</code> just saved</td>
+<td><code>Giten_WIN.hdi</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Play the final <code>Giten_WIN.hdi</code>.</strong> In this sequence it contains all three patches. If you want original combat rules with repairs and new artwork, skip Rebalance and feed <code>Giten_Fixed.hdi</code> into Artwork. Artwork can also be used alone.</p>
+<p>For English play, apply Sneikkimies' translation <strong>before</strong> Redux. The translation remains a separate download. Use the PC-98 emulator and boot setup that runs your original copy; the PepsimanGB pre-made HDI needs its companion boot floppy. Restart and load an in-game save after changing patches.</p>
+<h2>Features</h2>
+<h3>1. Fixes — Easier controls, more space, and game repairs</h3>
+<h4>Everyday improvements</h4>
+<ul>
+<li><strong>Keyboard controls:</strong> W/Z/A/D move forward/back/left/right; Q/E turn; S turns around. Enter or Space advances dialogue and battle-message waits. Menus still use the mouse.</li>
+<li><strong>Larger inventory:</strong> ordinary item capacity increases from <strong>48 to 111 slots</strong>. The separate 16 body-part slots remain unchanged, and original saves can be loaded.</li>
+<li><strong>Easier-to-read dialogue and battles:</strong> dialogue endings that used to close immediately now wait for input. Battle messages pause for about one second; a click or advance key can shorten the wait.</li>
+<li><strong>Faster moon phases:</strong> the visible phase advances after about <strong>60 steps instead of 300</strong>. Monthly chests, refillable vessels and other long-duration timers keep their original time scale.</li>
+</ul>
+<h4>Story, equipment, and combat repairs</h4>
+<ul>
+<li><strong>Eight story-event repairs:</strong> prevents blocked routes, repeated briefings, movement exploits and unintended party retention. Examples include Jukai's appearance after teleporting out of Chuu, the Hatsudai sickroom briefing, and reception checks before the Adonis duel.</li>
+<li><strong>Correct choices and rewards:</strong> repairs seven attribute checks, Rui's affection changes, and missing EXP awards from Wendy, Miranda and Josephine.</li>
+<li><strong>Weapons and equipment work as intended:</strong> restores attribute bonuses, magic accuracy/evasion effects, gun critical modifiers, and the effects of attack/status items. Previously ineffective gun and physical attack skills become usable; gun skills use HP rather than ammunition.</li>
+<li><strong>Better feedback and negotiation:</strong> the battle summary shows the actual EXP award. COMP attacks grant COMP skill EXP, and 23 missing demon-negotiation prompts are supplied in the selected game's language.</li>
+<li><strong>Fewer interruptions and graphical faults:</strong> fixes blank inventory entries, script-memory leaks, several overflow/divide-by-zero cases and the missing-directory VM error; repairs battle backdrops and palette allocation, and suppresses the persistent <code>no space</code> warning.</li>
+</ul>
+<p>Fixes retains the original combat formulas with implementation repairs. The optional Rebalance package changes the rules. <a href="FIXES.md">Full Fixes guide</a>.</p>
+<h3>2. Windows Artwork — A visual upgrade you can use on its own</h3>
+<ul>
+<li><strong>Windows remake environments:</strong> replaces dungeon walls, doors and stairs, plus room and story-event pictures.</li>
+<li><strong>Windows demon artwork:</strong> replaces demon sprites and poses with the remake's renditions, using their adapted scale and placement.</li>
+<li><strong>Remake title screen and metal frame:</strong> replaces the title artwork and turns the surrounding gold interface frame and lower compass panel into gray metal. Command buttons and direction controls retain their familiar green.</li>
+<li><strong>Adapted for the PC-98 renderer:</strong> door selectors match each area's wall set, scene overlays use their intended shared palettes, and palette fixes reduce debug warnings and background recoloring.</li>
+</ul>
+<p>Artwork works <strong>independently</strong>, or before/after either gameplay patch. It retains the selected game's text and gameplay rules apart from the included graphics/palette repairs. <a href="WINDOWS-ARTWORK.md">Full Artwork guide</a>.</p>
+<h3>3. Rebalance — Broader character builds and revised combat</h3>
+<h4>Changes you notice while playing</h4>
+<ul>
+<li><strong>More skills to learn:</strong> the protagonist's magic route gains the Megi line, and the gun route gains a dedicated learning pool. The original level-up learning checks still decide when skills are acquired.</li>
+<li><strong>More rounded growth:</strong> one quarter of inclination growth points goes to the lowest attribute. Humans also gain one Vitality every third level. Past level-up allocations are retained.</li>
+<li><strong>Retuned bosses and Newton:</strong> revises boss statistics and strengthens Newton's skill set and three special equipment pieces, including resurrection support and a six-shot gun.</li>
+<li><strong>Summoning has a combat cost:</strong> calling a demon from COMP during battle consumes one action of the COMP holder. Summoning outside battle remains free.</li>
+<li><strong>Level-aware EXP:</strong> lower-level party members receive more EXP from stronger enemies, while over-levelled members receive less. Each member's award is calculated separately.</li>
+<li><strong>COMP helps recruitment:</strong> COMP level strengthens specified attribute checks and increases the protagonist's effective recruitment level limit.</li>
+</ul>
+<h4>Combat-system changes</h4>
+<ul>
+<li><strong>Stats matter more:</strong> attributes and human skill levels contribute more to combat, while several equipment contributions are reduced. After COMP awakens, the protagonist's Charm supports allied demons.</li>
+<li><strong>Revised hit, damage, and critical-hit rules:</strong> physical and magic attacks use new accuracy/damage curves; some physical misses become grazes, critical hits use a new probability and multiplier, and ordinary critical checks no longer depend on the moon gate.</li>
+<li><strong>Updated HP, healing, speed, and moon effects:</strong> adjusts HP growth and healing, uses Strength to handle armor weight, and revises moon damage scaling. Combat stats are recalculated at battle entry so existing in-game saves use the new rules.</li>
+</ul>
+<p>Rebalance requires <strong>Fixes first</strong>; Windows Artwork is optional. <a href="REBALANCE.md">Full Rebalance guide</a> · <a href="REFERENCE.md">Exact formulas and numerical ledger</a>.</p>
+<h2>Choose your patches</h2>
+<table>
+<thead>
+<tr>
+<th>Patch</th>
+<th>Open this file</th>
+<th>Purpose</th>
+<th>Prerequisite</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fixes</td>
+<td>Apply Fixes.html</td>
+<td>Gameplay repairs and quality-of-life improvements</td>
+<td>Supported Japanese or tested English game HDI</td>
+</tr>
+<tr>
+<td>Windows Artwork</td>
+<td>Apply Windows Artwork.html</td>
+<td>Windows remake graphics adapted to the PC-98 engine</td>
+<td>Supported Japanese or tested English game HDI; Fixes is optional</td>
+</tr>
+<tr>
+<td>Rebalance</td>
+<td>Apply Rebalance.html</td>
+<td>New combat formulas, growth, boss tuning and learning pools</td>
+<td>An image already processed by Fixes</td>
+</tr>
+</tbody>
+</table>
+<p>For the original combat rules with repairs, use <strong>Fixes</strong>. For redesigned combat, use <strong>Fixes → Rebalance</strong>. Add <strong>Windows Artwork</strong> whenever desired. Artwork works before or after either gameplay patch. You can also use Artwork alone on the original game.</p>
+<h2>Apply a patch</h2>
+<ol>
+<li>Close the emulator before selecting a disk. Back up your game and saves.</li>
+<li>Extract the complete Redux ZIP and open <code>START HERE.html</code>, then choose the patch you want. Individual patch ZIPs also contain their own <code>Apply ...html</code> file.</li>
+<li>Select or drop the <code>.hdi</code> file. Click <strong>Apply patch</strong> and wait for the result.</li>
+<li>Click <strong>Save</strong> to download the new disk. The browser may use its Downloads directory or ask where to save it.</li>
+<li>When applying another package, select the disk downloaded in step 4, not the original disk again.</li>
+<li>Mount the final disk in your emulator and start the game normally.</li>
+</ol>
+<p>The default download names are <code>Giten_Fixed.hdi</code>, <code>Giten_WIN.hdi</code> and <code>Giten_Rebalanced.hdi</code>. The name describes the most recent patch, not the complete set installed: an Artwork result can also contain Fixes and Rebalance. Renaming a disk does not add or remove patches.</p>
+<p>The patch reads the selected file and creates a separate result in memory. It never writes back to your selected file. No image is uploaded, and no network connection, Python installation or command line is needed. Use a browser that supports <code>DecompressionStream</code> with <code>deflate-raw</code>; the page reports an error if decompression is unavailable.</p>
 <h2>Japanese and English HDI compatibility</h2>
 <p><strong>The same three packages work with the supported Japanese HDI and the tested English-translated HDI.</strong> <code>EN</code> identifies the English interface and documentation; these packages do not include the English translation itself.</p>
 <table>
@@ -32,49 +152,6 @@
 <h3>Future English translation updates</h3>
 <p>Text edits that retain the relevant instruction structure can continue to work, including longer dialogue and newlines; these cases were tested. Unrelated records and complete printable replacements for the previously missing negotiation questions are retained. A change to a required opcode, event operand, branch destination or numeric field causes a precise conflict report and no output. The executable must still be one of the verified English program states. An update that changes executable code or affected event logic needs a new compatibility check; arbitrary future releases are not automatically certified.</p>
 <p>The Japanese path continues to check its accepted native file states. Artwork validates graphics and its executable patch sites independently. These checks protect other modifications from being overwritten.</p>
-<h2>Choose a package</h2>
-<table>
-<thead>
-<tr>
-<th>Package</th>
-<th>Open this file</th>
-<th>Purpose</th>
-<th>Prerequisite</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Giten Fixes (EN)</td>
-<td>Apply Fixes.html</td>
-<td>Gameplay repairs and quality-of-life improvements</td>
-<td>Supported Japanese or tested English game HDI</td>
-</tr>
-<tr>
-<td>Giten Windows Artwork (EN)</td>
-<td>Apply Windows Artwork.html</td>
-<td>Windows remake graphics adapted to the PC-98 engine</td>
-<td>Supported Japanese or tested English game HDI; Fixes is optional</td>
-</tr>
-<tr>
-<td>Giten Rebalance (EN)</td>
-<td>Apply Rebalance.html</td>
-<td>New combat formulas, growth, boss tuning and learning pools</td>
-<td>An image already processed by Fixes</td>
-</tr>
-</tbody>
-</table>
-<p>For the original combat rules with repairs, use <strong>Fixes</strong>. For redesigned combat, use <strong>Fixes → Rebalance</strong>. Add <strong>Windows Artwork</strong> whenever desired. Artwork works before or after either gameplay patch. You can also use Artwork alone on the original game.</p>
-<h2>Apply a patch</h2>
-<ol>
-<li>Close the emulator before selecting a disk. Back up your game and saves.</li>
-<li>Extract the chosen ZIP to an ordinary folder. Open its <code>Apply ...html</code> file in your browser.</li>
-<li>Select or drop the <code>.hdi</code> file. Click <strong>Apply patch</strong> and wait for the result.</li>
-<li>Click <strong>Save</strong> to download the new disk. The browser may use its Downloads directory or ask where to save it.</li>
-<li>When applying another package, select the disk downloaded in step 4, not the original disk again.</li>
-<li>Mount the final disk in your emulator and start the game normally.</li>
-</ol>
-<p>The default download names are <code>Giten_Fixed.hdi</code>, <code>Giten_WIN.hdi</code> and <code>Giten_Rebalanced.hdi</code>. The name describes the most recent patch, not the complete set installed: an Artwork result can also contain Fixes and Rebalance. Renaming a disk does not add or remove patches.</p>
-<p>The patch reads the selected file and creates a separate result in memory. It never writes back to your selected file. No image is uploaded, and no network connection, Python installation or command line is needed. Use a browser that supports <code>DecompressionStream</code> with <code>deflate-raw</code>; the page reports an error if decompression is unavailable.</p>
 <h2>Supported starting image</h2>
 <p>The reference input is the PepsimanGB <strong>Pre-Made Hard Disk and Boot Floppy</strong> edition, <code>Giten Megami Tensei HD.hdi</code>:</p>
 <ul>
