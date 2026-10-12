@@ -1,7 +1,40 @@
 <!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Giten Enhancement Documentation</title><style>body{font:17px/1.7 system-ui,sans-serif;background:#f4f1ea;color:#222;max-width:1000px;margin:auto;padding:32px}section{margin:50px 0}h1{border-bottom:2px solid #823628}h2{margin-top:32px}a{color:#823628}code{background:#e8e2d8;padding:2px 4px;overflow-wrap:anywhere}table{display:block;overflow-x:auto;border-collapse:collapse;font-size:14px}td,th{border:1px solid #ccc;padding:8px;text-align:left;vertical-align:top}th{background:#e8e2d8}</style><nav><a href="#README">Readme</a> · <a href="#FIXES">Fixes</a> · <a href="#WINDOWS-ARTWORK">Windows Artwork</a> · <a href="#REBALANCE">Rebalance</a> · <a href="#REFERENCE">Reference</a> · <a href="#TROUBLESHOOTING">Troubleshooting</a> · <a href="#CREDITS">Credits</a> · <a href="#VALIDATION">Validation</a></nav><section id="README"><h1>Giten Megami Tensei Redux</h1>
-<p>Three enhancement patches for <strong>Giten Megami Tensei: Tokyo Mokushiroku on PC-98</strong>, supporting the original Japanese game and the tested English fan translation. All patch interfaces and documentation are in English. The selected game's language is retained.</p>
+<p>Three enhancement patches in one download for <strong>Giten Megami Tensei: Tokyo Mokushiroku on PC-98</strong>, supporting the original Japanese game and the tested English fan translation. All patch interfaces and documentation are in English. The selected game's language is retained.</p>
 <p><strong>English translation patch:</strong> the English translation supported by Redux comes from <a href="https://www.romhacking.net/community/8677/">Sneikkimies</a>' <a href="https://www.romhacking.net/translations/7343/">Giten Megami Tensei translation release</a>. It is distributed separately from the Redux enhancements.</p>
-<p><strong><a href="https://github.com/gymzatan/Giten-PC98-Enhancements/releases/latest">Download the three patch packages from Releases</a>.</strong></p>
+<h2>Start here</h2>
+<ol>
+<li>Download <strong><a href="https://github.com/gymzatan/Giten-PC98-Enhancements/releases/download/english-enhancements/Giten-Megami-Tensei-Redux.zip">Giten-Megami-Tensei-Redux.zip</a></strong>. It contains all three patches and the English manual.</li>
+<li>Extract the whole ZIP and open <strong><code>START HERE.html</code></strong> in your browser.</li>
+<li>To install all three, follow this sequence. <strong>Use each newly saved disk as the next input.</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Open</th>
+<th>Select</th>
+<th>Save</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Apply Fixes.html</code></td>
+<td>Your Japanese game HDI, or the English-translated HDI</td>
+<td><code>Giten_Fixed.hdi</code></td>
+</tr>
+<tr>
+<td><code>Apply Rebalance.html</code></td>
+<td>The <code>Giten_Fixed.hdi</code> just saved</td>
+<td><code>Giten_Rebalanced.hdi</code></td>
+</tr>
+<tr>
+<td><code>Apply Windows Artwork.html</code></td>
+<td>The <code>Giten_Rebalanced.hdi</code> just saved</td>
+<td><code>Giten_WIN.hdi</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Play the final <code>Giten_WIN.hdi</code>.</strong> In this sequence it contains all three patches. If you want original combat rules with repairs and new artwork, skip Rebalance and feed <code>Giten_Fixed.hdi</code> into Artwork. Artwork can also be used alone.</p>
+<p>For English play, apply Sneikkimies' translation <strong>before</strong> Redux. The translation remains a separate download. Use the PC-98 emulator and boot setup that runs your original copy; the PepsimanGB pre-made HDI needs its companion boot floppy. Restart and load an in-game save after changing patches.</p>
 <h2>Features</h2>
 <h3>1. Fixes — Easier controls, more space, and game repairs</h3>
 <h4>Everyday improvements</h4>
@@ -45,11 +78,11 @@
 <li><strong>Updated HP, healing, speed, and moon effects:</strong> adjusts HP growth and healing, uses Strength to handle armor weight, and revises moon damage scaling. Combat stats are recalculated at battle entry so existing in-game saves use the new rules.</li>
 </ul>
 <p>Rebalance requires <strong>Fixes first</strong>; Windows Artwork is optional. <a href="REBALANCE.md">Full Rebalance guide</a> · <a href="REFERENCE.md">Exact formulas and numerical ledger</a>.</p>
-<h2>Choose a package</h2>
+<h2>Choose your patches</h2>
 <table>
 <thead>
 <tr>
-<th>Package</th>
+<th>Patch</th>
 <th>Open this file</th>
 <th>Purpose</th>
 <th>Prerequisite</th>
@@ -57,19 +90,19 @@
 </thead>
 <tbody>
 <tr>
-<td>Giten Fixes (EN)</td>
+<td>Fixes</td>
 <td>Apply Fixes.html</td>
 <td>Gameplay repairs and quality-of-life improvements</td>
 <td>Supported Japanese or tested English game HDI</td>
 </tr>
 <tr>
-<td>Giten Windows Artwork (EN)</td>
+<td>Windows Artwork</td>
 <td>Apply Windows Artwork.html</td>
 <td>Windows remake graphics adapted to the PC-98 engine</td>
 <td>Supported Japanese or tested English game HDI; Fixes is optional</td>
 </tr>
 <tr>
-<td>Giten Rebalance (EN)</td>
+<td>Rebalance</td>
 <td>Apply Rebalance.html</td>
 <td>New combat formulas, growth, boss tuning and learning pools</td>
 <td>An image already processed by Fixes</td>
@@ -80,7 +113,7 @@
 <h2>Apply a patch</h2>
 <ol>
 <li>Close the emulator before selecting a disk. Back up your game and saves.</li>
-<li>Extract the chosen ZIP to an ordinary folder. Open its <code>Apply ...html</code> file in your browser.</li>
+<li>Extract the complete Redux ZIP and open <code>START HERE.html</code>, then choose the patch you want. Individual patch ZIPs also contain their own <code>Apply ...html</code> file.</li>
 <li>Select or drop the <code>.hdi</code> file. Click <strong>Apply patch</strong> and wait for the result.</li>
 <li>Click <strong>Save</strong> to download the new disk. The browser may use its Downloads directory or ask where to save it.</li>
 <li>When applying another package, select the disk downloaded in step 4, not the original disk again.</li>
