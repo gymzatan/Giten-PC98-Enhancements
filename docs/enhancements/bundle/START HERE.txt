@@ -1,0 +1,41 @@
+GITEN MEGAMI TENSEI REDUX — START HERE
+
+Extract the entire ZIP, then open START HERE.html in your browser.
+The folder contains all three enhancement patches and the English manual.
+
+TO INSTALL ALL THREE
+1. Open Apply Fixes.html.
+   Input: your Japanese PC-98 HDI, or your English-translated HDI.
+   Apply, then save Giten_Fixed.hdi.
+2. Open Apply Rebalance.html.
+   Input: the Giten_Fixed.hdi you just saved.
+   Apply, then save Giten_Rebalanced.hdi.
+3. Open Apply Windows Artwork.html.
+   Input: the Giten_Rebalanced.hdi you just saved.
+   Apply, then save Giten_WIN.hdi.
+4. Mount and play the final Giten_WIN.hdi. It now contains all three patches.
+
+Pass each newly saved result to the next step. Browser downloads may have a
+number added to their filenames; use the newest result you just saved.
+
+OTHER COMBINATIONS
+Original combat rules + repairs + new artwork: step 1, then step 3 using its output.
+Fixes only: step 1.
+Fixes + Rebalance with original artwork: steps 1 and 2.
+Artwork only: step 3, selecting your original Japanese or English game HDI.
+
+FOR ENGLISH PLAY
+Apply Sneikkimies' English translation to its required Japanese disk first,
+then apply Redux to that English result. The translation is a separate download:
+https://www.romhacking.net/translations/7343/
+Redux retains your selected game's language.
+
+BEFORE PLAYING
+Close the emulator before patching. Work on a copy and back up your saves.
+The patches read your selected disk and download a separate result locally.
+Use the PC-98 emulator and boot setup with which your unmodified copy works.
+The PepsimanGB pre-made HDI needs its companion boot floppy: attach both and
+boot from the floppy. After changing patches, restart and load an in-game save.
+
+Open Documentation.html for all features, controls, compatibility and help.
+Project: gymzatan.
