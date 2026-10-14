@@ -35,8 +35,9 @@ PACKAGES = {
                "Keyboard and gamepad controls with the battle target prompt and target-selection pause. "
                "These features are installed or removed together as one optional patch."),
 }
-# the add-on package's own extra file: the DOSBox-X mapper file for an XInput pad (tools/mkmapper.py)
+# DOSBox-X settings and the XInput mapper produced by tools/mkmapper.py.
 ADDON_EXTRA = "mapper-giten.map"
+CONTROLS_EXTRAS = (ADDON_EXTRA, "dosbox-x.conf")
 
 
 def load_files(directory):
@@ -356,7 +357,7 @@ fieldset{margin:16px 0 0}fieldset:disabled .opt{opacity:.5;cursor:not-allowed}co
 <p>The control launcher is <code>DDS98\DDS98.COM</code>. When the game's start command <code>DDS98</code> runs, DOS starts this file first; it sets up the gamepad control and then starts <code>DDS98.EXE</code>. No startup file is changed, so the PepsimanGB boot floppy works as before.</p></section>
 <section><h2>Connecting a gamepad</h2>
 <p>The game reads a PC-98 joystick (one stick, two buttons) and the keyboard. Set up your emulator so that the left stick and A and B are the PC-98 joystick, the D-pad is the arrow keys, X is Tab, Y is Ctrl, and LB and RB are the 4 and 6 keys. Use the emulator's own joystick and key settings, or a tool such as Steam Input or JoyToKey.</p>
-<p>DOSBox-X: this package includes <code>{{MAPPER}}</code>, the default key and joystick settings of DOSBox-X 2026.10.01 with these assignments for an XInput gamepad. Put it beside your <code>dosbox-x.conf</code> and set <code>mapperfile = {{MAPPER}}</code> in its <code>[sdl]</code> section. DOSBox-X passes the stick to the emulated PC-98 only while a gamepad is connected.</p></section>
+<p>DOSBox-X: this package includes <code>dosbox-x.conf</code> with <code>mapperfile = {{MAPPER}}</code> already set, and <code>{{MAPPER}}</code>, the default key and joystick settings of DOSBox-X 2026.10.01 with these assignments for an XInput gamepad. In a new emulator folder, put both files beside <code>dosbox-x.exe</code>, your saved <code>Giten_Controls.hdi</code>, and your own companion boot floppy renamed <code>Boot.fdi</code>; then double-click the emulator. The supplied configuration boots the PepsimanGB pre-made disk from its floppy. For an image that already boots by itself, replace both lines in <code>[autoexec]</code> with <code>boot Giten_Controls.hdi</code>. To keep an existing setup, retain its boot commands and set only <code>mapperfile = {{MAPPER}}</code> in <code>[sdl]</code>. DOSBox-X passes the stick to the emulated PC-98 only while a gamepad is connected. See <a href="CONTROLS.md">CONTROLS.md</a> for the folder layout.</p></section>
 <section><h2>Before playing</h2><p>Use an in-game save when installing or removing Controls; make a backup first. Emulator save states contain the old running program and should not be used across a change.</p>
 <p>Apply this page last. Fixes and Rebalance check <code>DDS98.EXE</code> as a whole and refuse one that has the target prompt in it; to add them later, remove Controls here first, apply them, then install Controls again. Windows Artwork keeps Controls, but on the English game with Fixes the disk has room for everything only with the artwork first.</p>
 <p>Each of the two new files takes one cluster of the disk. When the disk has too few free clusters (the English game with Fixes and Windows Artwork fills the reference disk), this page grows the image by whole cylinders at its end and says so in its log; no file moves.</p>
@@ -423,7 +424,8 @@ def bundle():
         with zipfile.ZipFile(WORK / "dist" / (package + ".zip")) as source:
             files[filename] = source.read(package + "/" + filename)
             if kind == "addons":
-                files[ADDON_EXTRA] = source.read(package + "/" + ADDON_EXTRA)
+                for extra in CONTROLS_EXTRAS:
+                    files[extra] = source.read(package + "/" + extra)
     for name in ("START HERE.html", "START HERE.txt"):
         files[name] = (DOCS / "bundle" / name).read_bytes()
     files["SHA256SUMS.txt"] = "".join(
@@ -473,6 +475,7 @@ def main():
         if kind == "addons":
             import mkmapper
             (folder / ADDON_EXTRA).write_bytes(mkmapper.build())
+            (folder / "dosbox-x.conf").write_bytes((WORK / "dosbox" / "dosbox-x.conf").read_bytes())
         manifest ={p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in folder.iterdir() if p.is_file() and p.name != "SHA256SUMS.txt"}
         (folder / "SHA256SUMS.txt").write_text("".join(f"{digest}  {name}\n" for name, digest in sorted(manifest.items())), encoding="utf-8")
         archive = WORK / "dist" / (title + ".zip")
