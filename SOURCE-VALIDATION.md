@@ -1,13 +1,16 @@
 # Source verification
 
-The `src/` source workspace was exercised independently of the private localization tree. The full package builder generated three offline HTML/ZIP packages using explicit Japanese and English inputs and an accepted local artwork payload.
+The `src/` source workspace was exercised independently of the private localization tree. The full package builder generated four offline HTML/ZIP packages using explicit Japanese and English inputs and an accepted local artwork payload.
 
-All native game-file outputs matched the accepted releases byte for byte: Japanese Fixes 132 files, Japanese Fixes + Rebalance 165, English Fixes 148, English Fixes + Rebalance 181. The English normalization and pacing preparation ran through the exported modules, not a precomputed replacement engine.
+All native game-file outputs matched the accepted releases byte for byte: Japanese Fixes 133 files, Japanese Fixes + Rebalance 166, English Fixes 148, English Fixes + Rebalance 181. The English normalization and pacing preparation ran through the exported modules, not a precomputed replacement engine.
 
-The relocated `src/` workspace also passed its CLI path checks, regenerated identical address/event ledgers, reproduced all four native file sets, and retained the exact embedded core and payload in all three generated HTML installers. Documentation inputs were resolved from `docs/enhancements/` outside the source workspace.
+The relocated `src/` workspace also passed its CLI path checks, regenerated identical address/event ledgers, reproduced all four native file sets, and retained all four complete HTML installers byte for byte. Documentation inputs were resolved from `docs/enhancements/` outside the source workspace.
 
 The following existing checks passed from the source directory:
 
+- `gamepad_test.py`: assembled keyboard/joystick input, clickable-target navigation, panel switching, repeat and free-pointer behavior.
+- `targetprompt_test.py`: checked executable sites, CPU behavior, Japanese/English message records and independent install/remove.
+- `holdshow_test.py`: line drawing before its wait, held-click handling and command-notice duration.
 - `asm86_test.py`: 67 known instruction encodings, branch assembly and refusal cases.
 - `fcencode_test.py`: 30,000 cell-code cases, edited entries, mixed cell kinds and resized frame boxes.
 - `exekeys_test.py`: patched keyboard and advance-wait routines on the emulated CPU.

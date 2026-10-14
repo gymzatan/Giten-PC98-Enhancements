@@ -61,7 +61,7 @@ Previously ineffective zero-power physical templates, including sword, blunt, th
 
 **Keyboard:** W/Z/A/D move forward/back/left/right, Q/E turn left/right, and S turns around. Enter or Space advances dialogue and battle-message waits. Menus still use the mouse. See `TROUBLESHOOTING.md`.
 
-**Message pacing:** battle messages pause for approximately one second after being drawn; clicking or pressing an advance key can shorten a wait.
+**Message pacing:** battle messages pause for approximately one second after being drawn, and the message a pause follows is the one on screen during it - the original game ran a whole message before drawing it, so its pauses showed the previous line. A new click or an advance key shortens a pause; the click that chose a target, if the button is still down when the action's first message pauses, does not (the original ended that pause at once); holding the right button still skips every pause. The game's own pauses follow the same one-second rule: the long pause before a defeat message is dropped (the damage message before it now pauses itself), the pauses inside a confused or charmed character's antics last one second, and "the enemy fled" / "avoided the battle" at the end of a battle pause too. Animations such as a weapon swing or a defeated enemy vanishing keep the previous message on screen a little longer. The command panel's notices - nothing to fight or talk to, nobody able to use an item, no DDS or AMS - stay about one second instead of about a quarter.
 
 **Dantalion's second form:** fire, ice, force and electricity damage multipliers change from 40% to 60%, matching the final form. A larger percentage means more damage passes through.
 
