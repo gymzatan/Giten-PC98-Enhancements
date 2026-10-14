@@ -86,7 +86,7 @@ To rebuild only the complete ZIP after editing its guide, with the four already 
 python tools/mkenhancements.py --bundle-only
 ```
 
-This reads `dist/Giten Fixes (EN).zip`, `dist/Giten Rebalance (EN).zip` `dist/Giten Windows Artwork (EN).zip` and `dist/Giten Add-ons (EN).zip`, renders the existing English documents, and adds `docs/enhancements/bundle/START HERE.html` and `START HERE.txt` from the repository. It needs no game disk or payload rebuild. The source HTML patch bytes are copied unchanged. `SHA256SUMS.txt` inside the complete ZIP covers its files.
+This reads `dist/Giten Fixes (EN).zip`, `dist/Giten Rebalance (EN).zip` `dist/Giten Windows Artwork (EN).zip` and `dist/Giten Controls (EN).zip`, renders the existing English documents, and adds `docs/enhancements/bundle/START HERE.html` and `START HERE.txt` from the repository. It needs no game disk or payload rebuild. The source HTML patch bytes are copied unchanged. `SHA256SUMS.txt` inside the complete ZIP covers its files.
 
 ## Editors
 
@@ -137,8 +137,8 @@ Game-dependent tests require the extracted Japanese reference in `files/DDS98/`.
 
 ## Optional controls and target prompt
 
-The fourth installer is `Apply Add-ons.html`. Its independent checkboxes use the shared `addons.py`, `targetprompt.py`, `gamepad.py` and `webpatch.js` rules. The English builder obtains the Japanese and English message files and the DOSBox-X mapper from those modules; `webpayload.addon_part()` serializes the same site definitions for both installer builders.
+The fourth installer is `Apply Controls.html`. Its paired Install/Remove actions use the shared `addons.py`, `targetprompt.py`, `gamepad.py` and `webpatch.js` rules. The English builder obtains the Japanese and English message files and the DOSBox-X mapper from those modules; `webpayload.addon_part()` serializes the same site definitions for both installer builders.
 
-Run `python tools/gamepad_test.py`, `python tools/targetprompt_test.py` and `python tools/holdshow_test.py` from `src/` to check assembled code, executable conflicts and pacing. They read your extracted Japanese `files/DDS98/DDS98.EXE`; the add-on install/remove checks also use your copy at `inputs/Japanese.hdi`. The integration command `python tools/enaddons_test.py --japanese inputs/Japanese.hdi --english inputs/English.hdi` exercises the four generated English installers against your own reference disks, including adding/removing each option and matching the Python output.
+Run `python tools/gamepad_test.py`, `python tools/targetprompt_test.py` and `python tools/holdshow_test.py` from `src/` to check assembled code, executable conflicts and pacing. They read your extracted Japanese `files/DDS98/DDS98.EXE`; the control component install/remove checks also use your copy at `inputs/Japanese.hdi`. The integration command `python tools/enaddons_test.py --japanese inputs/Japanese.hdi --english inputs/English.hdi` exercises the four generated English installers against your own reference disks, including adding/removing each option and matching the Python output.
 
 `dosbox/defaults.map` is the emulator's saved default key map. `mkmapper.py` preserves those keyboard bindings and adds the XInput assignments; its output is included in the fourth ZIP and complete bundle. See [controls and executable locations](CONTROLS.md) for the implementation map.

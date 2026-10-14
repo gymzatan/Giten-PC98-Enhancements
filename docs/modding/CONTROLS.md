@@ -1,6 +1,6 @@
 # Controls, target pause and battle-message pacing
 
-The add-ons are independent of game text and of the other three installers. `src/tools/addons.py` defines their order, state inspection, disk-space requirement and install/remove calls. `src/tools/webpatch.js` mirrors those existing rules; `enhancement_runtime.js` supplies the English installer's inspection and checked language selection. There is no separate controller implementation in the web page.
+The Controls patch works independently of game text and of the other three installers. The English page installs and removes keyboard/gamepad operation and the necessary battle target optimization together. `src/tools/addons.py` defines their order, state inspection, disk-space requirement and install/remove calls. `src/tools/webpatch.js` mirrors those existing rules; `enhancement_runtime.js` supplies the English installer's inspection and checked language selection. There is no separate controller implementation in the web page.
 
 ## Target-prompt map
 
@@ -17,7 +17,7 @@ These are segment-relative offsets, not HDI offsets. `targetprompt.where()` reso
 
 The installer compares all byte runs changed by the tested English executable: 576 bytes of status names and pointers. They are disjoint from the enhancement sites. Matching Japanese selects CP932 「誰に使いますか？」; matching English selects ASCII “Use on whom?”. Mixed or unknown executable states are refused, with no default language guess. Longer or rewritten script text does not determine the question's language.
 
-The executable edits and message file must be present together. Partial installs are refused. Removing the option restores the original six byte forms and removes only its message file. Apply this option after Fixes/Rebalance; remove it before installing either of those later. Artwork preserves both add-ons; use Artwork first on the full English Fixes reference disk so the add-on installer can grow the disk if needed.
+The executable edits and message file must be present together. Partial installs are refused. Removing Controls restores the original six byte forms and removes both its message file and controller launcher. Apply this option after Fixes/Rebalance; remove Controls before installing either of those later. Artwork preserves both control features; use Artwork first on the full English Fixes reference disk so the control component installer can grow the disk if needed.
 
 ## Keyboard/gamepad launcher
 
