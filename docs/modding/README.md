@@ -1,6 +1,6 @@
 # Modder documentation
 
-This reference describes the PC-98 game's actual formats and the Redux implementation. It covers language-preserving Fixes, independent Windows Artwork, Rebalance, both editors and the analysis tools. The Japanese game and the tested English translation use the same numeric record identities. Translated strings can move records and branch destinations, so file offsets must be resolved against the selected input.
+This reference describes the PC-98 game's actual formats and the Redux implementation. It covers language-preserving Fixes, independent Windows Artwork, Rebalance, optional keyboard/gamepad controls and target pause, both editors and the analysis tools. The Japanese game and the tested English translation use the same numeric record identities. Translated strings can move records and branch destinations, so file offsets must be resolved against the selected input.
 
 | Guide | Contents |
 | --- | --- |
@@ -10,6 +10,7 @@ This reference describes the PC-98 game's actual formats and the Redux implement
 | [Script VM and conditions](SCRIPT-VM.md) | Containers, opcodes, operands, flags, branches, negotiation and waits |
 | [Executable map and formulas](EXECUTABLE-MAP.md) | Hooks, formula implementations, code caves and machine-code ledgers |
 | [Graphics and Windows conversion](GRAPHICS.md) | FC frames, palettes, cells, conversion stages and display constraints |
+| [Controls and target pause](CONTROLS.md) | Launcher, keyboard/joystick input, target prompt, language detection and conflicts |
 | [Save format](SAVE-FORMAT.md) | Inventory expansion, save growth and compatibility limits |
 | [Modification examples](EXAMPLES.md) | Inspect a script, make a checked numeric edit, export a frame |
 | [Compatibility and verification](COMPATIBILITY.md) | Exact reference inputs, text-preserving adaptation and verified scope |

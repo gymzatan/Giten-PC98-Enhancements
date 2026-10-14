@@ -76,17 +76,17 @@ With the Japanese files, verified English HDI and `build/winpatch.zip` prepared:
 python tools/mkenhancements.py --english-image inputs/English.hdi
 ```
 
-Outputs are the three individual ZIP packages plus `dist/Giten-Megami-Tensei-Redux.zip`, and editable installer folders under `dist/English/`. The complete ZIP includes all three unchanged standalone patch pages, shared documentation and a `START HERE.html` guide. The builder keeps its accepted filenames: `(EN)` refers to the interface/documentation language. Its input handling preserves Japanese or tested English game text.
+Outputs are the four individual ZIP packages plus `dist/Giten-Megami-Tensei-Redux.zip`, and editable installer folders under `dist/English/`. The complete ZIP includes all four standalone patch pages, shared documentation and a `START HERE.html` guide. The builder keeps its accepted filenames: `(EN)` refers to the interface/documentation language. Its input handling preserves Japanese or tested English game text.
 
 `--pack-only` reuses already built payload directories after a documentation or interface edit. It does not validate or synthesize missing game inputs. `tools/webpatch.js` owns HDI/FAT operations; `tools/enhancement_runtime.js` applies the plans exported by `enhancement_plan.py`. `webpayload.py` packs the same manifest/blobs as the existing release.
 
-To rebuild only the complete ZIP after editing its guide, with the three already built ZIPs present:
+To rebuild only the complete ZIP after editing its guide, with the four already built ZIPs present:
 
 ```powershell
 python tools/mkenhancements.py --bundle-only
 ```
 
-This reads `dist/Giten Fixes (EN).zip`, `dist/Giten Rebalance (EN).zip` and `dist/Giten Windows Artwork (EN).zip`, renders the existing English documents, and adds `docs/enhancements/bundle/START HERE.html` and `START HERE.txt` from the repository. It needs no game disk or payload rebuild. The source HTML patch bytes are copied unchanged. `SHA256SUMS.txt` inside the complete ZIP covers its files.
+This reads `dist/Giten Fixes (EN).zip`, `dist/Giten Rebalance (EN).zip` `dist/Giten Windows Artwork (EN).zip` and `dist/Giten Add-ons (EN).zip`, renders the existing English documents, and adds `docs/enhancements/bundle/START HERE.html` and `START HERE.txt` from the repository. It needs no game disk or payload rebuild. The source HTML patch bytes are copied unchanged. `SHA256SUMS.txt` inside the complete ZIP covers its files.
 
 ## Editors
 
@@ -134,3 +134,11 @@ python tools/english_enhancements_test.py inputs/English.hdi
 They exercise the actual embedded HTML code under Node, including longer English strings, unrelated records, relocated branches and rejection of conflicting required instructions.
 
 Game-dependent tests require the extracted Japanese reference in `files/DDS98/`. The FC editor test operates on a temporary copy and checks export/import/write/readback, the backup and an untouched file. The CPU tests exercise the actual patched routines with Unicorn. The full FC corpus round trip is available with `fcencode_test.py corpus`; run it when changing the codec, not for every prose edit.
+
+## Optional controls and target prompt
+
+The fourth installer is `Apply Add-ons.html`. Its independent checkboxes use the shared `addons.py`, `targetprompt.py`, `gamepad.py` and `webpatch.js` rules. The English builder obtains the Japanese and English message files and the DOSBox-X mapper from those modules; `webpayload.addon_part()` serializes the same site definitions for both installer builders.
+
+Run `python tools/gamepad_test.py`, `python tools/targetprompt_test.py` and `python tools/holdshow_test.py` from `src/` to check assembled code, executable conflicts and pacing. They read your extracted Japanese `files/DDS98/DDS98.EXE`; the add-on install/remove checks also use your copy at `inputs/Japanese.hdi`. The integration command `python tools/enaddons_test.py --japanese inputs/Japanese.hdi --english inputs/English.hdi` exercises the four generated English installers against your own reference disks, including adding/removing each option and matching the Python output.
+
+`dosbox/defaults.map` is the emulator's saved default key map. `mkmapper.py` preserves those keyboard bindings and adds the XInput assignments; its output is included in the fourth ZIP and complete bundle. See [controls and executable locations](CONTROLS.md) for the implementation map.

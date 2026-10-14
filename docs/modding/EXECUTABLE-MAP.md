@@ -102,3 +102,7 @@ Examples of implemented rules: HP is `floor(min(9999, 5 + Grace + Luck + Lv*(0.9
 Known Fixes helper ranges include `25CA:E2E1–E410`, `1603:4288–4303`, `358E:639C–63F9`, EXP setter/display `1603:47F4–4847`, keyboard `25CA:9398`'s unused block, and the ranges listed in their modules. They were established against the reference by branch/call/pointer/relocation analysis and completed execution traces.
 
 They are **occupied by Redux**, and are not a generic free-space list for another mod. Rebalance builds on the Fixes byte states and places its assembled blocks around existing relocated words. A changed English executable must be re-analyzed and its expected states regenerated; structural script matching cannot make machine-code offsets portable automatically.
+
+## Optional control hooks and target-selection pause
+
+[Controls and target pause](CONTROLS.md) describes the runtime COM launcher, target question record, checked overlay/main-image sites and language detection. The executable-site CSV includes `holdshow` and `targetprompt` directly from their authoritative definitions; the controller launcher assembles its own annotated code and labels in `gamepad.py`.
