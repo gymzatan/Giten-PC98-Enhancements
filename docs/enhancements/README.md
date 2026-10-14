@@ -1,12 +1,12 @@
 # Giten Megami Tensei Redux
 
-Three enhancement patches in one download for **Giten Megami Tensei: Tokyo Mokushiroku on PC-98**, supporting the original Japanese game and the tested English fan translation. All patch interfaces and documentation are in English. The selected game's language is retained.
+Four patch packages in one download: three enhancements and an optional keyboard/gamepad and target-pause package for **Giten Megami Tensei: Tokyo Mokushiroku on PC-98**, supporting the original Japanese game and the tested English fan translation. All patch interfaces and documentation are in English. The selected game's language is retained.
 
 **English translation patch:** the English translation supported by Redux comes from [Sneikkimies](https://www.romhacking.net/community/8677/)' [Giten Megami Tensei translation release](https://www.romhacking.net/translations/7343/). It is distributed separately from the Redux enhancements.
 
 ## Start here
 
-1. Download **[Giten-Megami-Tensei-Redux.zip](https://github.com/gymzatan/Giten-PC98-Enhancements/releases/download/english-enhancements/Giten-Megami-Tensei-Redux.zip)**. It contains all three patches and the English manual.
+1. Download **[Giten-Megami-Tensei-Redux.zip](https://github.com/gymzatan/Giten-PC98-Enhancements/releases/download/english-enhancements/Giten-Megami-Tensei-Redux.zip)**. It contains Fixes, Windows Artwork, Rebalance, optional Add-ons and the English manual.
 2. Extract the whole ZIP and open **`START HERE.html`** in your browser.
 3. To install all three, follow this sequence. **Use each newly saved disk as the next input.**
 
@@ -18,6 +18,8 @@ Three enhancement patches in one download for **Giten Megami Tensei: Tokyo Mokus
 
 **Play the final `Giten_WIN.hdi`.** In this sequence it contains all three patches. If you want original combat rules with repairs and new artwork, skip Rebalance and feed `Giten_Fixed.hdi` into Artwork. Artwork can also be used alone.
 
+**Optional add-ons:** open `Apply Add-ons.html` last, select the disk you play, tick keyboard/gamepad controls and/or the target prompt, and save `Giten_Addons.hdi`. The same page takes an add-on out again.
+
 For English play, apply Sneikkimies' translation **before** Redux. The translation remains a separate download. Use the PC-98 emulator and boot setup that runs your original copy; the PepsimanGB pre-made HDI needs its companion boot floppy. Restart and load an in-game save after changing patches.
 
 ## Features
@@ -26,9 +28,9 @@ For English play, apply Sneikkimies' translation **before** Redux. The translati
 
 #### Everyday improvements
 
-- **Keyboard controls:** W/Z/A/D move forward/back/left/right; Q/E turn; S turns around. Enter or Space advances dialogue and battle-message waits. Menus still use the mouse.
+- **Keyboard controls:** W/Z/A/D move forward/back/left/right; Q/E turn; S turns around. Enter or Space advances dialogue and battle-message waits. Menus still use the mouse, unless the Gamepad add-on is installed.
 - **Larger inventory:** ordinary item capacity increases from **48 to 111 slots**. The separate 16 body-part slots remain unchanged, and original saves can be loaded.
-- **Easier-to-read dialogue and battles:** dialogue endings that used to close immediately now wait for input. Battle messages pause for about one second; a click or advance key can shorten the wait.
+- **Easier-to-read dialogue and battles:** dialogue endings that used to close immediately now wait for input. Battle messages pause for about one second, with the message being paused on shown (the original drew it only after the pause); a new click or advance key shortens the wait, while a click still held from choosing a target does not. The command panel's "no one to fight / talk to" style notices also stay about one second.
 - **Faster moon phases:** the visible phase advances after about **60 steps instead of 300**. Monthly chests, refillable vessels and other long-duration timers keep their original time scale.
 
 #### Story, equipment, and combat repairs
@@ -65,9 +67,18 @@ Artwork works **independently**, or before/after either gameplay patch. It retai
 
 - **Stats matter more:** attributes and human skill levels contribute more to combat, while several equipment contributions are reduced. After COMP awakens, the protagonist's Charm supports allied demons.
 - **Revised hit, damage, and critical-hit rules:** physical and magic attacks use new accuracy/damage curves; some physical misses become grazes, critical hits use a new probability and multiplier, and ordinary critical checks no longer depend on the moon gate.
-- **Updated HP, healing, speed, and moon effects:** adjusts HP growth and healing, uses Strength to handle armor weight, and revises moon damage scaling. Combat stats are recalculated at battle entry so existing in-game saves use the new rules.
+- **Updated HP, healing, speed, and moon effects:** adjusts HP growth and healing, uses Strength to handle armor weight, and revises moon damage scaling. Combat stats are recalculated at battle entry under the new rules.
 
 Rebalance requires **Fixes first**; Windows Artwork is optional. [Full Rebalance guide](REBALANCE.md) · [Exact formulas and numerical ledger](REFERENCE.md).
+
+### 4. Add-ons — Optional keyboard/gamepad controls and battle target pause
+
+- **Play menus and battles with the keyboard or a controller:** arrow keys / D-pad jump between clickable options and targets; Enter / A confirms, Esc / B cancels, and Tab / X switches between the main view and command/party panels. The mouse still works.
+- **Movement and free pointer control:** the left stick walks or turns; LB/RB strafe. Hold Y with the stick, or Shift with the arrow keys, to move the pointer freely. W/A/S/D also walk on the world map.
+- **Pause while choosing a battle target:** neither side's action gauge advances while you choose an enemy or ally. The question uses the selected game's language: **“Use on whom?”** in English, **「誰に使いますか？」** in Japanese.
+- **Choose independently and remove later:** the two checkboxes start with the selected disk's current settings. Tick or untick either and save a separate result. The ZIP includes an XInput mapper for DOSBox-X.
+
+Apply **Add-ons last**, after any other patches you want. It also works on the supported Japanese or tested English game without the other packages. Play the newly saved `Giten_Addons.hdi`. [Controls and setup](ADDONS.md).
 
 ## Choose your patches
 
@@ -76,6 +87,7 @@ Rebalance requires **Fixes first**; Windows Artwork is optional. [Full Rebalance
 | Fixes | Apply Fixes.html | Gameplay repairs and quality-of-life improvements | Supported Japanese or tested English game HDI |
 | Windows Artwork | Apply Windows Artwork.html | Windows remake graphics adapted to the PC-98 engine | Supported Japanese or tested English game HDI; Fixes is optional |
 | Rebalance | Apply Rebalance.html | New combat formulas, growth, boss tuning and learning pools | An image already processed by Fixes |
+| Add-ons | Apply Add-ons.html | Battle target prompt and gamepad control, each optional and removable | Supported Japanese or tested English game HDI; apply the other patches first |
 
 For the original combat rules with repairs, use **Fixes**. For redesigned combat, use **Fixes → Rebalance**. Add **Windows Artwork** whenever desired. Artwork works before or after either gameplay patch. You can also use Artwork alone on the original game.
 
@@ -88,18 +100,18 @@ For the original combat rules with repairs, use **Fixes**. For redesigned combat
 5. When applying another package, select the disk downloaded in step 4, not the original disk again.
 6. Mount the final disk in your emulator and start the game normally.
 
-The default download names are `Giten_Fixed.hdi`, `Giten_WIN.hdi` and `Giten_Rebalanced.hdi`. The name describes the most recent patch, not the complete set installed: an Artwork result can also contain Fixes and Rebalance. Renaming a disk does not add or remove patches.
+The default download names are `Giten_Fixed.hdi`, `Giten_WIN.hdi`, `Giten_Rebalanced.hdi` and `Giten_Addons.hdi`. The name describes the most recent patch, not the complete set installed: an Artwork result can also contain Fixes and Rebalance. Renaming a disk does not add or remove patches.
 
 The patch reads the selected file and creates a separate result in memory. It never writes back to your selected file. No image is uploaded, and no network connection, Python installation or command line is needed. Use a browser that supports `DecompressionStream` with `deflate-raw`; the page reports an error if decompression is unavailable.
 
 ## Japanese and English HDI compatibility
 
-**The same three packages work with the supported Japanese HDI and the tested English-translated HDI.** `EN` identifies the English interface and documentation; these packages do not include the English translation itself.
+**The same four packages work with the supported Japanese HDI and the tested English-translated HDI.** `EN` identifies the English interface and documentation; these packages do not include the English translation itself.
 
-| Starting game | Fixes | Windows Artwork | Rebalance |
-| --- | --- | --- | --- |
-| Supported Japanese HDI | Supported | Supported, independently | Apply Fixes first |
-| Tested English fan-translated HDI | Supported; retains translated text | Supported, independently | Apply Fixes first |
+| Starting game | Fixes | Windows Artwork | Rebalance | Add-ons |
+| --- | --- | --- | --- | --- |
+| Supported Japanese HDI | Supported | Supported, independently | Apply Fixes first | Supported; the target question is in Japanese |
+| Tested English fan-translated HDI | Supported; retains translated text | Supported, independently | Apply Fixes first | Supported; the target question is in English |
 
 For English play, first apply the [English translation BPS](https://www.romhacking.net/translations/7343/) to its required untouched Japanese HDI. Then apply these enhancements to that English result. Applying the translation BPS after enhancements fails its source checksum.
 
@@ -139,7 +151,7 @@ The patches preserve the disk's existing DOS files and startup configuration. Th
 
 In-game save files on the selected image are retained. Start from an in-game save after changing patches. An emulator save state includes the old running executable and memory; loading one can bypass the newly installed code or mix incompatible states.
 
-The expanded inventory reads original saves. Loading an expanded-inventory save in an unpatched game discards items beyond slot 48; preserve a backup before going back. Rebalance recalculates party statistics at battle entry, but it cannot undo changes already made to story flags or past character growth.
+The expanded inventory reads original saves. Loading an expanded-inventory save in an unpatched game discards items beyond slot 48; preserve a backup before going back. Saves do not carry over to Rebalance: it grows characters by different rules, and a party saved without it comes out much weaker under it, so start a new game for Rebalance.
 
 To return to the original graphics or rules, rebuild from your untouched original and apply only the packages you want. Do not apply Fixes over Rebalance to try to remove it: that combination is rejected. Each package installs its features together.
 
@@ -150,10 +162,11 @@ To return to the original graphics or rules, rebuild from your untouched origina
 - `FIXES.md`: repairs and convenience features.
 - `WINDOWS-ARTWORK.md`: graphics conversion, scope and compatibility.
 - `REBALANCE.md`: combat and progression rules.
+- `ADDONS.md`: the target prompt, gamepad control and connecting a gamepad.
 - `REFERENCE.md`: exact derived-stat formulas, learning-pool additions and numerical edit ledger.
 - `Rebalance-Changes.csv`: machine-readable changes using original record IDs and byte offsets.
 - `TROUBLESHOOTING.md`: controls, booting, errors and saves.
 - `CREDITS.md`: project and original-work credits.
 - `VALIDATION.md`: checks performed and their limits.
 
-`SHA256SUMS.txt` lists the files shipped in each package. The three ZIPs share documentation so each can be understood on its own.
+`SHA256SUMS.txt` lists the files shipped in each package. The four ZIPs share documentation so each can be understood on its own.

@@ -13,7 +13,11 @@
 | Numeric keypad 8 / 2 / 4 / 6 | Original forward / backward / left / right controls |
 | Numeric keypad 7 or 1 / 9 or 3 / 5 | Original turn left / turn right / turn around |
 
-Movement keys are case-insensitive. Menus, targets and general interface buttons still need the mouse. Advance keys do not select arbitrary on-screen menu buttons. Artwork alone retains the original game's controls and message timing.
+Movement keys are case-insensitive. Menus, targets and general interface buttons still need the mouse, unless the Gamepad add-on is installed: then the arrow keys move the pointer between the menus and targets in the view, Tab goes to the command panel and party list and back, Enter and Space are the left button and Esc and Backspace the right button (see ADDONS.md). Artwork alone retains the original game's controls and message timing.
+
+## The gamepad does nothing
+
+The game sees only what the emulator passes it: the PC-98 joystick and the keyboard. Check that the emulator maps the stick and two buttons to its PC-98 joystick and the D-pad to the arrow keys (ADDONS.md). DOSBox-X reads `mapper-giten.map` only when `mapperfile` in `[sdl]` names it, and passes the stick on only while the gamepad is connected. If the arrow keys do not move the pointer either, confirm that `DDS98\DDS98.COM` is on the disk and that the game is started with `DDS98`, not `DDS98.EXE`.
 
 ## The disk does not boot
 
@@ -23,11 +27,11 @@ Use a PC-98 emulator configuration. A standard IBM-compatible DOS machine is not
 
 ## Can I use an English-translated HDI?
 
-Yes, all three packages support the tested English BPS output identified in README.md. Apply that translation first, then Fixes and optionally Rebalance; Artwork can be applied independently or in either supported order. The original PepsimanGB HDI is Japanese until the translation BPS is applied.
+Yes, all four packages support the tested English BPS output identified in README.md. Apply that translation first, then Fixes and optionally Rebalance; Artwork can be applied independently or in either supported order. The original PepsimanGB HDI is Japanese until the translation BPS is applied.
 
 ## The patch reports unsupported files
 
-A required program, resource or instruction does not match an accepted state. For an English script conflict, the error identifies the file, chunk and record ID. Text-only changes can work, but changed event logic or executable code requires a compatibility update. If applying Rebalance, apply Fixes first and select that saved result. Keep a copy of the updated translation and report the exact conflict.
+A required program, resource or instruction does not match an accepted state. For an English script conflict, the error identifies the file, chunk and record ID. Text-only changes can work, but changed event logic or executable code requires a compatibility update. If applying Rebalance, apply Fixes first and select that saved result. If Fixes or Rebalance names `DDS98.EXE` on a disk with the target prompt add-on, untick the target prompt on `Apply Add-ons.html` first, apply Fixes or Rebalance, then tick it again. Keep a copy of the updated translation and report the exact conflict.
 
 If you installed custom balance changes, keep that customized image separately. These packages do not merge arbitrary modifications. Renaming a file does not bypass the checks.
 
@@ -55,7 +59,7 @@ Fully restart the emulator on the new disk and load an in-game save. A save stat
 
 ## Can I apply a patch twice?
 
-Fixes and Rebalance accept their own complete installed state, preserving the same game-file contents. Applying Fixes over Rebalance is not supported. Artwork reports that no output is needed when everything it installs is already present. To remove an edition or the artwork, rebuild from the original disk and retain your backed-up in-game saves.
+Fixes and Rebalance accept their own complete installed state, preserving the same game-file contents. Applying Fixes over Rebalance is not supported. Artwork reports that no output is needed when everything it installs is already present. To remove an edition or the artwork, rebuild from the original disk and retain your backed-up in-game saves. The add-ons are the exception: `Apply Add-ons.html` takes either one out again, and reports that nothing needs changing when the disk already has the add-ons as ticked.
 
 ## Reporting a problem
 

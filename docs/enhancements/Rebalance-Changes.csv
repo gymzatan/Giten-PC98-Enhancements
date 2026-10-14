@@ -1,4 +1,4 @@
-﻿Profile,Record,In-game name,Field / record offset,Width,Original,Patched
+Profile,Record,In-game name,Field / record offset,Width,Original,Patched
 Fixes,P2177,ダンタリオン,Fire resistance code @0x5B,u8,20,30
 Fixes,P2177,ダンタリオン,Ice resistance code @0x5C,u8,20,30
 Fixes,P2177,ダンタリオン,Force resistance code @0x5D,u8,20,30

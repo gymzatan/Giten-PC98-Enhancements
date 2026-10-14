@@ -1,9 +1,9 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Giten Enhancement Documentation</title><style>body{font:17px/1.7 system-ui,sans-serif;background:#f4f1ea;color:#222;max-width:1000px;margin:auto;padding:32px}section{margin:50px 0}h1{border-bottom:2px solid #823628}h2{margin-top:32px}a{color:#823628}code{background:#e8e2d8;padding:2px 4px;overflow-wrap:anywhere}table{display:block;overflow-x:auto;border-collapse:collapse;font-size:14px}td,th{border:1px solid #ccc;padding:8px;text-align:left;vertical-align:top}th{background:#e8e2d8}</style><nav><a href="#README">Readme</a> · <a href="#FIXES">Fixes</a> · <a href="#WINDOWS-ARTWORK">Windows Artwork</a> · <a href="#REBALANCE">Rebalance</a> · <a href="#REFERENCE">Reference</a> · <a href="#TROUBLESHOOTING">Troubleshooting</a> · <a href="#CREDITS">Credits</a> · <a href="#VALIDATION">Validation</a></nav><section id="README"><h1>Giten Megami Tensei Redux</h1>
-<p>Three enhancement patches in one download for <strong>Giten Megami Tensei: Tokyo Mokushiroku on PC-98</strong>, supporting the original Japanese game and the tested English fan translation. All patch interfaces and documentation are in English. The selected game's language is retained.</p>
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Giten Enhancement Documentation</title><style>body{font:17px/1.7 system-ui,sans-serif;background:#f4f1ea;color:#222;max-width:1000px;margin:auto;padding:32px}section{margin:50px 0}h1{border-bottom:2px solid #823628}h2{margin-top:32px}a{color:#823628}code{background:#e8e2d8;padding:2px 4px;overflow-wrap:anywhere}table{display:block;overflow-x:auto;border-collapse:collapse;font-size:14px}td,th{border:1px solid #ccc;padding:8px;text-align:left;vertical-align:top}th{background:#e8e2d8}</style><nav><a href="#README">Readme</a> · <a href="#FIXES">Fixes</a> · <a href="#WINDOWS-ARTWORK">Windows Artwork</a> · <a href="#REBALANCE">Rebalance</a> · <a href="#ADDONS">Addons</a> · <a href="#REFERENCE">Reference</a> · <a href="#TROUBLESHOOTING">Troubleshooting</a> · <a href="#CREDITS">Credits</a> · <a href="#VALIDATION">Validation</a></nav><section id="README"><h1>Giten Megami Tensei Redux</h1>
+<p>Four patch packages in one download: three enhancements and an optional keyboard/gamepad and target-pause package for <strong>Giten Megami Tensei: Tokyo Mokushiroku on PC-98</strong>, supporting the original Japanese game and the tested English fan translation. All patch interfaces and documentation are in English. The selected game's language is retained.</p>
 <p><strong>English translation patch:</strong> the English translation supported by Redux comes from <a href="https://www.romhacking.net/community/8677/">Sneikkimies</a>' <a href="https://www.romhacking.net/translations/7343/">Giten Megami Tensei translation release</a>. It is distributed separately from the Redux enhancements.</p>
 <h2>Start here</h2>
 <ol>
-<li>Download <strong><a href="https://github.com/gymzatan/Giten-PC98-Enhancements/releases/download/english-enhancements/Giten-Megami-Tensei-Redux.zip">Giten-Megami-Tensei-Redux.zip</a></strong>. It contains all three patches and the English manual.</li>
+<li>Download <strong><a href="https://github.com/gymzatan/Giten-PC98-Enhancements/releases/download/english-enhancements/Giten-Megami-Tensei-Redux.zip">Giten-Megami-Tensei-Redux.zip</a></strong>. It contains Fixes, Windows Artwork, Rebalance, optional Add-ons and the English manual.</li>
 <li>Extract the whole ZIP and open <strong><code>START HERE.html</code></strong> in your browser.</li>
 <li>To install all three, follow this sequence. <strong>Use each newly saved disk as the next input.</strong></li>
 </ol>
@@ -34,14 +34,15 @@
 </tbody>
 </table>
 <p><strong>Play the final <code>Giten_WIN.hdi</code>.</strong> In this sequence it contains all three patches. If you want original combat rules with repairs and new artwork, skip Rebalance and feed <code>Giten_Fixed.hdi</code> into Artwork. Artwork can also be used alone.</p>
+<p><strong>Optional add-ons:</strong> open <code>Apply Add-ons.html</code> last, select the disk you play, tick keyboard/gamepad controls and/or the target prompt, and save <code>Giten_Addons.hdi</code>. The same page takes an add-on out again.</p>
 <p>For English play, apply Sneikkimies' translation <strong>before</strong> Redux. The translation remains a separate download. Use the PC-98 emulator and boot setup that runs your original copy; the PepsimanGB pre-made HDI needs its companion boot floppy. Restart and load an in-game save after changing patches.</p>
 <h2>Features</h2>
 <h3>1. Fixes — Easier controls, more space, and game repairs</h3>
 <h4>Everyday improvements</h4>
 <ul>
-<li><strong>Keyboard controls:</strong> W/Z/A/D move forward/back/left/right; Q/E turn; S turns around. Enter or Space advances dialogue and battle-message waits. Menus still use the mouse.</li>
+<li><strong>Keyboard controls:</strong> W/Z/A/D move forward/back/left/right; Q/E turn; S turns around. Enter or Space advances dialogue and battle-message waits. Menus still use the mouse, unless the Gamepad add-on is installed.</li>
 <li><strong>Larger inventory:</strong> ordinary item capacity increases from <strong>48 to 111 slots</strong>. The separate 16 body-part slots remain unchanged, and original saves can be loaded.</li>
-<li><strong>Easier-to-read dialogue and battles:</strong> dialogue endings that used to close immediately now wait for input. Battle messages pause for about one second; a click or advance key can shorten the wait.</li>
+<li><strong>Easier-to-read dialogue and battles:</strong> dialogue endings that used to close immediately now wait for input. Battle messages pause for about one second, with the message being paused on shown (the original drew it only after the pause); a new click or advance key shortens the wait, while a click still held from choosing a target does not. The command panel's "no one to fight / talk to" style notices also stay about one second.</li>
 <li><strong>Faster moon phases:</strong> the visible phase advances after about <strong>60 steps instead of 300</strong>. Monthly chests, refillable vessels and other long-duration timers keep their original time scale.</li>
 </ul>
 <h4>Story, equipment, and combat repairs</h4>
@@ -75,9 +76,17 @@
 <ul>
 <li><strong>Stats matter more:</strong> attributes and human skill levels contribute more to combat, while several equipment contributions are reduced. After COMP awakens, the protagonist's Charm supports allied demons.</li>
 <li><strong>Revised hit, damage, and critical-hit rules:</strong> physical and magic attacks use new accuracy/damage curves; some physical misses become grazes, critical hits use a new probability and multiplier, and ordinary critical checks no longer depend on the moon gate.</li>
-<li><strong>Updated HP, healing, speed, and moon effects:</strong> adjusts HP growth and healing, uses Strength to handle armor weight, and revises moon damage scaling. Combat stats are recalculated at battle entry so existing in-game saves use the new rules.</li>
+<li><strong>Updated HP, healing, speed, and moon effects:</strong> adjusts HP growth and healing, uses Strength to handle armor weight, and revises moon damage scaling. Combat stats are recalculated at battle entry under the new rules.</li>
 </ul>
 <p>Rebalance requires <strong>Fixes first</strong>; Windows Artwork is optional. <a href="REBALANCE.md">Full Rebalance guide</a> · <a href="REFERENCE.md">Exact formulas and numerical ledger</a>.</p>
+<h3>4. Add-ons — Optional keyboard/gamepad controls and battle target pause</h3>
+<ul>
+<li><strong>Play menus and battles with the keyboard or a controller:</strong> arrow keys / D-pad jump between clickable options and targets; Enter / A confirms, Esc / B cancels, and Tab / X switches between the main view and command/party panels. The mouse still works.</li>
+<li><strong>Movement and free pointer control:</strong> the left stick walks or turns; LB/RB strafe. Hold Y with the stick, or Shift with the arrow keys, to move the pointer freely. W/A/S/D also walk on the world map.</li>
+<li><strong>Pause while choosing a battle target:</strong> neither side's action gauge advances while you choose an enemy or ally. The question uses the selected game's language: <strong>“Use on whom?”</strong> in English, <strong>「誰に使いますか？」</strong> in Japanese.</li>
+<li><strong>Choose independently and remove later:</strong> the two checkboxes start with the selected disk's current settings. Tick or untick either and save a separate result. The ZIP includes an XInput mapper for DOSBox-X.</li>
+</ul>
+<p>Apply <strong>Add-ons last</strong>, after any other patches you want. It also works on the supported Japanese or tested English game without the other packages. Play the newly saved <code>Giten_Addons.hdi</code>. <a href="ADDONS.md">Controls and setup</a>.</p>
 <h2>Choose your patches</h2>
 <table>
 <thead>
@@ -107,6 +116,12 @@
 <td>New combat formulas, growth, boss tuning and learning pools</td>
 <td>An image already processed by Fixes</td>
 </tr>
+<tr>
+<td>Add-ons</td>
+<td>Apply Add-ons.html</td>
+<td>Battle target prompt and gamepad control, each optional and removable</td>
+<td>Supported Japanese or tested English game HDI; apply the other patches first</td>
+</tr>
 </tbody>
 </table>
 <p>For the original combat rules with repairs, use <strong>Fixes</strong>. For redesigned combat, use <strong>Fixes → Rebalance</strong>. Add <strong>Windows Artwork</strong> whenever desired. Artwork works before or after either gameplay patch. You can also use Artwork alone on the original game.</p>
@@ -119,10 +134,10 @@
 <li>When applying another package, select the disk downloaded in step 4, not the original disk again.</li>
 <li>Mount the final disk in your emulator and start the game normally.</li>
 </ol>
-<p>The default download names are <code>Giten_Fixed.hdi</code>, <code>Giten_WIN.hdi</code> and <code>Giten_Rebalanced.hdi</code>. The name describes the most recent patch, not the complete set installed: an Artwork result can also contain Fixes and Rebalance. Renaming a disk does not add or remove patches.</p>
+<p>The default download names are <code>Giten_Fixed.hdi</code>, <code>Giten_WIN.hdi</code>, <code>Giten_Rebalanced.hdi</code> and <code>Giten_Addons.hdi</code>. The name describes the most recent patch, not the complete set installed: an Artwork result can also contain Fixes and Rebalance. Renaming a disk does not add or remove patches.</p>
 <p>The patch reads the selected file and creates a separate result in memory. It never writes back to your selected file. No image is uploaded, and no network connection, Python installation or command line is needed. Use a browser that supports <code>DecompressionStream</code> with <code>deflate-raw</code>; the page reports an error if decompression is unavailable.</p>
 <h2>Japanese and English HDI compatibility</h2>
-<p><strong>The same three packages work with the supported Japanese HDI and the tested English-translated HDI.</strong> <code>EN</code> identifies the English interface and documentation; these packages do not include the English translation itself.</p>
+<p><strong>The same four packages work with the supported Japanese HDI and the tested English-translated HDI.</strong> <code>EN</code> identifies the English interface and documentation; these packages do not include the English translation itself.</p>
 <table>
 <thead>
 <tr>
@@ -130,6 +145,7 @@
 <th>Fixes</th>
 <th>Windows Artwork</th>
 <th>Rebalance</th>
+<th>Add-ons</th>
 </tr>
 </thead>
 <tbody>
@@ -138,12 +154,14 @@
 <td>Supported</td>
 <td>Supported, independently</td>
 <td>Apply Fixes first</td>
+<td>Supported; the target question is in Japanese</td>
 </tr>
 <tr>
 <td>Tested English fan-translated HDI</td>
 <td>Supported; retains translated text</td>
 <td>Supported, independently</td>
 <td>Apply Fixes first</td>
+<td>Supported; the target question is in English</td>
 </tr>
 </tbody>
 </table>
@@ -172,7 +190,7 @@
 <p>The patches preserve the disk's existing DOS files and startup configuration. This edition is not a standalone bootable HDI: opening only its hard disk is insufficient. The packages contain no emulator, BIOS, DOS system files, boot floppy, translation BPS or complete game image. Use the emulator and boot media with which your original copy works.</p>
 <h2>Saves and switching editions</h2>
 <p>In-game save files on the selected image are retained. Start from an in-game save after changing patches. An emulator save state includes the old running executable and memory; loading one can bypass the newly installed code or mix incompatible states.</p>
-<p>The expanded inventory reads original saves. Loading an expanded-inventory save in an unpatched game discards items beyond slot 48; preserve a backup before going back. Rebalance recalculates party statistics at battle entry, but it cannot undo changes already made to story flags or past character growth.</p>
+<p>The expanded inventory reads original saves. Loading an expanded-inventory save in an unpatched game discards items beyond slot 48; preserve a backup before going back. Saves do not carry over to Rebalance: it grows characters by different rules, and a party saved without it comes out much weaker under it, so start a new game for Rebalance.</p>
 <p>To return to the original graphics or rules, rebuild from your untouched original and apply only the packages you want. Do not apply Fixes over Rebalance to try to remove it: that combination is rejected. Each package installs its features together.</p>
 <h2>Documentation</h2>
 <p><code>Documentation.html</code> combines the following English documents for offline reading:</p>
@@ -180,13 +198,14 @@
 <li><code>FIXES.md</code>: repairs and convenience features.</li>
 <li><code>WINDOWS-ARTWORK.md</code>: graphics conversion, scope and compatibility.</li>
 <li><code>REBALANCE.md</code>: combat and progression rules.</li>
+<li><code>ADDONS.md</code>: the target prompt, gamepad control and connecting a gamepad.</li>
 <li><code>REFERENCE.md</code>: exact derived-stat formulas, learning-pool additions and numerical edit ledger.</li>
 <li><code>Rebalance-Changes.csv</code>: machine-readable changes using original record IDs and byte offsets.</li>
 <li><code>TROUBLESHOOTING.md</code>: controls, booting, errors and saves.</li>
 <li><code>CREDITS.md</code>: project and original-work credits.</li>
 <li><code>VALIDATION.md</code>: checks performed and their limits.</li>
 </ul>
-<p><code>SHA256SUMS.txt</code> lists the files shipped in each package. The three ZIPs share documentation so each can be understood on its own.</p></section>
+<p><code>SHA256SUMS.txt</code> lists the files shipped in each package. The four ZIPs share documentation so each can be understood on its own.</p></section>
 <section id="FIXES"><h1>Fixes and convenience features</h1>
 <p>Fixes repairs gameplay defects and adds convenience features while retaining the selected Japanese or English game text and its font. The battle formulas remain those of the original game after correcting the implementation defects below. Rebalance is a separate, optional package.</p>
 <p><strong>Input compatibility:</strong> the supported Japanese game and the tested English translation listed in README.md. English scripts receive checked edits to individual records and retain the input text; the Japanese path uses its accepted native files.</p>
@@ -238,7 +257,7 @@
 </ul>
 <h2>Convenience changes included in Fixes</h2>
 <p><strong>Keyboard:</strong> W/Z/A/D move forward/back/left/right, Q/E turn left/right, and S turns around. Enter or Space advances dialogue and battle-message waits. Menus still use the mouse. See <code>TROUBLESHOOTING.md</code>.</p>
-<p><strong>Message pacing:</strong> battle messages pause for approximately one second after being drawn; clicking or pressing an advance key can shorten a wait.</p>
+<p><strong>Message pacing:</strong> battle messages pause for approximately one second after being drawn, and the message a pause follows is the one on screen during it - the original game ran a whole message before drawing it, so its pauses showed the previous line. A new click or an advance key shortens a pause; the click that chose a target, if the button is still down when the action's first message pauses, does not (the original ended that pause at once); holding the right button still skips every pause. The game's own pauses follow the same one-second rule: the long pause before a defeat message is dropped (the damage message before it now pauses itself), the pauses inside a confused or charmed character's antics last one second, and "the enemy fled" / "avoided the battle" at the end of a battle pause too. Animations such as a weapon swing or a defeated enemy vanishing keep the previous message on screen a little longer. The command panel's notices - nothing to fight or talk to, nobody able to use an item, no DDS or AMS - stay about one second instead of about a quarter.</p>
 <p><strong>Dantalion's second form:</strong> fire, ice, force and electricity damage multipliers change from 40% to 60%, matching the final form. A larger percentage means more damage passes through.</p>
 <p><strong>Faster moon:</strong> the visible phase changes after about 60 steps instead of about 300. Moon-dependent battles, negotiation and events follow the faster phase. Monthly chests, refillable Soma/Kushinada vessels, the core shield duration and body-part drying limits retain their original time scale. The vessels refill on an eligible full moon after the original monthly interval; they cannot be farmed every accelerated cycle. The Core Shield description is adjusted in the selected language to reflect its original time limit; the English line states at most 3000 game minutes.</p>
 <p>These features are installed together. The standalone artwork patch is not required for any of them.</p></section>
@@ -261,7 +280,7 @@
 <p>The spring scene uses one fewer palette slot to leave room for two enemies; its water glow is dithered using the remaining colors. The PC-98 engine still has a finite palette budget, so this conversion cannot eliminate every possible overlap with arbitrary custom graphics.</p>
 <p>The patch also suppresses <code>no space</code> debug text and changes the two enemy palette-allocation sites in <code>DDS98.EXE</code>. Those repairs are already present in Fixes. No other Fixes or Rebalance features are installed by Artwork alone.</p>
 <h2>File checks and applying again</h2>
-<p>The reference PepsimanGB disk has fourteen unused cylinders after its DOS partition. Its original free space is slightly too small for the complete artwork. On that exact recognized layout, this package extends the existing FAT12 partition into the unused 693 KiB tail. The HDI file size, cluster size, existing file locations and startup code stay unchanged. It checks the partition table, FAT capacity and unused tail before doing so; unexpected tail data causes refusal. Other disk layouts are not resized. Resources that shrink are written before resources that grow, so tight free space does not cause an avoidable temporary allocation failure.</p>
+<p>The reference PepsimanGB disk has fourteen unused cylinders after its DOS partition. Its original free space is slightly too small for the complete artwork. On that exact recognized layout, this package extends the existing FAT12 partition into the unused 693 KiB tail. The HDI file size, cluster size, existing file locations and startup code stay unchanged. It checks the partition table, FAT capacity and unused tail before doing so; unexpected tail data causes refusal. Other disk layouts are not resized. A disk the add-on page has grown (ADDONS.md) is not the recognized layout any more, so apply the artwork before the add-ons. Resources that shrink are written before resources that grow, so tight free space does not cause an avoidable temporary allocation failure.</p>
 <p>Before replacement, artwork hashes distinguish original files, files already supplied by this patch, missing entries and files modified by something else. Unrecognized modified artwork or unsupported executable patch sites cause refusal instead of overwriting another mod.</p>
 <p>The patch replaces the selected <code>DDS98\FC*.BIN</code> graphics, remaps door selectors in <code>M0*.BIN</code> and updates the palette sites. It retains saves, unrelated files and DOS startup configuration. If every artwork file, door mapping and executable site is already patched, the page reports that no new image is needed.</p>
 <p>To restore PC-98 artwork, return to your original image and apply only the gameplay packages you want. The artwork package is an installer, not an uninstall or graphics-toggle tool.</p></section>
@@ -301,7 +320,7 @@
 <p>The magic route gains the Megi line, and the gun route gains a dedicated learning pool. See <code>REFERENCE.md</code> for the exact lists and IDs. Acquisition still uses the game's existing level-up checks; eligibility does not guarantee learning a skill on that exact level.</p>
 <h2>Summoning, battle entry and negotiation</h2>
 <p>Summoning a demon from COMP during battle consumes one action of the COMP holder: the protagonist, or Emi if the protagonist is absent or unable to act. A character already counting down waits an additional action interval. Summoning outside battle remains free.</p>
-<p>At each battle's start, derived stats, maximum HP/MP and speed are recalculated for everyone. This lets existing in-game saves pick up the new formulas; it does not retroactively redistribute past level-up points.</p>
+<p>At each battle's start, derived stats, maximum HP/MP and speed are recalculated for everyone under the new formulas. Past growth and level-up points are not redistributed, and Rebalance grows characters by different rules, so a party saved without Rebalance comes out much weaker under it: start a new game for Rebalance rather than continuing a save made without it.</p>
 <p>During negotiation, the protagonist's Intuition, Magic, Intelligence, Agility, Dexterity, Charm and Luck checks use <code>attribute × (100 + C) / 100</code>, where <code>C</code> is COMP level. The recruitment level gate uses <code>protagonist level × (200 + C) / 200</code>. Willpower, Strength, Vitality and Grace receive no such boost, and demon-side values and other conditions remain unchanged.</p>
 <h2>Level-gap EXP</h2>
 <p>For every defeated enemy and every eligible member, multiply the enemy's EXP by <code>2^(clamp(enemy level − member level, −10, 10) / 5)</code>, then retain the ordinary ×2 and division by the eligible-member count. Five levels below the enemy gives ×2, ten or more gives ×4; five above gives ×0.5, ten or more gives ×0.25. Equal levels give ×1.</p>
@@ -331,6 +350,101 @@
 </tbody>
 </table>
 <p>Status sources/caps, MP rules, status effects, existing resistance mechanics, encounter/flee rules, story checks, chests, bargaining and terminal behavior retain their existing logic except for the explicit Fixes repairs and numerical edits. Rebalance is a designed alternate ruleset, not a promise that every play style has identical difficulty.</p></section>
+<section id="ADDONS"><h1>Add-ons</h1>
+<p><code>Apply Add-ons.html</code> offers two optional add-ons. Tick the ones the image should have; untick one to take it out again. The page reads which add-ons the chosen image already has and starts its boxes from that. It works on the supported Japanese game and the tested English translation, with or without Fixes, Rebalance and Windows Artwork, and saves <code>Giten_Addons.hdi</code>.</p>
+<p>The page tells the game's language from <code>DDS98.EXE</code>: the English translation changes 576 bytes there (the status names and their pointers), and no other patch writes those bytes. A program whose bytes match neither language is refused.</p>
+<h2>Target prompt</h2>
+<p>When a command waits for its target (after you choose an attack, a skill or an item), the battle text box asks “Use on whom?” in the English game, or 「誰に使いますか？」 in the Japanese game, and battle time stops. No action gauge fills on either side until you pick a target or cancel with the right button. Choosing again after a cancel asks again, and the picked action's own message replaces the question.</p>
+<p>The original game stops the clock only while you pick an ally. While you point at an enemy, which covers every sword and gun attack and every attack skill, the enemies, bosses included, keep acting.</p>
+<p>The add-on changes six places in <code>DDS98.EXE</code> and adds <code>DDS98\MS00D9.BIN</code>, a message file the game does not otherwise have:</p>
+<ul>
+<li>the target pick clears the battle tick on every frame and keeps the message window open;</li>
+<li>the pick's first frame shows the question;</li>
+<li>the command menu and the skill/item menu reset it, so the next pick asks again;</li>
+<li>two unused status wrappers in the program hold the new code and a one-byte flag.</li>
+</ul>
+<h2>Keyboard / gamepad controls</h2>
+<p>Play with a gamepad or the keyboard. The mouse still works.</p>
+<table>
+<thead>
+<tr>
+<th>Gamepad</th>
+<th>Keyboard</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Left stick</td>
+<td>PC-98 joystick</td>
+<td>Walk. In a dungeon: up steps forward, down turns around, left and right turn. On the world map: walk straight in that direction</td>
+</tr>
+<tr>
+<td>—</td>
+<td>W / A / S / D</td>
+<td>Walk on the world map (in a dungeon the Fixes keyboard controls apply)</td>
+</tr>
+<tr>
+<td>D-pad</td>
+<td>Arrow keys</td>
+<td>Move the pointer to the nearest clickable thing in that direction within the view: menu entries, options, battle targets, the person standing in front of the party, a chest, the opening dial pad, equipment slots. With nothing to click in the view (an empty corridor) the pointer stays where it is. On the world map the D-pad walks</td>
+</tr>
+<tr>
+<td>A</td>
+<td>Enter / Space / joystick button 1</td>
+<td>Left button</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Esc / Backspace / joystick button 2</td>
+<td>Right button. In the interface (after X) it returns to the view instead, with the pointer in the middle of the view</td>
+</tr>
+<tr>
+<td>X</td>
+<td>Tab</td>
+<td>Go to the interface: the command panel on the right and the party list at the bottom (where skills and items for allies pick their target); the D-pad then moves among those. Press again to return: the pointer goes back exactly where it was in the view</td>
+</tr>
+<tr>
+<td>Y (hold)</td>
+<td>Ctrl (hold)</td>
+<td>The stick moves the pointer freely instead of walking: slowly at first, then faster, anywhere on the screen. The D-pad still jumps between targets. After Y is let go, the stick walks again once it has been let go too</td>
+</tr>
+<tr>
+<td>—</td>
+<td>Shift (hold) + arrow keys</td>
+<td>The arrow keys move the pointer freely, as the stick does with Y. After Shift is let go, the arrow keys jump between targets again once they have been let go too</td>
+</tr>
+<tr>
+<td>LB / RB</td>
+<td>4 / 6</td>
+<td>Step sideways in a dungeon (the game's own keys)</td>
+</tr>
+</tbody>
+</table>
+<p>At the end of a list or panel the D-pad wraps round: Down on the last entry goes to the first (STATUS to FIGHT on the command panel), Right on the rightmost target goes to the leftmost. The D-pad never reaches the interface by itself, and never the direction pad below the command panel (walk with the stick or the keys). The next time X goes to the interface, the pointer returns to the button it last left there. A menu opened from the interface, such as DDS or STATUS on the command panel, takes the D-pad while it is open; once it is closed (with B or its own EXIT), the D-pad is back in the interface. When something new comes up in the view, such as the next member's turn in battle, the pointer is back in the view on its own.</p>
+<p>On the world map, a short press of B (or X) moves the pointer to the commands on the right, where the D-pad picks one; another short press of B (or X) puts the pointer back where it was. Holding B is the right button, which opens the small map.</p>
+<p>The add-on is one file, <code>DDS98\DDS98.COM</code>. The boot floppy's startup script ends with <code>CD C:\DDS98</code> and <code>DDS98</code>, and DOS runs a <code>.COM</code> file before an <code>.EXE</code> of the same name, so this file starts first. It hooks the mouse driver's interrupt, starts <code>DDS98.EXE</code> with the same command line, and unhooks the interrupt when the game ends. When the game registers its mouse handler, the add-on checks the game's code at every place it hooks before changing anything in memory; the program on the disk is not changed. While the game runs it keeps about 8 KB of conventional memory. No startup file is changed.</p>
+<h3>Connecting a gamepad</h3>
+<p>The game reads a PC-98 joystick (one stick, two buttons) and the keyboard. Set up your emulator so that:</p>
+<ul>
+<li>the left stick and A and B are the PC-98 joystick;</li>
+<li>the D-pad is the arrow keys;</li>
+<li>X is Tab;</li>
+<li>Y is Ctrl;</li>
+<li>LB and RB are the 4 and 6 keys.</li>
+</ul>
+<p>Use the emulator's own joystick and key settings, or a tool such as Steam Input or JoyToKey.</p>
+<p><strong>DOSBox-X:</strong> the add-on package includes <code>mapper-giten.map</code>. It is the default key and joystick configuration of DOSBox-X 2026.10.01 with the assignments above for an XInput gamepad (SDL button order: 0 A, 1 B, 2 X, 3 Y, 4 LB, 5 RB; hat 0 the D-pad). Put it beside your <code>dosbox-x.conf</code> and set <code>mapperfile = mapper-giten.map</code> in the <code>[sdl]</code> section. A mapper file replaces every binding, so it lists all of the defaults too. DOSBox-X passes the stick to the emulated PC-98 only while a gamepad is connected.</p>
+<h2>Disk space</h2>
+<p>Each add-on's file takes one cluster of the disk (8 KiB on the reference disk). The English game with Fixes and Windows Artwork fills the reference disk completely: the artwork takes the last free clusters, including the 693 KiB tail it reclaims. When the chosen disk has fewer free clusters than the add-ons need, the page grows the image by whole cylinders at its end (one cylinder of the reference disk is 49.5 KiB, six clusters) and says so in its log. The HDI header's size and cylinder count, the partition's end cylinder and the volume's size follow; no file moves. The page grows only a disk whose single DOS volume already reaches its end, and refuses any other.</p>
+<h2>Order with the other patches</h2>
+<ul>
+<li><strong>Fixes and Rebalance</strong> check <code>DDS98.EXE</code> as a whole and refuse one that has the target prompt in it, without producing an output. Apply them before the target prompt. To add them later, untick the target prompt first, apply them, then tick it again.</li>
+<li><strong>Windows Artwork:</strong> apply it before the add-ons. It checks its own places in <code>DDS98.EXE</code> only and keeps both add-ons, but on the English game with Fixes the reference disk has room for everything only in this order: with the add-ons already in, the artwork is two clusters short and refuses, and a disk the add-on page has grown is no longer the reference layout, whose tail the artwork reclaims. On the Japanese game either order works.</li>
+<li><strong>Gamepad</strong> adds a file only and works in any order with every patch.</li>
+</ul>
+<h2>Saves</h2>
+<p>Adding or removing an add-on changes no save file. Use an in-game save across the change, not an emulator save state: a save state holds the old running program.</p></section>
 <section id="REFERENCE"><h1>Formula and data reference</h1>
 <h2>Derived battle stats</h2>
 <p>Generated from the same coefficients used to patch the executable. Multiplications shown here already include equipment weights.</p>
@@ -5347,14 +5461,16 @@
 </tr>
 </tbody>
 </table>
-<p>Movement keys are case-insensitive. Menus, targets and general interface buttons still need the mouse. Advance keys do not select arbitrary on-screen menu buttons. Artwork alone retains the original game's controls and message timing.</p>
+<p>Movement keys are case-insensitive. Menus, targets and general interface buttons still need the mouse, unless the Gamepad add-on is installed: then the arrow keys move the pointer between the menus and targets in the view, Tab goes to the command panel and party list and back, Enter and Space are the left button and Esc and Backspace the right button (see ADDONS.md). Artwork alone retains the original game's controls and message timing.</p>
+<h2>The gamepad does nothing</h2>
+<p>The game sees only what the emulator passes it: the PC-98 joystick and the keyboard. Check that the emulator maps the stick and two buttons to its PC-98 joystick and the D-pad to the arrow keys (ADDONS.md). DOSBox-X reads <code>mapper-giten.map</code> only when <code>mapperfile</code> in <code>[sdl]</code> names it, and passes the stick on only while the gamepad is connected. If the arrow keys do not move the pointer either, confirm that <code>DDS98\DDS98.COM</code> is on the disk and that the game is started with <code>DDS98</code>, not <code>DDS98.EXE</code>.</p>
 <h2>The disk does not boot</h2>
 <p>First confirm the unmodified game boots in the same emulator configuration. The PepsimanGB pre-made hard disk uses the companion boot floppy; attach both and boot the floppy. Its script expects the game hard disk at <code>C:</code> and the boot floppy at <code>A:</code>. The enhancement packages preserve that setup rather than installing DOS or replacing your startup script.</p>
 <p>Use a PC-98 emulator configuration. A standard IBM-compatible DOS machine is not the target platform. Configure the emulator's hard-disk path to the final downloaded HDI; a newly saved file is not automatically mounted. The existing floppy's startup script launches the game without manually typing its executable name when mounted as intended.</p>
 <h2>Can I use an English-translated HDI?</h2>
-<p>Yes, all three packages support the tested English BPS output identified in README.md. Apply that translation first, then Fixes and optionally Rebalance; Artwork can be applied independently or in either supported order. The original PepsimanGB HDI is Japanese until the translation BPS is applied.</p>
+<p>Yes, all four packages support the tested English BPS output identified in README.md. Apply that translation first, then Fixes and optionally Rebalance; Artwork can be applied independently or in either supported order. The original PepsimanGB HDI is Japanese until the translation BPS is applied.</p>
 <h2>The patch reports unsupported files</h2>
-<p>A required program, resource or instruction does not match an accepted state. For an English script conflict, the error identifies the file, chunk and record ID. Text-only changes can work, but changed event logic or executable code requires a compatibility update. If applying Rebalance, apply Fixes first and select that saved result. Keep a copy of the updated translation and report the exact conflict.</p>
+<p>A required program, resource or instruction does not match an accepted state. For an English script conflict, the error identifies the file, chunk and record ID. Text-only changes can work, but changed event logic or executable code requires a compatibility update. If applying Rebalance, apply Fixes first and select that saved result. If Fixes or Rebalance names <code>DDS98.EXE</code> on a disk with the target prompt add-on, untick the target prompt on <code>Apply Add-ons.html</code> first, apply Fixes or Rebalance, then tick it again. Keep a copy of the updated translation and report the exact conflict.</p>
 <p>If you installed custom balance changes, keep that customized image separately. These packages do not merge arbitrary modifications. Renaming a file does not bypass the checks.</p>
 <h2>Not enough space</h2>
 <p>This is free space inside the virtual hard disk, not free space on the host computer. Keep the original reference image's capacity and avoid filling it with unrelated files. The page produces no downloadable image on failure. Do not remove game resources to make room.</p>
@@ -5368,7 +5484,7 @@
 <h2>Old save states behave strangely</h2>
 <p>Fully restart the emulator on the new disk and load an in-game save. A save state restores memory containing the previous executable and can keep using old formulas, text pointers or graphics. The XMS swap repair solves a particular missing-directory crash, not every combination of save state and changed disk.</p>
 <h2>Can I apply a patch twice?</h2>
-<p>Fixes and Rebalance accept their own complete installed state, preserving the same game-file contents. Applying Fixes over Rebalance is not supported. Artwork reports that no output is needed when everything it installs is already present. To remove an edition or the artwork, rebuild from the original disk and retain your backed-up in-game saves.</p>
+<p>Fixes and Rebalance accept their own complete installed state, preserving the same game-file contents. Applying Fixes over Rebalance is not supported. Artwork reports that no output is needed when everything it installs is already present. To remove an edition or the artwork, rebuild from the original disk and retain your backed-up in-game saves. The add-ons are the exception: <code>Apply Add-ons.html</code> takes either one out again, and reports that nothing needs changing when the disk already has the add-ons as ticked.</p>
 <h2>Reporting a problem</h2>
 <p>Include the package name, input image checksum, browser or emulator details, full patch log, installation order, and an exact description of the failing action. For a game issue, include whether it also occurs in the unmodified original and whether you loaded an in-game save or an emulator save state. Do not distribute a complete game disk as part of a public report.</p></section>
 <section id="CREDITS"><h1>Credits and scope</h1>
@@ -5400,6 +5516,16 @@
 <li>Preservation of an English negotiation question supplied in a previously missing record.</li>
 <li>Precise rejection of changed event operands and missing prerequisite script repairs, without producing output.</li>
 </ul>
-<p>The native builds were repeated and compared against the accepted outputs: 132 Japanese Fixes files, 165 Japanese Rebalance files, 148 English Fixes files and 181 English Rebalance files remained identical.</p>
+<p>The add-on page was checked with 84 runs of its embedded code on eight disks: the Japanese reference and the English reference, each as it is, with Fixes, with Fixes and Rebalance, and with those and Windows Artwork. The checks cover:</p>
+<ul>
+<li>The language read from <code>DDS98.EXE</code>, and no Fixes, Rebalance, artwork or target-prompt byte among the 576 bytes that tell it.</li>
+<li>Each add-on in and out, byte for byte equal to the Python reference, with the question in the disk's language; both out again leaves every file as before.</li>
+<li>The disk grown only when it lacks free clusters: the English disk with Fixes and Windows Artwork (none free) gains one cylinder; the other seven are not resized.</li>
+<li>Fixes and Rebalance refusing a disk with the target prompt and naming it as the reason; Fixes keeping the gamepad add-on; Windows Artwork before or after the add-ons giving the same files where the disk has room for both orders.</li>
+<li>Refusal, without output, of a unsupported-language disk, a program mixing the two languages, another program named <code>DDS98.COM</code>, and a target prompt half installed.</li>
+<li>The gamepad's hook sites recognised in every one of these programs and in the Japanese and English Fixes, Rebalance and artwork programs.</li>
+</ul>
+<p>In DOSBox-X, the grown English disk with Fixes, Rebalance, Windows Artwork and both add-ons booted from the companion FDI to its title screen, where the arrow keys moved the pointer, and started a new game. In battles on a test disk carrying the English game's files with both add-ons, and again with the Japanese game's, “Use on whom?” and 「誰に使いますか？」 stayed up while battle time was stopped, Tab moved between the party list and the enemy, and the attack's message replaced the question.</p>
+<p>The native builds were repeated and compared against the accepted outputs: 133 Japanese Fixes files, 166 Japanese Rebalance files, 148 English Fixes files and 181 English Rebalance files remained identical.</p>
 <p>The supplied English BPS output contains incorrect record counts in 51 script chunks. Fixes corrects those verified headers while preserving their records. It also corrects 19 branch fields in nine records where the translation left stale offsets and the corresponding original control structure matches unambiguously. These are specific checked compatibility repairs. Other translation content and existing defects are retained; this is not a certification of every upstream English script or a completion of its translation.</p>
 <p>Copies of the English Fixes and English Fixes + Rebalance + Windows Artwork results were booted in the existing DOSBox-X PC-9821 setup with 16 MB RAM and the companion FDI. They reached their title screens without entering startup commands. A Japanese combined result was also checked. This is a startup smoke check, not a complete playthrough; new-game progression was not verified through the automated mouse controls. Browser processing was verified through the page's actual embedded JavaScript under Node; a full interactive browser session was not part of this verification.</p></section></html>

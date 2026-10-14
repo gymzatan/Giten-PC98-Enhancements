@@ -63,7 +63,7 @@ The magic route gains the Megi line, and the gun route gains a dedicated learnin
 
 Summoning a demon from COMP during battle consumes one action of the COMP holder: the protagonist, or Emi if the protagonist is absent or unable to act. A character already counting down waits an additional action interval. Summoning outside battle remains free.
 
-At each battle's start, derived stats, maximum HP/MP and speed are recalculated for everyone. This lets existing in-game saves pick up the new formulas; it does not retroactively redistribute past level-up points.
+At each battle's start, derived stats, maximum HP/MP and speed are recalculated for everyone under the new formulas. Past growth and level-up points are not redistributed, and Rebalance grows characters by different rules, so a party saved without Rebalance comes out much weaker under it: start a new game for Rebalance rather than continuing a save made without it.
 
 During negotiation, the protagonist's Intuition, Magic, Intelligence, Agility, Dexterity, Charm and Luck checks use `attribute × (100 + C) / 100`, where `C` is COMP level. The recruitment level gate uses `protagonist level × (200 + C) / 200`. Willpower, Strength, Vitality and Grace receive no such boost, and demon-side values and other conditions remain unchanged.
 
