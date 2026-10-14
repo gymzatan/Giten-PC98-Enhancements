@@ -26,7 +26,8 @@ The interpreter, as its cases do it (main 0x1BAA4 and what they call):
              swaps the top two
   ends       000 with no return point; 157, 1DE, 207, 208, 211 and 2D2 (return -3), 1E5, 233 and 29F
              (return -1): main 0x1B91E stops the run on any negative result
-  holds      210 with mode 1 or 3, or mode 0/2 and a count of at least 2
+  holds      210 with mode 1 or 3, or mode 0/2 and a count of at least 3 (a count of 2 is over on the next
+             frame: tools/holds.py NO_HOLD, what the table gives a game's own hold that should not hold)
 
 Where waiting is off, main 0x2221A sets a 210's wait up and returns -3 without waiting. The pass of
 ov16:04460 stops on it; the record runner main 0x2080C instead takes -3 as "go on next frame" (only -1
@@ -37,8 +38,12 @@ and every -3 command, the side a question of what they can reach has to err on.
 Roots. main 0x2E57C runs, with waiting allowed: the skill result and attack records (ET0004 header bytes
 0x13 and 0x11), every (file, record) byte pair in ET0001 headers, MS00DD 05/4F/50, MS00DE 03/04/44 and
 MS00DF 03, and MS00DB 00 is shown by ov16:0455E; an MS00DD or MS00DE record no script names is taken as a
-root too. Without waiting: MS00DD 59 and MS7F04 10/11 (main 0x2E52A), MS00DF 00-02 (script commands 1DF,
-1DE and 163-165 run them), and every record of MS00D8, MS00DB and MS7F00-07, which scripts elsewhere run.
+root too. So is MS00DD 59, the end-of-battle summary that main 0x2E52A queues: main 0x2080C runs it, and a
+210 there is a real wait the state machine serves before the record goes on (the game's own 60 frames after
+「あとに何かが残って」 are one); the model follows it as a run with waiting, which ends at a -3 command
+where main 0x2080C would go on - the roads it misses lie past such a command. Without waiting: MS7F04 10/11
+(also queued by main 0x2E52A), MS00DF 00-02 (script commands 1DF, 1DE and 163-165 run them), and every
+record of MS00D8, MS00DB and MS7F00-07, which scripts elsewhere run.
 
 A message is one run: main 0x2E57C clears the window before each (main 0x2E422 -> 0x28B78). Along each
 road the state of the message is carried: nothing shown yet (E); shown and not held (P), with the
@@ -94,6 +99,9 @@ CONNECTORS = {"MS00DD/0/27@001C": "而且（MS00DD 1B，后面接 MS00DD 1C 的�
               "MS00DD/0/55@0090": "可是，（MS00DD 37，后面接 MS00DC 00 的状态行）",
               "MS00DD/0/76@010A": "⏎而且（MS00DD 4C 伤害之后，后面接 MS00DC 00 的状态行）",
               "MS00DD/0/77@003C": "⏎而且（MS00DD 4D 失去 MP 之后，后面接 MS00DC 00 的状态行）"}
+# records whose last shown line before the run waits at a -3 command is a question the player answers: the
+# answer holds it (the model ends the run at that command; main 0x2080C waits there for the choice)
+ANSWERED = {("MS00D8", 0, 10): "背包满时问要丢弃什么（胜利结算里 MS00DD 55 调用），玩家选之前一直显示"}
 DICT_FILES = {0x7F00 + k for k in range(8)}
 START_FILES = (0xD8, 0xDB, 0xDC, 0xDD, 0xDE, 0xDF, 0x7F04)
 
@@ -129,7 +137,7 @@ def references(payload, t):
 
 def hold_210(payload, t):
     mode = payload[t.start + 3]
-    return mode in (1, 3) or (mode in (0, 2) and payload[t.start + 4] >= 2)
+    return mode in (1, 3) or (mode in (0, 2) and payload[t.start + 4] > holds.NO_HOLD)
 
 
 def within(stack, frame):
@@ -262,12 +270,12 @@ class Scripts:
             for k in range(len(head) - 1):
                 if (head[k], head[k + 1]) in self.source and head[k] in (0xDD, 0xDE, 0xDF):
                     item_pairs.add((head[k], head[k + 1]))
-        off = ({(0xDD, 0x59), (0x7F04, 0x10), (0x7F04, 0x11), (0xDF, 0x00), (0xDF, 0x01), (0xDF, 0x02)}
+        off = ({(0x7F04, 0x10), (0x7F04, 0x11), (0xDF, 0x00), (0xDF, 0x01), (0xDF, 0x02)}
                | {k for k in self.source if k[0] in (0xD8, 0xDB) or k[0] in DICT_FILES})
         on = ({(0xDD, r) for r in skill_dd} | {(0xDE, r) for r in skill_de} | item_pairs
-              | {(0xDD, 0x05), (0xDD, 0x4F), (0xDD, 0x50), (0xDE, 0x03), (0xDE, 0x04), (0xDE, 0x44),
+              | {(0xDD, 0x05), (0xDD, 0x4F), (0xDD, 0x50), (0xDD, 0x59), (0xDE, 0x03), (0xDE, 0x04), (0xDE, 0x44),
                  (0xDF, 0x03), (0xDB, 0x00)}
-              | {k for k in self.source if k[0] in (0xDD, 0xDE) and not self.script_refs[k] and k != (0xDD, 0x59)})
+              | {k for k in self.source if k[0] in (0xDD, 0xDE) and not self.script_refs[k]})
         return on & set(self.source), off & set(self.source)
 
     def build(self, table):
@@ -500,38 +508,55 @@ def roads_from(flow, start, places):
     with no newline since the last visible piece and still inside the invocation the state is in - the same
     sentence going on; ('next', ...) a visible print after a newline or after that invocation has returned;
     ('hold', ...) a hold; ('end', ...) the end of the run. Each comes with the hold places passed on the
-    way, in order."""
-    frame = start[2]
-    out = set()
-    path = []
+    way, in order.
 
-    def walk(s, newline, on_path):
-        if len(out) > ROAD_LIMIT:
-            raise SystemExit(f"more than {ROAD_LIMIT} roads on from {start[:2]}")
+    The roads are the paths that visit no state twice. A state's roads on are worked out once and kept,
+    unless a road from it was cut short by coming back to a state further up the path - then they depend
+    on that path and are worked out again where it differs (the summary's item loop, MS00DD 55, has far
+    too many paths to walk one by one)."""
+    frame = start[2]
+    memo = {}
+    depth_of = {}
+
+    def walk(s, newline):
+        """(the roads from s as (kind, places passed after s)), the shallowest depth on the path a road
+        from s came back to, or None)."""
+        key = (s, newline)
+        if key in memo:
+            return memo[key], None
         kd = flow.kind[s]
         if kd == "print":
-            out.add(("same" if not newline and within(s[2], frame) else "next", tuple(path)))
-            return
+            return {("same" if not newline and within(s[2], frame) else "next", ())}, None
         if kd in ("hold", "out"):
-            out.add(("hold" if kd == "hold" else "end", tuple(path)))
-            return
+            return {("hold" if kd == "hold" else "end", ())}, None
         rec = flow.recs[s[0]]
         t = rec.toks[s[1]] if s[1] < len(rec.toks) else None
         nl = newline or (s[5] == 0 and t is not None and t.kind == "cmd" and t.code == NEWLINE)
-        place = (s[0], s[1], s[5])
-        added = place in places and s is not start
-        if added:
-            path.append(places[place])
+        depth = depth_of[s]
+        out, back = set(), None
         for x in flow.succ[s]:
-            if x not in on_path:
-                on_path.add(x)
-                walk(x, nl, on_path)
-                on_path.discard(x)
-        if added:
-            path.pop()
+            if x in depth_of:                          # on the path: this road stops here
+                back = depth_of[x] if back is None else min(back, depth_of[x])
+                continue
+            depth_of[x] = depth + 1
+            sub, b = walk(x, nl)
+            del depth_of[x]
+            if b is not None and b <= depth:
+                back = b if back is None else min(back, b)
+            out |= sub
+            if len(out) > ROAD_LIMIT:
+                raise SystemExit(f"more than {ROAD_LIMIT} roads on from {start[:2]}")
+        place = (s[0], s[1], s[5])
+        if depth and place in places:                  # the hold places a road passes, the start's not
+            out = {(k, (places[place],) + p) for k, p in out}
+        if back is None or back >= depth:
+            memo[key] = out
+            back = None
+        return out, back
 
-    walk(start, start[3] != "E" and not start[3][2], {start})
-    return out
+    depth_of[start] = 0
+    roads, _ = walk(start, start[3] != "E" and not start[3][2])
+    return roads
 
 
 PLACEHOLDER = {0x01: "〈武器〉", 0x02: "〈枪〉", 0x03: "〈行动者〉", 0x05: "〈对象〉", 0x07: "〈敌人〉", 0x1A: "〈主角〉"}

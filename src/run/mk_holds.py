@@ -20,16 +20,20 @@ like "恢复了N点HP" before either "，HP变成MAX了" or a newline, it gets i
 the message leave the sentence: on each road that is not "same", the last hold place passed before what
 comes first, which no "same" road passes and where only this category is waiting to be held. The connectors (run/holdflow.py CONNECTORS) have no such place and get no entry.
 
-The game's own holds. One met after something is shown (the end of MS00DD 4C and 4D, MS00DE 45 and 46)
-held whatever came before it; the holds of those categories replace it, so it is set to 0 - which is
-possible only because no run without waiting reaches it. One met before anything is shown (before the
-defeat lines of MS00DD 4F and 50) stays as it is.
+The game's own holds are never taken out (tools/holds.py); one that should not hold gets NO_HOLD (2 frames).
+One met after something is shown (the end of MS00DD 4C and 4D, MS00DE 45 and 46, the summary's
+「あとに何かが残って」 in MS00DD 59) held whatever came before it; the holds
+of those categories replace it - possible only because no run without waiting reaches it. One met before
+anything is shown (before the defeat lines of MS00DD 4F and 50) only lengthened the line before it, which now
+holds itself (the user, 2026-10-13: 「能否都统一显示 1 秒」). One in a file where nothing can be added (MS00DB:
+the beats inside a confused or charmed member's line, between its two halves) gets the same 60 as a line.
 
-Defaults: 60 frames (about a second) for the damage and MP-loss lines, which the game held that long, and
-the same for every other category that can be the last thing a message shows; 0 for one that never is, since something always
-follows it (the next line holds). The whole table is then built and run through run/holdflow.py: no hold
-may follow another with nothing new shown, stand where nothing is shown, hold another category's content,
-split a sentence, or be reachable where waiting is off, and every message has to end held."""
+Defaults: 60 frames (about a second) for every category that can be the last thing a message shows; 0 for
+one that never is, since something always follows it (the next line holds), and for the victory lines of
+the end-of-battle summary (MS00DD 51-55), which the summary's click holds. The whole table is then built
+and run through run/holdflow.py: no hold may follow another with nothing new shown, stand where nothing is
+shown, hold another category's content, split a sentence, or be reachable where waiting is off, and every
+message has to end held."""
 import collections
 import json
 import os
@@ -53,7 +57,7 @@ if args.english and args.output == holds.PATH:
     cli.error('English analysis requires its own --output')
 OUT = args.output
 DEFAULT = 60
-LONG = {"MS00DD/0/76@0007": 60, "MS00DD/0/77@0000": 60}
+CLICK_LED = {("MS00DD", 0, r) for r in range(0x51, 0x56)}   # the summary's victory lines, before its click
 CONNECTORS = hf.CONNECTORS
 sys.setrecursionlimit(100000)
 
@@ -100,14 +104,24 @@ for s, kd in flow.kind.items():
     if kd == "hold":
         met[recs[s[0]].hold_id(s[1])[1]].add(s[3] if s[3] == "E" else s[3][0])
 off_met = {hid[1] for hid in hf.holds_met(hf.Flow(recs, S.off_roots, False), recs)}
-removed = set()
+removed, before = set(), set()                  # met after something shown / only before anything is
 for p, n in originals:
     if met[p] - {"E"}:
         if not holds.changeable(key_of(p)) or "E" in met[p] or "H" in met[p] or p in off_met:
             raise SystemExit(f"{p}: the game's hold is met {sorted(met[p])}"
                              + (", and where waiting is off" if p in off_met else ""))
         removed.add(p)
-base = [{"at": p, "original": n, "hold": 0 if p in removed else n} for p, n in originals]
+    elif met[p]:
+        before.add(p)
+
+
+def own_default(p, n):
+    if p in removed or p in before:
+        return holds.NO_HOLD
+    return DEFAULT if key_of(p)[0] in holds.COUNT_ONLY else n
+
+
+base = [{"at": p, "original": n, "hold": own_default(p, n)} for p, n in originals]
 
 # ------------------------------------------------------------------ categories on the game's holds that stay
 recs = S.build(holds.parse(base))
@@ -162,7 +176,8 @@ for c in sorted(shown):
             continue
         at = sorted(set(chosen))
     can_end = "end" in kinds
-    entries[c] = {"message": c, "hold": LONG.get(c, DEFAULT) if can_end else 0, "can_end": can_end, "after": at}
+    entries[c] = {"message": c, "hold": DEFAULT if can_end and k not in CLICK_LED else 0, "can_end": can_end,
+                  "after": at}
 if set(CONNECTORS) - set(connectors):
     problems.append(f"CONNECTORS lists what is not a connector: {sorted(set(CONNECTORS) - set(connectors))}")
 if problems:
@@ -185,7 +200,7 @@ for place, c in targets.items():
 kept = {}
 if os.path.exists(OUT):
     for e in json.load(open(OUT, encoding="utf-8")):
-        if "hold" in e and holds.valid_hold(e["hold"]):
+        if "hold" in e and holds.valid_hold(e["hold"]) and ("at" not in e or e["hold"] not in (0, holds.CLICK)):
             kept[e.get("message") or e.get("at")] = e["hold"]
 table = []
 for c, e in entries.items():
@@ -193,8 +208,15 @@ for c, e in entries.items():
     table.append({"message": c, "hold": e["hold"], "text": e["text"], "own": e["own"], "can_end": e["can_end"],
                   "after": e["after"]})
 for p, n in originals:
-    hold = kept.get(p, 0 if p in removed else n)
-    note = ("游戏原有停顿，现由它前面各类消息自己的停顿代替" if p in removed else "游戏原有停顿")
+    hold = kept.get(p, own_default(p, n))
+    if p in removed:
+        note = "游戏原有停顿，现由它前面各类消息自己的停顿代替"
+    elif p in before:
+        note = "游戏原有停顿，在还没显示任何字时，只是拖长前一句；前一句现在自己停"
+    elif key_of(p)[0] in holds.COUNT_ONLY:
+        note = "游戏原有停顿，在一句话的两半之间；和每句一样停一秒"
+    else:
+        note = "游戏原有停顿"
     table.append({"at": p, "original": n, "hold": hold, "text": note})
 
 
@@ -208,7 +230,8 @@ recs2 = S.build(holds.parse(table))
 flow2 = hf.Flow(recs2, S.on_roots, True)
 off2 = hf.Flow(recs2, S.off_roots, False)
 bad = {n: v for n, v in flow2.notes.items() if n in ("double", "empty", "mismatch", "split", "no-000") and v}
-gaps = {c: n for c, n in flow2.gaps().items() if c not in connectors and not (c in entries and entries[c]["hold"] == 0)}
+gaps = {c: n for c, n in flow2.gaps().items() if c not in connectors and not (c in entries and entries[c]["hold"] == 0)
+        and key_of(c) not in hf.ANSWERED}
 reach = sorted(hid[1] for hid in hf.holds_met(off2, recs2) if hid[0] == "added")
 if bad or gaps or reach:
     raise SystemExit(f"the table does not check: {dict((n, sorted(map(str, v))[:5]) for n, v in bad.items())} "
