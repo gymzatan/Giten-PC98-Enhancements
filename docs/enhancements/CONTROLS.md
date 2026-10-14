@@ -53,7 +53,29 @@ The game reads a PC-98 joystick (one stick, two buttons) and the keyboard. Set u
 
 Use the emulator's own joystick and key settings, or a tool such as Steam Input or JoyToKey.
 
-**DOSBox-X:** the control component package includes `mapper-giten.map`. It is the default key and joystick configuration of DOSBox-X 2026.10.01 with the assignments above for an XInput gamepad (SDL button order: 0 A, 1 B, 2 X, 3 Y, 4 LB, 5 RB; hat 0 the D-pad). Put it beside your `dosbox-x.conf` and set `mapperfile = mapper-giten.map` in the `[sdl]` section. A mapper file replaces every binding, so it lists all of the defaults too. DOSBox-X passes the stick to the emulated PC-98 only while a gamepad is connected.
+**DOSBox-X:** the Controls ZIP and the complete Redux ZIP include both `dosbox-x.conf` and `mapper-giten.map`. The configuration already sets `mapperfile = mapper-giten.map` in `[sdl]`. The mapper preserves all default key and joystick bindings and adds the assignments above for an XInput gamepad (SDL button order: 0 A, 1 B, 2 X, 3 Y, 4 LB, 5 RB; hat 0 the D-pad). DOSBox-X passes the stick to the emulated PC-98 only while a gamepad is connected.
+
+### Use the supplied DOSBox-X configuration
+
+In a **new emulator folder**, place these files together:
+
+```text
+dosbox-x.exe          Your Windows DOSBox-X installation and its required files
+dosbox-x.conf         Included configuration
+mapper-giten.map      Included XInput mapping
+Giten_Controls.hdi    The final image saved by Apply Controls.html
+Boot.fdi             Your own Giten Megami Tensei Boot FD.fdi, copied and renamed
+```
+
+Double-click `dosbox-x.exe`. The configuration uses PC-9821, 16 MB RAM and relative filenames, attaches `Giten_Controls.hdi`, and boots from `Boot.fdi`. This is the boot setup required by the supported PepsimanGB pre-made HDI, in Japanese or with the tested English translation. The emulator, game image and boot floppy are supplied by you.
+
+**An HDI that already boots by itself:** replace both commands under `[autoexec]` in the supplied configuration with this single command:
+
+```text
+boot Giten_Controls.hdi
+```
+
+**An existing working emulator setup:** keep its configuration and boot commands. Copy `mapper-giten.map` beside it and set `mapperfile = mapper-giten.map` in `[sdl]`. Back up an existing configuration before replacing it. If you use the supplied configuration with a different final image name, change `Giten_Controls.hdi` in its boot commands to that filename.
 
 ## Disk space
 

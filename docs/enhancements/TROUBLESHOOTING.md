@@ -17,7 +17,7 @@ Movement keys are case-insensitive. Menus, targets and general interface buttons
 
 ## The gamepad does nothing
 
-The game sees only what the emulator passes it: the PC-98 joystick and the keyboard. Check that the emulator maps the stick and two buttons to its PC-98 joystick and the D-pad to the arrow keys (CONTROLS.md). DOSBox-X reads `mapper-giten.map` only when `mapperfile` in `[sdl]` names it, and passes the stick on only while the gamepad is connected. If the arrow keys do not move the pointer either, confirm that `DDS98\DDS98.COM` is on the disk and that the game is started with `DDS98`, not `DDS98.EXE`.
+The game sees only what the emulator passes it: the PC-98 joystick and the keyboard. Check that the emulator maps the stick and two buttons to its PC-98 joystick and the D-pad to the arrow keys (CONTROLS.md). The included `dosbox-x.conf` already enables `mapper-giten.map`; in an existing configuration, `mapperfile` in `[sdl]` must name it. DOSBox-X reads that mapping and passes the stick on only while the gamepad is connected. If the arrow keys do not move the pointer either, confirm that `DDS98\DDS98.COM` is on the disk and that the game is started with `DDS98`, not `DDS98.EXE`.
 
 ## The disk does not boot
 

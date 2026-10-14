@@ -76,7 +76,7 @@ Rebalance requires **Fixes first**; Windows Artwork is optional. [Full Rebalance
 - **Play menus and battles with the keyboard or a controller:** arrow keys / D-pad jump between clickable options and targets; Enter / A confirms, Esc / B cancels, and Tab / X switches between the main view and command/party panels. The mouse still works.
 - **Movement and free pointer control:** the left stick walks or turns; LB/RB strafe. Hold Y with the stick, or Shift with the arrow keys, to move the pointer freely. W/A/S/D also walk on the world map.
 - **Pause while choosing a battle target:** neither side's action gauge advances while you choose an enemy or ally. The question uses the selected game's language: **“Use on whom?”** in English, **「誰に使いますか？」** in Japanese.
-- **One optional control patch:** keyboard/gamepad operation and the battle target prompt/pause are installed and removed together. The battle optimization is a necessary part of the controls. The ZIP includes an XInput mapper for DOSBox-X.
+- **One optional control patch:** keyboard/gamepad operation and the battle target prompt/pause are installed and removed together. The battle optimization is a necessary part of the controls. The Controls and complete ZIPs include `dosbox-x.conf` and an XInput `mapper-giten.map` for DOSBox-X, with the mapper already enabled. The configuration uses the supported disk's companion boot floppy; the setup guide also explains self-booting images and existing emulator configurations.
 
 Apply **Controls last**, after any other patches you want. It also works on the supported Japanese or tested English game without the other packages. Play the newly saved `Giten_Controls.hdi`. [Controls and setup](CONTROLS.md).
 
