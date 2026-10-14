@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Self-test of the picture editor, without opening a window.
 
-    fcedit_test.py [IMAGE.hdi]      default: dist/Redux/Game.hdi
+    fcedit_test.py [IMAGE.hdi]      default: dist/Giten CN/Giten_CN.hdi
 
 A copy of the image goes through the whole path: a file exported, an exported PNG edited by hand and
 put back as it is, an ordinary picture converted into another entry's frame, the image written. Then
@@ -23,7 +23,7 @@ sys.path.insert(0, HERE)
 import fcedit  # noqa: E402
 import fcfit  # noqa: E402
 
-IMAGE = os.path.join(WORK, "dist", "Redux", "Game.hdi")
+IMAGE = os.path.join(WORK, "dist", "Giten CN", "Giten_CN.hdi")
 HAND = ("FC5000", 2, 0)                 # one frame, edited as an indexed PNG
 SHOT = ("FC5030", 3, 0)                 # another entry, given a picture to convert
 

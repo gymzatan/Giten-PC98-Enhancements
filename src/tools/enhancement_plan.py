@@ -1,6 +1,6 @@
 """Export native enhancement outputs as checked record/field edits for the browser.
 
-Game rules remain in buildcore.py and its fix modules. This module only describes their
+Game rules remain in make.py and its fix modules. This module only describes their
 existing before/after output; the VM grammar comes from ddsvm/ddsgrammar.
 """
 import difflib

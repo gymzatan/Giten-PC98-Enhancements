@@ -5,7 +5,7 @@ from pathlib import Path
 
 import bagexpand, checkfix, exekeys, expgap, expshow, moonfast
 import rebalance, skillfix, statfix, storyfix
-import ctxfree, exefix, nospace, slotorder, vmswap
+import ctxfree, exefix, nospace, slotorder, vmswap, holdshow, targetprompt, mz
 
 
 def executable_sites():
@@ -20,6 +20,11 @@ def executable_sites():
         sites = module.SITES if module is bagexpand else module.sites()
         for label, offset, before, after in sites:
             yield module.__name__, offset, before, after
+    for _label, at, before, after in holdshow.sites():
+        yield "holdshow", at, before, after
+    exe = (Path(__file__).resolve().parents[1] / "files/DDS98/DDS98.EXE").read_bytes()
+    for at, before, after in targetprompt.sites(exe):
+        yield "targetprompt", at, before, after
     for module in (checkfix, expshow, expgap, moonfast, rebalance, skillfix, storyfix):
         for site in module.EXE_SITES:
             offset, before, after = site[:3]

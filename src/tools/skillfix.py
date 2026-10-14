@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """The attack skills fix (攻击技能修复): skills the original ships with no power made to work. A fix of the
-game's own data, so every build carries it (the user, 2026-10-01: 「算 bug 修复，两版都默认打上」); patch/关闭
-攻击技能修复.bat takes it back out.
+game's own data, so every build carries it (the user, 2026-10-01: 「算 bug 修复，两版都默认打上」), with no
+switch.
 
     skillfix.py      every edited field before and after, and the executable's site
 
@@ -53,9 +53,8 @@ The executable, three changes:
           (E2E1-E410) 能力值修复 holds (tools/statfix.py: no call, jump or pointer reaches E291-E4C0); the relocated
           word at E476 is jumped over.
 
-table() is these edits as an edit table (tools/balance.py's form) for make.py, tools/mkpatchbat.py and the balance
-lab; exe() the executable's sites, mend_exe() writes them. Nothing here is text, so every build takes the same
-edits."""
+table() is these edits as an edit table (tools/balance.py's form) for make.py and the balance lab; mend_exe() writes
+the executable's sites. Nothing here is text, so every build takes the same edits."""
 import os
 import sys
 
@@ -69,7 +68,6 @@ from tables import ITEM_HEADER, SKILL_HEADER  # noqa: E402
 SRC = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "files", "DDS98")
 NAME = "攻击技能修复"
 EXE_NAME = "DDS98.EXE"
-EXE_LABEL = "技能消耗和枪技"
 
 
 def hp(n):
@@ -208,11 +206,6 @@ def table(src_dir=SRC):
     out = balance.empty(NAME)
     out["edits"] = edits
     return out
-
-
-def exe():
-    """The executable's site for tools/mkpatchbat.py."""
-    return {"name": EXE_NAME, "label": EXE_LABEL, "sites": EXE_SITES}
 
 
 def mend_exe(blob, revert=False):

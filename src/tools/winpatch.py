@@ -146,11 +146,30 @@ def apply_to(image, also_other=False, say=print):
     if stem.upper().endswith(SUFFIX):
         raise PatchError(f"{os.path.basename(image)} 的名字以 {SUFFIX} 结尾，"
                          "这看上去已经是打过补丁的镜像了。请把打补丁前的那个拖进来。")
-    files, marks = payload()
     raw, header, disk, part = open_hdi(image)
     fs = Fat12W(disk, part)
+    patch_fs(fs, os.path.basename(image), also_other, False, say)
+
+    out = out_name(image)
+    built = bytearray(raw)
+    built[header:] = disk
+    kept = None
+    if os.path.exists(out):               # an earlier run's image is kept, not written over
+        kept = gameimage.backup_name(out)
+        os.replace(out, kept)
+    tmp = out + ".tmp"
+    with open(tmp, "wb") as f:
+        f.write(bytes(built))
+    os.replace(tmp, out)
+    return out, kept
+
+
+def patch_fs(fs, label, also_other=False, complete=False, say=print):
+    """The art on an opened image (apply_to's steps). complete: the image is the one the caller is making anyway, so
+    finding the art all there already is no error (webpatch.js artwork's `complete`)."""
+    files, marks = payload()
     if fs.find(f"{DIR}/DDS98.EXE") is None:
-        raise PatchError(f"{os.path.basename(image)} 里没有 {DIR}\\DDS98.EXE，这不是本作的镜像")
+        raise PatchError(f"{label} 里没有 {DIR}\\DDS98.EXE，这不是本作的镜像")
     exe, printed, order = exe_state(fs)
     state = survey(fs, files, marks)
     say(f"  {len(files)} 个素材文件：{len(state['ready'])} 个待替换，"
@@ -195,21 +214,8 @@ def apply_to(image, also_other=False, say=print):
         say(f"  {slotorder.FILE}：战斗颜色槽已经从高位分配")
     if new_exe != exe:
         fs.replace(f"{DIR}/{nospace.FILE}", new_exe)
-    if not todo and not n_sec and new_exe == exe:
+    if not complete and not todo and not n_sec and new_exe == exe:
         raise PatchError("这个镜像里的素材已经全是补丁版了，没有要写的。")
-
-    out = out_name(image)
-    built = bytearray(raw)
-    built[header:] = disk
-    kept = None
-    if os.path.exists(out):               # an earlier run's image is kept, not written over
-        kept = gameimage.backup_name(out)
-        os.replace(out, kept)
-    tmp = out + ".tmp"
-    with open(tmp, "wb") as f:
-        f.write(bytes(built))
-    os.replace(tmp, out)
-    return out, kept
 
 
 def ask(argv):

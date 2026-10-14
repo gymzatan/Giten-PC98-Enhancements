@@ -11,9 +11,22 @@
 //                       makes (SHA-1), written; the door bytes; DDS98.EXE's two allocator fixes (tools/nospace.py,
 //                       tools/slotorder.py), whose original and fixed bytes the payload carries
 //
-// The page runs translate for the edition the player picked and, when they picked the Windows art, artwork on the
-// result: one patch takes the Japanese image to the chosen Giten_CN.hdi. Errors are PatchError with the Python
-// patches' messages.
+//   inspect / retouch   tools/cnretouch.py: an image that already carries the Chinese version - its edition, its
+//                       saves, whether its negotiation scripts and its battle pacing are this release's, which art
+//                       it has, its options, which add-ons - and this release's negotiation text (the scripts, the
+//                       glyphs merged into its font), its battle pacing (the battle message files, the program's
+//                       sites of tools/holdshow.py), the options, and/or the other art written into it: artwork for
+//                       the Windows art, the game's own pictures and door bytes back for the PC-98 art; the add-ons
+//                       in or out; or, on an image without saves, the other edition's whole patch
+//   applyOptions        tools/options.apply: the player's two options, 月相加速 (DDS98.EXE's sites, コアシールド's
+//                       description in ET0001) and 等级差经验 (DDS98.EXE's sites, MS00DD.BIN), each in or out
+//   applyAddons         tools/addons.apply: 选择对象时暂停 (DDS98.EXE's sites, DDS98\MS00D9.BIN) and 手柄操作
+//                       (DDS98\DDS98.COM), each into the image or out of it, after everything else
+//
+// The page reads the chosen image first. A Japanese one gets translate for the edition the player picked, the options
+// they changed, artwork on the result when they picked the Windows art, and the add-ons they ticked: one patch takes it
+// to the chosen Giten_CN.hdi. A Chinese one gets retouch with what the player picked; its edition changes only when it
+// holds no save (原版 and 再平衡版 saves do not carry over). Errors are PatchError with the Python patches' messages.
 (function (root) {
   "use strict";
 
@@ -477,11 +490,32 @@
       for (const [name, i] of list) out[name] = blobs[i];
       return out;
     };
-    const p = {cn: {}, art: null, enhancement: null};
+    const p = {cn: {}, art: null, enhancement: null, update: null, pace: null, options: null, editionSites: null,
+               addons: null};
     for (const [edition, c] of Object.entries(m.cn)) p.cn[edition] = {files: take(c.files), drop: c.drop, autoexec: hex(c.autoexec)};
     const sites = l => l.map(s => ({at: s.at, orig: hex(s.orig), fixed: hex(s.fixed)}));
+    const siteSets = o => Object.fromEntries(Object.entries(o).map(([k, l]) => [k, sites(l)]));
     if (m.art !== null) p.art = {files: take(m.art.files), hashes: m.art.hashes, partition: m.art.partition,
-             exe: {nospace: sites(m.art.exe.nospace), slotorder: sites(m.art.exe.slotorder)}};
+             exe: {nospace: sites(m.art.exe.nospace), slotorder: sites(m.art.exe.slotorder)},
+             pc98: m.art.pc98 ? take(m.art.pc98) : null, pc98sha: m.art.pc98sha || null, doors: m.art.doors || null};
+    if (m.update) p.update = {files: take(m.update.files), font: blobs[m.update.font]};
+    if (m.pace) p.pace = {files: take(m.pace.files), summary: m.pace.summary, font: blobs[m.pace.font],
+                          dd: Object.fromEntries(Object.entries(m.pace.dd).map(([k, i]) => [k, blobs[i]])),
+                          sites: siteSets(m.pace.sites)};
+    if (m.options) p.options = {moon: {...m.options.moon, forms: m.options.moon.forms.map(([a, b]) => [hex(a), hex(b)])},
+                                sites: siteSets(m.options.sites), defaults: m.options.defaults};
+    if (m.edition) p.editionSites = sites(m.edition);
+    // the add-ons: the question in each language the page writes (zh for this page; jp and en for the English
+    // add-on page, which tells them apart by lang, the bytes the English translation changes in DDS98.EXE)
+    if (m.addons) {
+      const t = m.addons.target;
+      const texts = Object.fromEntries(Object.entries(t.texts).map(([lang, i]) => [lang, blobs[i]]));
+      p.addons = {
+        target: {hdr: t.hdr, name: t.name, texts, data: texts.zh || null,
+                 sites: t.sites.map(([kind, off, orig, fixed]) => ({kind, off, orig: hex(orig), fixed: hex(fixed)}))},
+        pad: {name: m.addons.pad.name, data: blobs[m.addons.pad.data]},
+        lang: m.addons.lang ? m.addons.lang.map(([at, jp, en]) => ({at, jp: hex(jp), en: hex(en)})) : null};
+    }
     if (m.enhancement) p.enhancement = {...m.enhancement, files: take(m.enhancement.files)};
     return p;
   }
@@ -492,20 +526,382 @@
     if (img.hdr < 32 || img.hdr >= bytes.length) throw new PatchError("这不像是一个 .hdi 硬盘镜像");
     return img;
   }
-  // The patch on an image's bytes, for the edition ("main" / "rebalance") and with the Windows art or not: a new
-  // array (the given one is left alone), as the Python patches write a new file beside the image. The input's name
-  // is checked as cnpatch.apply_to checks it.
-  async function patch(name, bytes, p, edition, win, say) {
+  // The patch on an image's bytes, for the edition ("main" / "rebalance"), with the options ({moon, gap}: the
+  // edition's as built for one left out), the Windows art or not, and the add-ons addons ({target, pad}) ticks: a new
+  // array (the given one is left alone), as the Python patches write a new file beside the image. The input's name is
+  // checked as cnpatch.apply_to checks it.
+  async function patch(name, bytes, p, edition, win, say, addons, options) {
     if (!p.cn[edition]) throw new PatchError(`没有「${edition}」这个版本`);
     if (name.toLowerCase() === OUT_NAME.toLowerCase())
-      throw new PatchError(`${OUT_NAME} 是汉化版自己的名字，这个文件看上去已经是汉化过的了。请把原始日文版的镜像选进来（要升级旧的汉化版，先把它改个名）。`);
+      throw new PatchError(`${OUT_NAME} 是汉化版自己的名字，这个文件看上去已经是汉化过的了。请把原始日文版的镜像选进来。`);
     const img = opened(bytes);
     autoboot(img);
     const fs = new Fat(img.disk, img.part);
     translate(fs, p.cn[edition], say);
+    if (options) applyOptions(fs, p, options, say);
     if (win) await artwork(fs, p.art, async b => sha1hex(b), say, true);
+    if (addons) applyAddons(fs, p.addons, addons, say);
     say("已设置自动启动游戏，无需在 NEC 启动菜单输入按键。");
     return img.raw;
+  }
+
+  // ---- an image that already carries the Chinese version (tools/cnretouch.py, step for step): what it is, and
+  // this release's negotiation text and/or the other art written into it. Nothing else of it changes.
+  const FONT = "CNFONT.DAT";
+  function fontRecords(b) {
+    if (!same(b.subarray(0, 4), ascii("GTCN"))) throw new PatchError(`${DIR}\\${FONT} 不是汉化补丁的字库文件`);
+    const n = u16(b, 4);
+    if (b.length !== 6 + 34 * n) throw new PatchError(`${DIR}\\${FONT} 的长度不对`);
+    const out = new Map();
+    for (let i = 0; i < n; i++) out.set(u16(b, 6 + 34 * i), b.subarray(8 + 34 * i, 40 + 34 * i));
+    return out;
+  }
+  // the image's glyphs with this release's added; a code both have takes this release's pattern
+  function mergedFont(old, add) {
+    const glyphs = fontRecords(old);
+    for (const [code, pat] of fontRecords(add)) glyphs.set(code, pat);
+    const codes = [...glyphs.keys()].sort((a, b) => a - b);
+    const out = new Uint8Array(6 + 34 * codes.length);
+    out.set(ascii("GTCN"), 0);
+    put16(out, 4, codes.length);
+    codes.forEach((code, i) => { put16(out, 6 + 34 * i, code); out.set(glyphs.get(code), 8 + 34 * i); });
+    return out;
+  }
+  function inspectFs(fs, p) {
+    if (fs.find(`${DIR}/DDS98.EXE`) === null) throw new PatchError("镜像里没有 DDS98\\DDS98.EXE，这不是本作的镜像");
+    if (fs.find(`${DIR}/${FONT}`) === null) return {kind: "jp"};
+    let pc = 0, win = 0, other = 0, now = 0;
+    const names = Object.keys(p.art.files).sort();
+    for (const name of names) {
+      const got = fs.read(`${DIR}/${name}`);
+      const h = got === null ? null : sha1hex(got);
+      const mine = p.art.pc98sha[name], marks = p.art.hashes[name];
+      if (h === marks.now) now++;
+      if (h === mine) { if (mine !== marks.now) pc++; }       // a file the art patch leaves as the game's own tells nothing
+      else if (h === marks.now || h === marks.was) win++;
+      else other++;
+    }
+    const art = other ? "other" : !win ? "pc98" : !pc ? "win" : "mixed";
+    let latest = true;
+    for (const [name, blob] of Object.entries(p.update.files)) {
+      const got = fs.read(`${DIR}/${name}`);
+      if (got === null || !same(got, blob)) { latest = false; break; }
+    }
+    let addons;
+    try { addons = addonState(fs, p.addons); }
+    catch (e) { if (e instanceof PatchError) throw new PatchError(`${e.message}，没有生成镜像。`); throw e; }
+    return {kind: "cn", edition: editionOf(fs.read(EXE_PATH), p), saves: savesIn(fs), art,
+            current: now === names.length, latest, pace: paceState(fs, p.pace), options: optionsOf(fs, p.options), addons};
+  }
+  function updateTalk(fs, upd, say) {
+    let wrote = 0, made = 0;
+    for (const name of Object.keys(upd.files).sort()) {
+      const got = fs.read(`${DIR}/${name}`);
+      if (got === null) { fs.create(DIR, name, upd.files[name]); made++; }
+      else if (!same(got, upd.files[name])) { fs.replace(`${DIR}/${name}`, upd.files[name]); wrote++; }
+    }
+    const old = fs.read(`${DIR}/${FONT}`), font = mergedFont(old, upd.font);
+    const added = fontRecords(font).size - fontRecords(old).size;
+    if (!same(font, old)) fs.replace(`${DIR}/${FONT}`, font);
+    say(`交涉翻译：写入 ${wrote} 个文件` + (made ? `，新增 ${made} 个` : "") + (added ? `；字库补上 ${added} 个字` : "；字库不用补字"));
+  }
+
+  // ---- the battle pacing (cnretouch.site_form, summary_form, pace_state, update_pace)
+  const EXE_PATH = `${DIR}/DDS98.EXE`;
+  function siteForm(exe, sites) {                    // "orig" or "fixed" when every site holds it, else null
+    const forms = new Set();
+    for (const s of sites) {
+      const now = exe.subarray(s.at, s.at + s.orig.length);
+      forms.add(same(now, s.orig) ? "orig" : same(now, s.fixed) ? "fixed" : null);
+    }
+    return forms.size === 1 ? [...forms][0] : null;
+  }
+  function summaryForm(exe, s) {                     // the EXP line's form the program goes with, or null
+    const show = siteForm(exe, s.show), gap = siteForm(exe, s.gap), needs = siteForm(exe, s.needs);
+    if (gap === "fixed" && needs === "fixed" && siteForm(exe, s.show.slice(0, 1)) === "fixed") return "gap";
+    if (gap === "orig" && (show === "fixed" || show === "orig")) return show === "fixed" ? "shown" : "off";
+    return null;
+  }
+  function paceState(fs, pace) {                     // true this release's, false older, null the program cannot tell
+    const exe = fs.read(EXE_PATH);
+    const form = summaryForm(exe, pace.sites), hold = siteForm(exe, pace.sites.hold);
+    if (form === null || hold === null) return null;
+    if (hold !== "fixed") return false;
+    const dd = fs.read(`${DIR}/${pace.summary}`);
+    if (dd === null || !same(dd, pace.dd[form])) return false;
+    for (const [name, blob] of Object.entries(pace.files)) {
+      const got = fs.read(`${DIR}/${name}`);
+      if (got === null || !same(got, blob)) return false;
+    }
+    return true;
+  }
+  const FORM_NAMES = {off: "经验值显示修复关着", shown: "经验值显示修复开着", gap: "等级差经验开着"};
+  function updatePace(fs, pace, say) {
+    let exe = fs.read(EXE_PATH);
+    const form = summaryForm(exe, pace.sites), hold = siteForm(exe, pace.sites.hold);
+    if (form === null || hold === null)
+      throw new PatchError("镜像里的游戏程序认不出（经验值显示修复、等级差经验或停顿显示的几处既不是原版也不是这一版），" +
+                           "战斗消息节奏没法更新，没有生成镜像。");
+    const files = {...pace.files, [pace.summary]: pace.dd[form]};
+    let wrote = 0, made = 0;
+    for (const name of Object.keys(files).sort()) {
+      const got = fs.read(`${DIR}/${name}`);
+      if (got === null) { fs.create(DIR, name, files[name]); made++; }
+      else if (!same(got, files[name])) { fs.replace(`${DIR}/${name}`, files[name]); wrote++; }
+    }
+    if (hold === "orig") {
+      exe = exe.slice();
+      for (const s of pace.sites.hold) exe.set(s.fixed, s.at);
+      fs.replace(EXE_PATH, exe);
+    }
+    const old = fs.read(`${DIR}/${FONT}`), font = mergedFont(old, pace.font);
+    const added = fontRecords(font).size - fontRecords(old).size;
+    if (!same(font, old)) fs.replace(`${DIR}/${FONT}`, font);
+    say(`战斗消息节奏：写入 ${wrote} 个文件` + (made ? `，新增 ${made} 个` : "") +
+        `（结算的经验值那一行照镜像里的开关：${FORM_NAMES[form]}）` +
+        (hold === "orig" ? "；游戏程序改了停顿显示的几处" : "；游戏程序已经是这一版") +
+        (added ? `；字库补上 ${added} 个字` : "；字库不用补字"));
+  }
+
+  // ---- the player's options (tools/options.py, moonfast.desc_at / mend_table, expgap.mend_exe)
+  const OPTIONS = ["moon", "gap"];
+  const OPTION_NAMES = {moon: "月相加速", gap: "等级差经验"};
+  function optionExe(exe, o) {                       // options.exe_states
+    const out = {};
+    for (const name of OPTIONS) {
+      const form = siteForm(exe, o.sites[name]);
+      if (form === null) throw new PatchError(`镜像里的游戏程序认不出${OPTION_NAMES[name]}是开是关（它的几处既不是原版也不是打开的样子）`);
+      out[name] = form === "fixed";
+    }
+    return out;
+  }
+  function descAt(plain, m) {                        // moonfast.desc_at: [start of コアシールド's description, end of its entry]
+    const count = u16(plain, 0), offs = [];
+    for (let i = 0; i < count; i++) offs.push(u16(plain, 2 + 2 * i));
+    if (!count || offs[0] !== 2 + 2 * count || offs.some((v, i) => i && v < offs[i - 1]) || offs[count - 1] > plain.length)
+      throw new PatchError(`${m.table} 不是表格文件`);
+    const at = offs[m.entry], end = m.entry + 1 < count ? offs[m.entry + 1] : plain.length;
+    const e = plain.subarray(at, end);
+    if (e.length <= 4 || e[4] !== m.kind) throw new PatchError(`${m.table} 第 ${m.entry} 条不是第 ${m.kind} 类物品`);
+    const nameEnd = e.indexOf(0, m.header);
+    if (nameEnd < 0) throw new PatchError(`${m.table} 第 ${m.entry} 条没有名字的结尾`);
+    return [at + nameEnd + 1, at + e.length];
+  }
+  function moonTable(blob, m, on) {                  // moonfast.mend_table: the description in the form `on` asks for
+    const [w, plain] = decrypt(blob);
+    if (w !== plain.length) throw new PatchError(`${m.table} 不止一块`);
+    const [start, end] = descAt(plain, m);
+    const hits = m.forms.filter(([a, b]) => start + a.length <= end &&
+      (same(plain.subarray(start, start + a.length), a) || same(plain.subarray(start, start + a.length), b)));
+    if (hits.length !== 1) throw new PatchError(`${m.table} 第 ${m.entry} 条（核心护盾）的说明既不是原版也不是修复后的内容`);
+    const out = plain.slice();
+    out.set(on ? hits[0][1] : hits[0][0], start);
+    return encrypt(out, w);
+  }
+  function optionState(fs, o) {                      // options.state
+    const have = optionExe(fs.read(EXE_PATH), o);
+    const table = fs.read(`${DIR}/${o.moon.table}`);
+    if (!same(moonTable(table, o.moon, have.moon), table))
+      throw new PatchError(`镜像里${OPTION_NAMES.moon}只打了一半（游戏程序和核心护盾的说明对不上）`);
+    return have;
+  }
+  function optionsOf(fs, o) {                        // cnretouch.options_of
+    try { return optionState(fs, o); }
+    catch (e) { if (e instanceof PatchError) return null; throw e; }
+  }
+  function applyOptions(fs, p, want, say) {          // options.apply
+    const o = p.options, have = optionState(fs, o), changed = [];
+    for (const name of OPTIONS) {
+      if (!(name in want) || want[name] === have[name]) continue;
+      const exe = fs.read(EXE_PATH).slice();
+      for (const s of o.sites[name]) exe.set(want[name] ? s.fixed : s.orig, s.at);
+      if (name === "moon") {
+        const table = moonTable(fs.read(`${DIR}/${o.moon.table}`), o.moon, want.moon);
+        fs.replace(EXE_PATH, exe);
+        fs.replace(`${DIR}/${o.moon.table}`, table);
+      } else {
+        const dd = fs.read(`${DIR}/${p.pace.summary}`);
+        if (dd === null || !same(dd, p.pace.dd[have.gap ? "gap" : "shown"]))
+          throw new PatchError(`镜像里的战斗消息文件不是这一版的，要先更新战斗消息节奏才能改${OPTION_NAMES.gap}`);
+        fs.replace(EXE_PATH, exe);
+        fs.replace(`${DIR}/${p.pace.summary}`, p.pace.dd[want.gap ? "gap" : "shown"]);
+      }
+      have[name] = want[name];
+      say(`${OPTION_NAMES[name]}：${want[name] ? "打开" : "关掉"}`);
+      changed.push(name);
+    }
+    return changed;
+  }
+
+  // ---- the edition and the saves (cnretouch.edition_of, saves_in)
+  const EDITION_NAMES = {main: "原版", rebalance: "再平衡版"};
+  function editionOf(exe, p) {
+    const form = siteForm(exe, p.editionSites);
+    return form === "orig" ? "main" : form === "fixed" ? "rebalance" : null;
+  }
+  function savesIn(fs) {
+    const d = fs.find(DIR);
+    return fs.readDir(d.cluster).filter(e => !e.isDir && /^SAVE[0-9A-F]{4}\.DDS$/.test(upper(e.name))).length;
+  }
+  function restoreDoors(fs, doors) {
+    let files = 0, secs = 0;
+    const d = fs.find(DIR);
+    for (const e of fs.readDir(d.cluster)) {
+      const name = upper(e.name);
+      if (e.isDir || !name.startsWith("M0") || !name.endsWith(".BIN")) continue;
+      if (!doors[name]) throw new PatchError(`${DIR}\\${e.name} 不是本作的地图文件，补丁不认识，没有生成镜像。`);
+      const [w, plain] = decrypt(fs.readChain(e.cluster, e.size));
+      const list = [...sections(plain)];
+      if (list.length !== doors[name].length)
+        throw new PatchError(`${DIR}\\${e.name} 的分区和原始日文版的对不上，补丁不认识，没有生成镜像。`);
+      const out = plain.slice();
+      let n = 0;
+      list.forEach(([o], i) => { if (out[o + DOOR_AT] !== doors[name][i]) { out[o + DOOR_AT] = doors[name][i]; n++; } });
+      if (n) { fs.replace(`${DIR}/${e.name}`, encrypt(out, w)); files++; secs += n; }
+    }
+    return [files, secs];
+  }
+  function restoreArt(fs, art, say) {
+    const state = {ready: [], done: [], other: []};
+    for (const name of Object.keys(art.files).sort()) {
+      const got = fs.read(`${DIR}/${name}`);
+      const h = got === null ? null : sha1hex(got);
+      if (h === art.pc98sha[name]) state.done.push(name);
+      else if (h === art.hashes[name].now || h === art.hashes[name].was) state.ready.push(name);
+      else state.other.push(name);
+    }
+    say(`${Object.keys(art.files).length} 个素材文件：${state.ready.length} 个换回原版，${state.done.length} 个已经是原版，` +
+        `${state.other.length} 个不认识`);
+    if (state.other.length) {
+      say("不认识的：" + state.other.join("、"));
+      throw new PatchError("这些文件既不是原版也不是 Windows 素材补丁写的，换回去会把那边的改动抹掉，没有生成镜像。");
+    }
+    const delta = name => {
+      const e = fs.find(`${DIR}/${name}`);
+      return Math.ceil(art.pc98[name].length / fs.cs) - (e.cluster ? fs.chain(e.cluster).length : 0);
+    };
+    let need = 0;
+    for (const name of state.ready) need += delta(name);
+    const free = fs.freeClusters().length;
+    if (need > free) throw new PatchError(`镜像里的空间不够：还要 ${need * fs.cs} 字节，只剩 ${free * fs.cs} 字节。`);
+    const keyed = state.ready.map(name => [delta(name), name]);
+    keyed.sort((a, b) => a[0] - b[0] || (a[1] < b[1] ? -1 : a[1] > b[1] ? 1 : 0));
+    for (const [, name] of keyed) fs.replace(`${DIR}/${name}`, art.pc98[name]);
+    const [nMaps, nSec] = restoreDoors(fs, art.doors);
+    say(nSec ? `地图门号：${nMaps} 个文件、${nSec} 个分区改回原版` : "地图门号：已经是原版");
+  }
+  // ---- the add-ons (tools/addons.py: tools/targetprompt.py and tools/gamepad.py, step for step): each goes into an
+  // image or comes out of it, in ADDONS order, and nothing else of the image changes
+  const ADDONS = ["target", "pad"];
+  const ADDON_NAMES = {target: "选择对象时暂停", pad: "手柄操作"};
+  function ovOffset(exe, number) {                   // targetprompt.ov_offset: overlay `number`'s image in the file
+    const cblp = u16(exe, 2), cp = u16(exe, 4);
+    let pos = (((cp - 1) * 512 + (cblp || 512)) + 511) & ~511;
+    while (pos + 0x20 < exe.length) {
+      if (exe[pos] === 0x4D && exe[pos + 1] === 0x5A) {
+        const oCblp = u16(exe, pos + 2), oCp = u16(exe, pos + 4), oPar = u16(exe, pos + 8);
+        if (u16(exe, pos + 0x1A) === number) return pos + oPar * 16;
+        pos = (pos + (oCp - 1) * 512 + (oCblp || 512) + 511) & ~511;
+      } else pos += 512;
+    }
+    throw new PatchError(`DDS98.EXE 里找不到覆盖段 ${number}`);
+  }
+  function targetSites(exe, t) {
+    const ov = t.sites.some(s => s.kind === "ov16") ? ovOffset(exe, 16) : 0;
+    return t.sites.map(s => ({at: (s.kind === "ov16" ? ov : t.hdr) + s.off, orig: s.orig, fixed: s.fixed}));
+  }
+  function targetForm(exe, t) {                      // targetprompt.state
+    const forms = new Set();
+    for (const s of targetSites(exe, t)) {
+      const now = exe.subarray(s.at, s.at + s.orig.length);
+      if (same(now, s.orig)) forms.add("orig");
+      else if (same(now, s.fixed)) forms.add("fixed");
+      else throw new PatchError(`DDS98.EXE 第 0x${s.at.toString(16)} 字节起既不是原版也不是本项改动后的内容`);
+    }
+    if (forms.size !== 1) throw new PatchError("DDS98.EXE 里本项的各处改动不一致（有的打了，有的没打）");
+    return [...forms][0];
+  }
+  function addonState(fs, a) {                       // addons.state
+    const exe = fs.read(`${DIR}/DDS98.EXE`);
+    if (exe === null) throw new PatchError("镜像里没有 DDS98\\DDS98.EXE，这不是本作的镜像");
+    const target = targetForm(exe, a.target) === "fixed";
+    if (target !== (fs.find(`${DIR}/${a.target.name}`) !== null))
+      throw new PatchError(`镜像里${ADDON_NAMES.target}只打了一半（DDS98.EXE 和 ${a.target.name} 对不上）`);
+    const com = fs.read(`${DIR}/${a.pad.name}`);
+    if (com !== null && !same(com, a.pad.data))
+      throw new PatchError(`镜像里的 ${DIR}\\${a.pad.name} 不是本补丁的${ADDON_NAMES.pad}程序，补丁不认识，不动它`);
+    return {target, pad: com !== null};
+  }
+  function applyAddons(fs, a, want, say) {           // addons.apply
+    const have = addonState(fs, a), changed = [];
+    for (const name of ADDONS) {
+      if (!(name in want) || want[name] === have[name]) continue;
+      if (name === "target") {
+        const exe = fs.read(`${DIR}/DDS98.EXE`).slice();
+        for (const s of targetSites(exe, a.target)) exe.set(want.target ? s.fixed : s.orig, s.at);
+        fs.replace(`${DIR}/DDS98.EXE`, exe);
+        if (want.target) fs.create(DIR, a.target.name, a.target.data);
+        else fs.remove(`${DIR}/${a.target.name}`);
+      } else if (want.pad) fs.create(DIR, a.pad.name, a.pad.data);
+      else fs.remove(`${DIR}/${a.pad.name}`);
+      say(`${ADDON_NAMES[name]}：${want[name] ? "加上" : "去掉"}`);
+      changed.push(name);
+    }
+    return changed;
+  }
+
+  // What a chosen image is: {kind: "jp"} or {kind: "cn", edition: "main" | "rebalance" | null, saves, art: "pc98" |
+  // "win" | "mixed" | "other", current, latest, pace: true | false | null, options: {moon, gap} | null, addons: {target,
+  // pad}}.
+  function inspect(bytes, p) {
+    const img = opened(bytes);
+    return inspectFs(new Fat(img.disk, img.part), p);
+  }
+  // A Chinese image with the art "pc98" or "win", when update is true this release's negotiation text, and what more
+  // ({pace, options, edition}) and addons ({target, pad}) ask for: the battle pacing, the options ({moon, gap}), the
+  // add-ons (true in, false out; none to keep them), or the other edition (only without saves): a new array, the given
+  // one left alone (cnretouch.retouch_fs). With nothing to change it refuses.
+  async function retouch(bytes, p, art, update, say, addons, more) {
+    const {pace = false, options = null, edition = null} = more || {};
+    const img = opened(bytes);
+    const fs = new Fat(img.disk, img.part);
+    const info = inspectFs(fs, p);
+    if (info.kind !== "cn")
+      throw new PatchError("这不是打过汉化补丁的镜像（里面没有中文字库）。原始日文版镜像请选版本和美术，打整个补丁。");
+    if (edition !== null && edition !== info.edition) {
+      await convert(fs, p, info, edition, art, options, addons, say);
+      return img.raw;
+    }
+    const doUpdate = update && !info.latest, doPace = pace && info.pace !== true;
+    const doOptions = options !== null && (info.options === null || Object.keys(options).some(n => options[n] !== info.options[n]));
+    const doWin = art === "win" && !info.current, doPc = art === "pc98" && info.art !== "pc98";
+    const doAddons = !!addons && Object.keys(addons).some(n => addons[n] !== info.addons[n]);
+    if (!doUpdate && !doPace && !doOptions && !doWin && !doPc && !doAddons) throw new PatchError("这个镜像已经是这样了，没有要改的。");
+    if (doUpdate) updateTalk(fs, p.update, say);
+    if (doPace) updatePace(fs, p.pace, say);
+    if (doOptions) applyOptions(fs, p, options, say);
+    if (doWin) await artwork(fs, p.art, async b => sha1hex(b), say, true);
+    if (doPc) restoreArt(fs, p.art, say);
+    if (doAddons) applyAddons(fs, p.addons, addons, say);
+    return img.raw;
+  }
+  // cnretouch.convert: the other edition's whole patch onto an image without saves, then its options as asked or else
+  // that edition's defaults, and the art and the add-ons as asked or else as they were
+  async function convert(fs, p, info, edition, art, options, addons, say) {
+    if (info.edition === null)
+      throw new PatchError("认不出镜像是原版还是再平衡版（游戏程序里再平衡的几处既不是原版的也不是再平衡版的），没法转换版本");
+    if (info.saves)
+      throw new PatchError(`镜像里有 ${info.saves} 个存档：两个版本的成长和加点规则不一样，存档不通用，有存档的镜像不能转换版本（没有存档的才可以）`);
+    const wantOptions = {...p.options.defaults[edition], ...(options || {})};
+    const wantAddons = {...info.addons, ...(addons || {})};
+    if (info.addons.target) applyAddons(fs, p.addons, {target: false}, () => {});
+    say(`版本：${EDITION_NAMES[info.edition]} → ${EDITION_NAMES[edition]}，整个补丁重新写入`);
+    translate(fs, p.cn[edition], say);
+    applyOptions(fs, p, wantOptions, say);
+    const after = inspectFs(fs, p);
+    if (art === "win" && !after.current) await artwork(fs, p.art, async b => sha1hex(b), say, true);
+    if (art === "pc98" && after.art !== "pc98") restoreArt(fs, p.art, say);
+    applyAddons(fs, p.addons, wantAddons, say);
   }
 
   // Language-preserving enhancements use the same file writer and artwork engine. Their manifest
@@ -538,7 +934,8 @@
     say("Extended the reference DOS partition into its unused 693 KiB tail. Image size and existing files are unchanged.");
   }
 
-  async function enhance(bytes, p, kind, say) {
+  async function enhance(bytes, p, kind, say, addons) {
+    if (kind === "addons") return addonEnhance(bytes, p, say, addons);   // tools/enhancement_runtime.js
     const img = opened(bytes);
     if (kind === "art") {
       if (!p.art) throw new PatchError("This page has no artwork payload.");
@@ -550,6 +947,10 @@
     const fs = new Fat(img.disk, img.part);
     const changes = p.enhancement;
     if (!changes || changes.kind !== kind) throw new PatchError("This page has the wrong patch payload.");
+    // the target prompt add-on's file (tools/targetprompt.py): with it in, DDS98.EXE is no state this patch knows
+    if (changes.addon && fs.find(`${DIR}/${changes.addon}`) !== null)
+      throw new PatchError("This image has the target prompt add-on, which changes DDS98.EXE. Untick it on " +
+                           "Apply Add-ons.html, apply this patch, then tick it again. No output was created.");
     const english = changes.english;
     const executable = fs.read(`${DIR}/DDS98.EXE`);
     if (english && executable && Object.values(english.exe).some(hashes => hashes.includes(sha1hex(executable)))) {
@@ -571,6 +972,7 @@
     return img.raw;
   }
 
-  root.WebPatch = {PatchError, openHdi, Fat, translate, artwork, sha1hex, unpack, patch, enhance, OUT_NAME};
+  root.WebPatch = {PatchError, openHdi, Fat, translate, artwork, sha1hex, unpack, patch, inspect, retouch, enhance,
+                   addonState, applyAddons, ADDONS, OPTIONS, OUT_NAME};
   if (typeof module !== "undefined") module.exports = root.WebPatch;
 })(typeof globalThis !== "undefined" ? globalThis : this);

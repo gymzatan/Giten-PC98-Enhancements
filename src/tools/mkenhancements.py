@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Build three language-preserving enhancement patches with English interfaces through the existing game and web engines.
+"""Build the language-preserving enhancement patches with English interfaces through the existing game and web engines:
+Fixes, Windows Artwork, Rebalance, and the add-ons (tools/addons.py: target prompt, gamepad).
 
 python tools/mkenhancements.py --english-image <English.hdi>  build game payloads, pages, documentation and ZIP packages
 python tools/mkenhancements.py --pack-only  reuse build/enhancements game payloads after a documentation/UI edit
@@ -30,7 +31,12 @@ PACKAGES = {
             "Windows remake artwork for the PC-98 game. Works independently, or with Fixes and Rebalance."),
     "rebalance": ("Giten Rebalance (EN)", "Apply Rebalance.html", "Giten_Rebalanced.hdi",
                   "Reworked combat and progression. Apply Fixes first; Windows artwork is optional."),
+    "addons": ("Giten Add-ons (EN)", "Apply Add-ons.html", "Giten_Addons.hdi",
+               "Two optional add-ons for the PC-98 game: a battle target prompt that stops battle time, and gamepad "
+               "control. Each can be added or removed at any time, with or without the other patches."),
 }
+# the add-on package's own extra file: the DOSBox-X mapper file for an XInput pad (tools/mkmapper.py)
+ADDON_EXTRA = "mapper-giten.map"
 
 
 def load_files(directory):
@@ -65,6 +71,26 @@ def forms(name, blob):
     return sorted({hashlib.sha1(b).hexdigest() for b in variants})
 
 
+def language_runs():
+    """[[file offset, Japanese hex, English hex]]: every run of bytes the tested English translation changes in
+    DDS98.EXE (the status names and their pointers). The add-on page tells the image's language by them
+    (enhancement_runtime.js addonLanguage); tools/enaddons_test.py checks no other patch writes them."""
+    jp = (WORK / "files" / "DDS98" / "DDS98.EXE").read_bytes()
+    en = (STAGE / "english-adaptation" / "source" / "DDS98.EXE").read_bytes()
+    if len(jp) != len(en):
+        raise ValueError("The English DDS98.EXE is not as long as the Japanese one")
+    runs = []
+    for i in range(len(jp)):
+        if jp[i] != en[i]:
+            if runs and runs[-1][1] == i:
+                runs[-1][1] = i + 1
+            else:
+                runs.append([i, i + 1])
+    if not runs:
+        raise ValueError("The English DDS98.EXE is the Japanese one")
+    return [[a, jp[a:b].hex(), en[a:b].hex()] for a, b in runs]
+
+
 def payload(kind, fixed, rebalanced):
     import enhancement_plan, webpayload
     blobs = []
@@ -75,6 +101,18 @@ def payload(kind, fixed, rebalanced):
             blobs.append(data)
         return refs
     manifest = {"cn": {}, "art": None}
+    if kind == "addons":
+        import addons
+        def ref(data):
+            blobs.append(data)
+            return len(blobs) - 1
+        jp, en = addons.files(None), addons.files(None, english=True)
+        if jp["pad"] != en["pad"]:
+            raise ValueError("The launcher depends on the language")
+        manifest["addons"] = {**webpayload.addon_part({"jp": jp["target"], "en": en["target"]}, jp["pad"], ref),
+                              "lang": language_runs()}
+        manifest["blobs"] = [len(b) for b in blobs]
+        return webpayload.packed(manifest, blobs)[0]
     if kind == "art":
         files, hashes, exe = webpayload.art_part()
         manifest["art"] = {"files": take(files), "hashes": hashes, "exe": exe, "partition": {
@@ -100,7 +138,9 @@ def payload(kind, fixed, rebalanced):
         exe_forms = {label: forms('DDS98.EXE', data['DDS98.EXE']) for label, data in
                      (('original', en_original), ('fixed', en_fixed), ('rebalance', en_rebalanced))}
         en_plan = enhancement_plan.compile_plan(en_original, en_fixed, en_rebalanced, kind, exe_forms)
-        manifest["enhancement"] = {"kind": kind, "files": take(files), "requires": required, "english": en_plan}
+        import targetprompt
+        manifest["enhancement"] = {"kind": kind, "files": take(files), "requires": required, "english": en_plan,
+                                   "addon": targetprompt.MSG_FILE}
     manifest["blobs"] = [len(b) for b in blobs]
     return webpayload.packed(manifest, blobs)[0]
 
@@ -118,7 +158,10 @@ def english_core():
         if re.search(r"[\u3400-\u9fff]", line) and not line.lstrip().startswith("//"):
             raise ValueError(f"Untranslated core message: {line}")
     runtime = (HERE / 'enhancement_runtime.js').read_text(encoding='utf-8')
-    return core.replace('  root.WebPatch =', runtime + '\n  root.WebPatch =')
+    if core.count('  root.WebPatch = {') != 1:
+        raise ValueError("The core's export is not where the runtime goes")
+    # the add-on page also reads an image's language and add-ons (addonInspect, in the runtime)
+    return core.replace('  root.WebPatch = {', runtime + '\n  root.WebPatch = {addonInspect, ')
 
 
 def documentation():
@@ -196,7 +239,8 @@ def documentation():
 
 def render_documentation():
     """Render the existing English documents without rebuilding game-derived references."""
-    order = ("README", "FIXES", "WINDOWS-ARTWORK", "REBALANCE", "REFERENCE", "TROUBLESHOOTING", "CREDITS", "VALIDATION")
+    order = ("README", "FIXES", "WINDOWS-ARTWORK", "REBALANCE", "ADDONS", "REFERENCE", "TROUBLESHOOTING", "CREDITS",
+             "VALIDATION")
     sections = [f'<section id="{name}">' + markdown.markdown((DOCS / (name + ".md")).read_text(encoding="utf-8"),
                 extensions=["tables", "fenced_code"]) + "</section>" for name in order]
     toc = " · ".join(f'<a href="#{name}">{name.title().replace("-", " ")}</a>' for name in order)
@@ -212,6 +256,14 @@ def page(kind, b64, core):
     import webpayload
     title, _name, output, desc = PACKAGES[kind]
     css = webpayload.CSS
+    if kind == "addons":
+        boxes = "".join(f'<label class="opt"><input type="checkbox" id="addon-{key}" data-addon="{key}">'
+                        f'<span><b>{html.escape(label)}</b><small>{html.escape(note)}</small></span></label>'
+                        for key, label, note in ADDON_OPTS)
+        return (ADDON_TEMPLATE.replace("{{TITLE}}", html.escape(title)).replace("{{DESC}}", html.escape(desc))
+                .replace("{{OUTPUT}}", output).replace("{{CHECKS}}", boxes).replace("{{MAPPER}}", ADDON_EXTRA)
+                .replace("{{CSS}}", css).replace("{{CORE}}", core.replace("</", "<\\/"))
+                .replace("{{PAYLOAD}}", b64))
     prereq = "Use the output of Apply Fixes.html." if kind == "rebalance" else "Select a supported Japanese or tested English PC-98 game image."
     return (TEMPLATE.replace("{{TITLE}}", html.escape(title)).replace("{{DESC}}", html.escape(desc))
             .replace("{{PREREQ}}", prereq).replace("{{OUTPUT}}", output).replace("{{KIND}}", kind)
@@ -274,13 +326,115 @@ button:disabled{opacity:.5}#drop{border:2px dashed var(--line);padding:20px;bord
 '''
 
 
+# the add-ons (tools/addons.py), each a box on the add-on page
+ADDON_OPTS = (("target", "Target prompt", "Battle time stops while you pick a target, and the battle text box asks "
+                                          "“Use on whom?”"),
+              ("pad", "Keyboard / gamepad controls", "The stick walks; the D-pad moves the pointer between menu entries, options, "
+                                 "buttons and targets"))
+
+ADDON_TEMPLATE = r'''<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{TITLE}}</title><style>{{CSS}}
+main{max-width:850px;margin:40px auto;padding:0 24px}section{margin:24px 0;padding:24px;border:1px solid var(--line);background:var(--surface);border-radius:12px}
+button,.download{display:inline-block;padding:12px 18px;margin:12px 12px 8px 0;border:0;border-radius:6px;background:var(--accent);color:var(--accent-ink);font:inherit;text-decoration:none}
+button:disabled{opacity:.5}#drop{border:2px dashed var(--line);padding:20px;border-radius:8px}#drop.over{border-color:var(--accent)}
+#log{overflow-wrap:anywhere;line-height:1.7}#log .error{color:var(--bad)}[hidden]{display:none!important}h1{font-size:clamp(26px,5vw,38px);line-height:1.2}input{max-width:100%}
+fieldset{margin:16px 0 0}fieldset:disabled .opt{opacity:.5;cursor:not-allowed}code{font-family:var(--mono);overflow-wrap:anywhere}
+</style></head><body><main>
+<p>GITEN MEGAMI TENSEI · TOKYO MOKUSHIROKU</p><h1>{{TITLE}}</h1><p>{{DESC}}</p>
+<p><strong>Supports the Japanese game and the tested English translation, with or without Fixes, Rebalance and Windows Artwork. Your game language is retained.</strong></p>
+<section><h2>1. Choose your image</h2><p>Select a supported Japanese or tested English PC-98 game image. Your selected file is read only. The result is downloaded as a separate HDI.</p>
+<div id="drop"><label for="image">Choose or drop an .hdi file</label><br><input id="image" type="file" accept=".hdi"></div>
+<p id="selected">No image selected.</p>
+<fieldset id="opts" disabled><legend>2. Tick the add-ons the image should have</legend><div class="opts">{{CHECKS}}</div>
+<p class="sub">The boxes start as the chosen image has them. Untick one to take that add-on out again.</p></fieldset>
+<button id="apply" disabled>3. Apply</button>
+<ol id="log" aria-live="polite"></ol><a id="save" class="download" hidden>4. Save {{OUTPUT}}</a></section>
+<section><h2>Target prompt</h2>
+<p>When a command waits for its target (after you choose an attack, a skill or an item), the battle text box asks “Use on whom?” and battle time stops: no action gauge fills on either side until you pick a target or cancel with the right button. Choosing again after a cancel asks again.</p>
+<p>The original game stops the clock only while you pick an ally. While you point at an enemy, the enemies, bosses included, keep acting.</p>
+<p>The add-on changes six places in <code>DDS98.EXE</code> and adds <code>DDS98\MS00D9.BIN</code>, the question in your game's language.</p></section>
+<section><h2>Keyboard / gamepad controls</h2>
+<p>Play with a gamepad or the keyboard. The mouse still works.</p>
+<ul><li>The stick walks. In a dungeon, up steps forward, down turns around, and left and right turn. On the world map you walk straight in that direction; the keyboard's W, A, S and D also walk there.</li>
+<li>The D-pad (the arrow keys) moves the pointer to the nearest thing you can click in that direction within the view: menu entries, options, battle targets, the person standing in front of the party, a chest and the opening dial pad; at the end of a list it wraps round to the other end. With nothing to click there (an empty corridor) the pointer stays put. A (Enter, Space) is the left button and B (Esc, Backspace) the right button.</li>
+<li>X (Tab) goes to the interface: the command panel on the right and the party list at the bottom, where skills and items for allies pick their target. Press it again and the pointer goes back exactly where it was in the view; B there returns to the view too, with the pointer in the middle of it. A menu opened from the interface, such as DDS or STATUS, takes the D-pad while it is open; once it is closed, the D-pad is back in the interface. The direction pad below the command panel is never selected; walk with the stick or the keys.</li>
+<li>On the world map the D-pad walks as well. A short press of B or X moves the pointer to the commands on the right, where the D-pad picks one; another short press puts the pointer back where it was. Holding B is the right button (the small map).</li>
+<li>Hold Y (Ctrl) and the stick moves the pointer freely instead of walking: slowly at first, then faster, so you can click anywhere on the screen. The D-pad still jumps between targets. After you let go of Y, the stick walks again once you have let go of it too. On the keyboard, hold Shift and the arrow keys move the pointer the same way.</li>
+<li>LB and RB step sideways in a dungeon: they are the game's own 4 and 6 keys.</li></ul>
+<p>The add-on is one file, <code>DDS98\DDS98.COM</code>. When the game's start command <code>DDS98</code> runs, DOS starts this file first; it sets up the gamepad control and then starts <code>DDS98.EXE</code>. No startup file is changed, so the PepsimanGB boot floppy works as before.</p></section>
+<section><h2>Connecting a gamepad</h2>
+<p>The game reads a PC-98 joystick (one stick, two buttons) and the keyboard. Set up your emulator so that the left stick and A and B are the PC-98 joystick, the D-pad is the arrow keys, X is Tab, Y is Ctrl, and LB and RB are the 4 and 6 keys. Use the emulator's own joystick and key settings, or a tool such as Steam Input or JoyToKey.</p>
+<p>DOSBox-X: this package includes <code>{{MAPPER}}</code>, the default key and joystick settings of DOSBox-X 2026.10.01 with these assignments for an XInput gamepad. Put it beside your <code>dosbox-x.conf</code> and set <code>mapperfile = {{MAPPER}}</code> in its <code>[sdl]</code> section. DOSBox-X passes the stick to the emulated PC-98 only while a gamepad is connected.</p></section>
+<section><h2>Before playing</h2><p>Use an in-game save when adding or removing add-ons; make a backup first. Emulator save states contain the old running program and should not be used across a change.</p>
+<p>Apply this page last. Fixes and Rebalance check <code>DDS98.EXE</code> as a whole and refuse one that has the target prompt in it; to add them later, untick the target prompt here first, apply them, then tick it again. Windows Artwork keeps both add-ons, but on the English game with Fixes the disk has room for everything only with the artwork first.</p>
+<p>Each add-on's file takes one cluster of the disk. When the disk has too few free clusters (the English game with Fixes and Windows Artwork fills the reference disk), this page grows the image by whole cylinders at its end and says so in its log; no file moves.</p>
+<p>Everything runs locally. No image is uploaded; the page has no external scripts, fonts or network requests. It requires a browser with DecompressionStream support for deflate-raw.</p></section>
+</main><script>{{CORE}}</script>
+<script type="text/plain" id="payload">{{PAYLOAD}}</script>
+<script>
+(() => {
+  const input=document.getElementById('image'), button=document.getElementById('apply'), drop=document.getElementById('drop');
+  const log=document.getElementById('log'), save=document.getElementById('save'), selected=document.getElementById('selected');
+  const opts=document.getElementById('opts'), boxes=[...document.querySelectorAll('[data-addon]')];
+  const NAMES={target:'Target prompt',pad:'Gamepad'};
+  let chosen, info, url, unpacked, busy=false;
+  function clearResult(){save.hidden=true;if(url){URL.revokeObjectURL(url);url=undefined;}log.replaceChildren();}
+  function say(text,error=false){const li=document.createElement('li');li.textContent=text;if(error)li.className='error';log.appendChild(li);}
+  function wanted(){return Object.fromEntries(boxes.map(b=>[b.dataset.addon,b.checked]));}
+  function changed(){return !!info&&boxes.some(b=>b.checked!==info.addons[b.dataset.addon]);}
+  function refresh(){opts.disabled=busy||!info;button.disabled=busy||!changed();input.disabled=busy;}
+  async function payload(){if(!unpacked)unpacked=await WebPatch.unpack(document.getElementById('payload').textContent.trim());return unpacked;}
+  async function pick(file){
+    if(busy)return;chosen=file;info=undefined;clearResult();refresh();
+    selected.textContent=file?file.name:'No image selected.';
+    if(!file)return;
+    try{
+      if(!/\.hdi$/i.test(file.name))throw new Error('Select an .hdi hard disk image.');
+      if(typeof DecompressionStream==='undefined')throw new Error('This browser lacks DecompressionStream. Open this page in a browser that supports deflate-raw.');
+      const p=await payload(), bytes=new Uint8Array(await file.arrayBuffer());
+      if(chosen!==file)return;
+      const found=WebPatch.addonInspect(bytes,p);
+      const have=Object.keys(NAMES).filter(n=>found.addons[n]).map(n=>NAMES[n]);
+      selected.textContent=file.name+': '+(found.lang==='en'?'the English translation':'the Japanese game')+
+        '. Add-ons in it now: '+(have.length?have.join(', '):'none')+'.';
+      for(const b of boxes)b.checked=found.addons[b.dataset.addon];
+      info=found;
+    }catch(e){say(String(e.message||e),true);}
+    refresh();
+  }
+  input.addEventListener('change',()=>pick(input.files[0]));
+  for(const b of boxes)b.addEventListener('change',refresh);
+  for(const name of ['dragenter','dragover'])drop.addEventListener(name,e=>{e.preventDefault();if(!busy)drop.classList.add('over');});
+  drop.addEventListener('dragleave',()=>drop.classList.remove('over'));
+  drop.addEventListener('drop',e=>{e.preventDefault();drop.classList.remove('over');if(e.dataTransfer.files.length===1)pick(e.dataTransfer.files[0]);});
+  button.addEventListener('click',async()=>{
+    if(!chosen||!changed()||busy)return;busy=true;refresh();clearResult();
+    try{
+      say('Reading the patch and selected image...');
+      await new Promise(resolve=>setTimeout(resolve,30));
+      const p=await payload(), bytes=new Uint8Array(await chosen.arrayBuffer());
+      const result=await WebPatch.enhance(bytes,p,'addons',say,wanted());
+      url=URL.createObjectURL(new Blob([result],{type:'application/octet-stream'}));
+      save.href=url;save.download='{{OUTPUT}}';save.hidden=false;
+      say('Finished. Save the new image below; the original file has not been changed.');
+    }catch(e){say(String(e.message||e),true);}
+    finally{busy=false;refresh();}
+  });
+})();
+</script></body></html>
+'''
+
+
 def bundle():
     """Package the already built, standalone installers without changing their bytes."""
     title = "Giten Megami Tensei Redux"
     files = {p.name: p.read_bytes() for p in DOCS.iterdir() if p.is_file()}
-    for package, filename, _output, _description in PACKAGES.values():
+    for kind, (package, filename, _output, _description) in PACKAGES.items():
         with zipfile.ZipFile(WORK / "dist" / (package + ".zip")) as source:
             files[filename] = source.read(package + "/" + filename)
+            if kind == "addons":
+                files[ADDON_EXTRA] = source.read(package + "/" + ADDON_EXTRA)
     for name in ("START HERE.html", "START HERE.txt"):
         files[name] = (DOCS / "bundle" / name).read_bytes()
     files["SHA256SUMS.txt"] = "".join(
@@ -301,7 +455,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--pack-only", action="store_true")
-    mode.add_argument("--bundle-only", action="store_true", help="Combine the existing three patch ZIPs; no game inputs needed")
+    mode.add_argument("--bundle-only", action="store_true", help="Combine the existing four patch ZIPs; no game inputs needed")
     parser.add_argument("--english-image", type=Path, help="Verified English BPS output used to rebuild the native English payload")
     args = parser.parse_args()
     if args.bundle_only:
@@ -327,7 +481,10 @@ def main():
         for source in docs:
             if source.is_file():
                 (folder / source.name).write_bytes(source.read_bytes())
-        manifest = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in folder.iterdir() if p.is_file() and p.name != "SHA256SUMS.txt"}
+        if kind == "addons":
+            import mkmapper
+            (folder / ADDON_EXTRA).write_bytes(mkmapper.build())
+        manifest ={p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in folder.iterdir() if p.is_file() and p.name != "SHA256SUMS.txt"}
         (folder / "SHA256SUMS.txt").write_text("".join(f"{digest}  {name}\n" for name, digest in sorted(manifest.items())), encoding="utf-8")
         archive = WORK / "dist" / (title + ".zip")
         with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as z:

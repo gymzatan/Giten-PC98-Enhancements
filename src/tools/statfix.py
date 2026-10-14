@@ -88,7 +88,7 @@ relocated words), 1603:4288-4303, two unused helpers (no call, no pointer, no re
 358E:639C-63F9, an unused near routine (no call, no pointer, no relocation, never traced).
 
 tools/statfix_test.py runs every changed routine, original and fixed, on an emulated CPU with the
-game's own tables; tools/mkfixbat.py writes the fix out as 「启用 / 关闭 能力值修复.bat」.
+game's own tables. Every build carries the fix, with no switch.
 """
 import os
 import struct
@@ -457,7 +457,7 @@ def table_state(blob):
 
 def apply_table(blob, revert=False):
     """ET0001.BIN with every listed code in the wanted state: the bytes flipped where they stand and
-    the chunk encrypted again, as the .bat does it (the file keeps its length)."""
+    the chunk encrypted again (the file keeps its length)."""
     table_state(blob)
     (plain,) = chunks_of(blob)
     out = bytearray(plain)

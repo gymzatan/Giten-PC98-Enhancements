@@ -37,9 +37,9 @@ Experience the script cannot write
     settled where experience is awarded (ov02), so a gift that crosses a threshold makes the level
     at the next award; the status screen shows NEXT 0 meanwhile (ov11:0729 clamps it).
 
-A fix is a storyfix.Fix (same-length operands, found by what they hold) or a site of DDS98.EXE;
-tools/mkfixbat.py writes them out as 「启用 / 关闭 剧情检定修复.bat」; tools/checkfix_test.py runs 23A's
-dispatch, original and mended, on an emulated CPU.
+A fix is a storyfix.Fix (same-length operands, found by what they hold) or a site of DDS98.EXE; every
+build carries them, with no switch; tools/checkfix_test.py runs 23A's dispatch, original and mended, on an
+emulated CPU.
 """
 import os
 import sys

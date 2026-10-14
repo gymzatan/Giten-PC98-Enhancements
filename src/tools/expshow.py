@@ -31,8 +31,8 @@ The other place the game would show a sum of experience - a demon leaving some a
 1603:E1A2 with kind 2) - is never reached: only command 16A asks for it, and no script holds 16A; the
 talk outcomes (1603:DEFC) never pick it.
 
-tools/mkfixbat.py writes the fix out as 「启用 / 关闭 经验值显示修复.bat」; tools/expshow_test.py runs the
-reader and the payout on an emulated CPU and compares them.
+Every build carries the fix, with no switch; tools/expshow_test.py runs the reader and the payout on an
+emulated CPU and compares them.
 """
 import os
 import sys

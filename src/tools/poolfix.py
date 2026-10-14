@@ -23,7 +23,7 @@ Learning itself is the game's: each level-up tries the candidates in list order 
 gun templates learn at the levels tools/skillfix.py gives them. The three slots' pools together fill a
 list of at most 63 (DS:952C-95AA); with these the largest pair of slots (剑 with 魔法 and COMP) reaches
 46. Nothing in ET0030 is text, so one pair of contents - as shipped and as changed - fits the Japanese
-original and every Chinese build; the 再平衡 .bat patches carry them whole (tools/mkpatchbat.py)."""
+original and every Chinese build; the 再平衡版 writes them whole (tools/rebalance.py files)."""
 import os
 import struct
 import sys
@@ -124,7 +124,7 @@ def changed(raw, src_dir=SRC):
 
 
 def edit(src_dir=SRC):
-    """(file name, label, as shipped, as changed) for the .bat patches (tools/mkpatchbat.py)."""
+    """(file name, label, as shipped, as changed) for tools/rebalance.py files."""
     raw = open(os.path.join(src_dir, NAME), "rb").read()
     return NAME, LABEL, raw, changed(raw, src_dir)
 

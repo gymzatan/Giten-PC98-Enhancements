@@ -59,8 +59,8 @@ Saves
 コアシールド's description says it lasts until the moon changes; its first words become 「效力至多约一天，」
 in this build and 「最長で約一日の間、」 in the Japanese original, the same number of bytes each.
 
-tools/mkfixbat.py writes the fix out as 「启用 / 关闭 月相加速.bat」; tools/moonfast_test.py runs the clock
-of both programs on an emulated CPU and compares them.
+Both editions' images carry it; 汉化补丁.html offers it as an option (tools/options.py). tools/moonfast_test.py
+runs the clock of both programs on an emulated CPU and compares them.
 """
 import os
 import struct
@@ -238,7 +238,7 @@ def desc_at(plain):
 
 def mend_table(blob, forms, revert=False):
     """ET0001.BIN with コアシールド's description in the wanted form: its head rewritten where it stands
-    and the chunk encrypted again, as the .bat does it (the file keeps its length). Exactly one of the
+    and the chunk encrypted again (the file keeps its length). Exactly one of the
     forms has to be there, in either state."""
     (plain,) = chunks_of(blob)
     start, end = desc_at(plain)

@@ -31,10 +31,10 @@ The program's parts, by where they sit (each comment block below has the details
   W16 negotiation: the COMP level in the talk checks, 1603:8844
 
 It builds on 能力值修复 and 攻击技能修复 (the lab's rules include both): a site whose shipped form is one of
-theirs names it as its need, and the .bat says to enable it first.
+theirs names it as its need.
 
-table() and files() are the tables and whole files for make.py and tools/mkpatchbat.py; exe() the program's sites,
-mend_exe() writes them; apply_to() puts the tables and files into a build's set of files."""
+table() and files() are the tables and whole files, mend_exe() writes the program's sites; apply_to() puts the
+tables and files into a build's set of files."""
 import os
 import re
 import struct
@@ -1528,11 +1528,6 @@ def table():
 def files(src_dir=SRC):
     """[(name under DDS98\\, label, as shipped, as changed)]: the learning pools."""
     return [poolfix.edit(src_dir)]
-
-
-def exe():
-    """The program's sites for tools/mkpatchbat.py."""
-    return {"name": EXE_NAME, "label": EXE_LABEL, "sites": EXE_SITES}
 
 
 def mend_exe(blob, revert=False):

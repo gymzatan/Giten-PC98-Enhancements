@@ -49,9 +49,9 @@ Where the code goes
     same way (1603 = CS - 0FC7h), and ov02:0029 keeps its relocated far call with the segment word
     turned from 358E to 1603 - the loader adds the load segment to it just the same.
 
-tools/mkfixbat.py writes it as 「启用 / 关闭 等级差经验.bat」 (off in the Chinese version's image, built into the
-再平衡版's); tools/expgap_test.py
-runs the defeat, the payout and the summary's reader on an emulated CPU against the rule above.
+It is off in the 原版's image and built into the 再平衡版's; 汉化补丁.html offers it as an option for either
+(tools/options.py). tools/expgap_test.py runs the defeat, the payout and the summary's reader on an emulated CPU
+against the rule above.
 """
 import os
 import sys

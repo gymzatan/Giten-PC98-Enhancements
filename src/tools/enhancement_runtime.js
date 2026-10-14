@@ -228,3 +228,111 @@
     translate(fs, {files, drop:[], autoexec:null}, say);
     say('Applied checked record and field edits. Existing English text, saves and DOS boot files are preserved.');
   }
+
+  // The add-ons (tools/addons.py) on a Japanese or English image, with or without the other patches. The image's
+  // language is what DDS98.EXE says: every byte the English translation changes there (a.lang) holds either all of
+  // the Japanese game's values or all of the translation's; no other patch writes them. The question goes in that
+  // language. A Chinese image keeps its add-ons on its own Chinese patch page.
+  function addonLanguage(fs, a) {
+    if (fs.find(`${DIR}/CNFONT.DAT`) !== null)
+      throw new PatchError('This image has the Chinese translation. Add or remove its add-ons with the Chinese patch page. No output was created.');
+    const exe = fs.read(`${DIR}/DDS98.EXE`);
+    if (exe === null) throw new PatchError('DDS98\\DDS98.EXE was not found. Select a Giten game image.');
+    const all = lang => a.lang.every(r => same(exe.subarray(r.at, r.at + r[lang].length), r[lang]));
+    if (all('en')) return 'en';
+    if (all('jp')) return 'jp';
+    throw new PatchError('DDS98.EXE is neither the Japanese game nor the tested English translation. No output was created.');
+  }
+
+  function addonsFor(a, lang) {
+    return {...a, target: {...a.target, data: a.target.texts[lang]}};
+  }
+
+  // addons.shortfall: the clusters the image lacks for the change, taken in ADDONS order (a removal frees its file's
+  // clusters before the next add-on; DDS98.EXE is rewritten at its own size).
+  function addonShortfall(fs, a, want, have) {
+    let free = fs.freeClusters().length, low = free;
+    for (const name of ADDONS) {
+      if (!(name in want) || want[name] === have[name]) continue;
+      const file = name === 'target' ? a.target : a.pad;
+      if (want[name]) free -= Math.ceil(file.data.length / fs.cs);
+      else free += Math.ceil(fs.find(`${DIR}/${file.name}`).size / fs.cs);
+      low = Math.min(low, free);
+    }
+    return Math.max(0, -low);
+  }
+
+  // tools/hdigrow.py step for step (the user, 2026-10-13: grow the disk when the add-ons do not fit): the image grown
+  // by the fewest whole cylinders at its end that give its one DOS volume `more` new clusters, all free. Only a disk
+  // the volume already fills is grown: the header's size is the image's and its geometry's, one partition entry
+  // reaching the last cylinder, a FAT12 volume with a 16-bit sector count ending at the disk's end, the FAT's
+  // entries past it zero and room in the FAT. The header's size and cylinders, the entry's end cylinder and the BPB's
+  // sector count follow the new cylinders. -> [the new image, cylinders added]
+  function addonGrow(img, more) {
+    const raw = img.raw, hdr = img.hdr, sect = u32(raw, 16), spt = u32(raw, 20), heads = u32(raw, 24), cyls = u32(raw, 28);
+    const size = raw.length - hdr, entry = hdr + sect;
+    const fail = why => new PatchError('The disk has no room for the add-ons and cannot be grown: ' + why + '. No output was created.');
+    if (u32(raw, 12) !== size || size !== cyls * heads * spt * sect) throw fail("the HDI header's size does not match the image");
+    if (raw.subarray(entry + 32, hdr + 2 * sect).some(v => v !== 0)) throw fail('the disk has more than one partition');
+    if (u16(raw, entry + 14) !== cyls - 1) throw fail("the partition does not reach the disk's last cylinder");
+    const fs = new Fat(img.disk, img.part);
+    const overhead = fs.reserved + fs.fats * fs.spf + fs.rootSectors, total16 = u16(img.disk, img.part + 19);
+    if (total16 === 0 || Math.floor((total16 - overhead) / fs.spc) >= 4085) throw fail('the volume is not FAT12 with a 16-bit sector count');
+    const tail = size - (img.part + total16 * fs.bps);
+    if (tail < 0 || tail >= fs.bps) throw fail("the volume does not end at the disk's end");
+    const cyl = heads * spt * sect, max = fs.maxCluster();
+    let k, total, top;
+    for (k = 1; ; k++) {
+      total = Math.floor((size + k * cyl - img.part) / fs.bps);
+      if (total > 0xFFFF || Math.floor((total - overhead) / fs.spc) >= 4085)
+        throw fail(`the volume cannot gain ${more} more clusters and stay FAT12`);
+      top = 1 + Math.floor((total - overhead) / fs.spc);
+      if (top + (top >> 1) + 1 >= fs.spf * fs.bps) throw fail('the FAT has no room for more clusters');
+      if (top - max >= more) break;
+    }
+    for (let c = max + 1; c <= top; c++) if (fs.getFat(c) !== 0) throw fail("the FAT's entries past the volume are not empty");
+    const out = new Uint8Array(raw.length + k * cyl);
+    out.set(raw);
+    put32(out, 12, size + k * cyl);
+    put32(out, 28, cyls + k);
+    put16(out, entry + 14, cyls + k - 1);
+    put16(out, hdr + img.part + 19, total);
+    return [openHdi(out), k];
+  }
+
+  // What the add-on page shows for a chosen image: {lang: 'jp' | 'en', addons: {target, pad}}.
+  function addonInspect(bytes, p) {
+    const img = opened(bytes);
+    const fs = new Fat(img.disk, img.part);
+    const lang = addonLanguage(fs, p.addons);
+    try { return {lang, addons: addonState(fs, addonsFor(p.addons, lang))}; }
+    catch (e) { if (e instanceof PatchError) throw new PatchError(e.message + '. No output was created.'); throw e; }
+  }
+
+  // Each add-on in or out as want ({target, pad}: true in, false out) says: a new array, the given one left alone.
+  // With nothing to change it refuses.
+  function addonEnhance(bytes, p, say, want) {
+    if (!p.addons || !p.addons.lang) throw new PatchError('This page has no add-on payload.');
+    let img = opened(bytes);
+    let fs = new Fat(img.disk, img.part);
+    const lang = addonLanguage(fs, p.addons);
+    const a = addonsFor(p.addons, lang);
+    let have;
+    try { have = addonState(fs, a); }
+    catch (e) { if (e instanceof PatchError) throw new PatchError(e.message + '. No output was created.'); throw e; }
+    if (!want || !ADDONS.some(n => n in want && want[n] !== have[n]))
+      throw new PatchError('This image already has the add-ons as ticked. Nothing to change.');
+    say(lang === 'en' ? 'English translation detected; the target question is in English.' :
+        'Japanese game detected; the target question is in Japanese.');
+    const more = addonShortfall(fs, a, want, have);
+    if (more) {
+      const [grown, k] = addonGrow(img, more);
+      img = grown;
+      fs = new Fat(img.disk, img.part);
+      say(`The disk had no room for the add-ons' files: grew the image by ${k} cylinder${k === 1 ? '' : 's'} ` +
+          `(${k * u32(img.raw, 20) * u32(img.raw, 24) * u32(img.raw, 16)} bytes) at its end.`);
+    }
+    applyAddons(fs, a, want, say);
+    say('Nothing else in the image was changed. Saves and the DOS boot configuration are preserved.');
+    return img.raw;
+  }

@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""The PowerShell the .bat patches share (tools/mkstorybat.py, tools/mkfixbat.py, tools/mkpatchbat.py):
-the disk (HDI header, PC-98 partition table, BPB), the FAT and its files (find by name, read, write
+"""The PowerShell of the numeric editor's .bat patches (tools/mkpatchbat.py): the disk (HDI header, PC-98 partition table, BPB), the FAT and its files (find by name, read, write
 growing or shrinking the cluster chain), the script cipher and records, table entries by number and
 sites of DDS98.EXE, and the byte helpers. It reads the image named by $img into $bytes, and Refuse
 ends the patch with nothing written; Hold does the same for a toggle another one is built on (a site in

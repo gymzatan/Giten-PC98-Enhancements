@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
-"""Write an edit table out as two self-contained .bat patches that need nothing installed, with whole
-files and sites of DDS98.EXE beside it. make.py writes two pairs with it: 「攻击技能修复」 in every
-package (tools/skillfix.py's table and sites) and 「再平衡」 in the 再平衡版's (tools/rebalance.py: the
-boss tables, the learning pools of tools/poolfix.py as a whole file, the program's sites). The
-editor's patches carry its own table alone, as 「难度调整」.
+"""Write an edit table out as two self-contained .bat patches that need nothing installed, optionally with whole
+files and sites of DDS98.EXE beside it. The numeric editor (tools/demoned.py, 「生成 bat 补丁」) writes its own
+table with it, as 「难度调整」.
 
     mkpatchbat.py [OUTDIR]      default: patch/ (balance.json alone)
 

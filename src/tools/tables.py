@@ -304,9 +304,10 @@ PRINTF = re.compile(r"%[-+ #0]*\d*(?:\.\d+)?[hlL]?[diouxXcsfeEgGp%]")
 EXE_NOT_TEXT = {0x0529C3, 0x052A6D, 0x052AF7}
 # Leading bytes a match took from the field before the string: the id byte of an
 # ailment record ([id][7-byte name]), the 48h high byte of a far pointer to
-# DGROUP 48FC, and "DNL" before 哀願的 (the pointer table after the attitude
-# names targets 哀願的 itself).
-EXE_LEAD = {0x04ECF4: 1, 0x04ED84: 1, 0x04ED8C: 1, 0x04F4E4: 3, 0x04F52D: 1,
+# DGROUP 48FC, "DNL" before 哀願的 (the pointer table after the attitude
+# names targets 哀願的 itself), and ten far pointers into 25CA (xx60 25CA)
+# before the command panel's 「[ITEM] 使用できる人が居ません」.
+EXE_LEAD = {0x04DFFC: 40, 0x04ECF4: 1, 0x04ED84: 1, 0x04ED8C: 1, 0x04F4E4: 3, 0x04F52D: 1,
             0x050491: 1, 0x0504B1: 1, 0x050699: 1}
 
 

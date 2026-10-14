@@ -158,7 +158,7 @@ def main(argv):
         print(__doc__)
         return 2
     from fat12 import Fat12, open_hdi
-    images = argv[1:] or [os.path.join(WORK, "dist", "Redux", "Game.hdi")]
+    images = argv[1:] or [os.path.join(WORK, "dist", "Giten CN", "Giten_CN.hdi")]
     bad = 0
     for image in images:
         _raw, _hdr, disk, part = open_hdi(image)

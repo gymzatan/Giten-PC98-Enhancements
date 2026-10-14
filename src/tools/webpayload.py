@@ -27,3 +27,12 @@ def packed(manifest, blobs):
     c = zlib.compressobj(9, zlib.DEFLATED, -15)
     return base64.b64encode(c.compress(raw) + c.flush()).decode("ascii"), len(raw)
 
+
+def addon_part(texts, com, ref):
+    """Serialize the existing target-prompt sites, language-specific message files and launcher."""
+    import gamepad, targetprompt
+    return {"target": {"hdr": targetprompt.HDR,
+                       "sites": [[kind, off, orig.hex(), fixed.hex()] for kind, off, orig, fixed, _w in targetprompt.SITES],
+                       "name": targetprompt.MSG_FILE, "texts": {lang: ref(data) for lang, data in texts.items()}},
+            "pad": {"name": gamepad.COM, "data": ref(com)}}
+
