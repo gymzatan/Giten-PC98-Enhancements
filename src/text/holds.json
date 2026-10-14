@@ -2,32 +2,32 @@
   {
     "at": "MS00DB/0/1@0291",
     "original": 30,
-    "hold": 30
+    "hold": 60
   },
   {
     "at": "MS00DB/0/1@048E",
     "original": 40,
-    "hold": 40
+    "hold": 60
   },
   {
     "at": "MS00DB/0/1@04BD",
     "original": 40,
-    "hold": 40
+    "hold": 60
   },
   {
     "at": "MS00DB/0/1@058F",
     "original": 20,
-    "hold": 20
+    "hold": 60
   },
   {
     "at": "MS00DB/0/1@05C2",
     "original": 20,
-    "hold": 20
+    "hold": 60
   },
   {
     "at": "MS00DB/0/1@0851",
     "original": 150,
-    "hold": 150
+    "hold": 60
   },
   {
     "message": "MS00DC/0/1@0026",
@@ -1022,7 +1022,7 @@
   {
     "at": "MS00DD/0/76@011A",
     "original": 60,
-    "hold": 0
+    "hold": 2
   },
   {
     "message": "MS00DD/0/77@0000",
@@ -1036,12 +1036,12 @@
   {
     "at": "MS00DD/0/77@004C",
     "original": 60,
-    "hold": 0
+    "hold": 2
   },
   {
     "at": "MS00DD/0/79@0000",
     "original": 100,
-    "hold": 100
+    "hold": 2
   },
   {
     "message": "MS00DD/0/79@005A",
@@ -1109,7 +1109,7 @@
   {
     "at": "MS00DD/0/80@0000",
     "original": 100,
-    "hold": 100
+    "hold": 2
   },
   {
     "message": "MS00DD/0/80@0009",
@@ -1118,6 +1118,51 @@
     "can_end": true,
     "after": [
       "MS00DD/0/80@0009"
+    ]
+  },
+  {
+    "message": "MS00DD/0/81@0000",
+    "hold": 0,
+    "own": "{call:3:19}在战斗中获胜了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/81@0000"
+    ]
+  },
+  {
+    "message": "MS00DD/0/82@0000",
+    "hold": 0,
+    "own": "{call:3:19}获得了{num:4F0002}点ＥＸＰ⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/82@0000"
+    ]
+  },
+  {
+    "message": "MS00DD/0/83@0000",
+    "hold": 0,
+    "own": "捡到了￥{num:4F0000}魔货⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/83@0000"
+    ]
+  },
+  {
+    "message": "MS00DD/0/84@0000",
+    "hold": 0,
+    "own": "吸收了{num:4F0001}点生体磁能⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/84@0000"
+    ]
+  },
+  {
+    "message": "MS00DD/0/85@00D1",
+    "hold": 0,
+    "own": "。⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/85@00D1"
     ]
   },
   {
@@ -1130,6 +1175,15 @@
     ]
   },
   {
+    "message": "MS00DD/0/87@0000",
+    "hold": 60,
+    "own": "敌人逃跑了⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/87@0000"
+    ]
+  },
+  {
     "message": "MS00DD/0/88@0000",
     "hold": 60,
     "own": "{call:3:19}，在战斗中活了下来⏎",
@@ -1139,9 +1193,18 @@
     ]
   },
   {
+    "message": "MS00DD/0/89@0073",
+    "hold": 60,
+    "own": "原地留下了什么东西……⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/89@0073"
+    ]
+  },
+  {
     "at": "MS00DD/0/89@008C",
     "original": 60,
-    "hold": 60
+    "hold": 2
   },
   {
     "message": "MS00DD/0/90@0017",
@@ -1177,6 +1240,15 @@
     "can_end": true,
     "after": [
       "MS00DD/0/92@0000"
+    ]
+  },
+  {
+    "message": "MS00DD/0/93@0000",
+    "hold": 60,
+    "own": "{call:3:19}，避开了战斗⏎",
+    "can_end": true,
+    "after": [
+      "MS00DD/0/93@0000"
     ]
   },
   {
@@ -2406,7 +2478,7 @@
   {
     "at": "MS00DE/0/69@0007",
     "original": 30,
-    "hold": 0
+    "hold": 2
   },
   {
     "message": "MS00DE/0/69@000C",
@@ -2420,7 +2492,7 @@
   {
     "at": "MS00DE/0/70@0007",
     "original": 30,
-    "hold": 0
+    "hold": 2
   },
   {
     "message": "MS00DE/0/70@000C",
