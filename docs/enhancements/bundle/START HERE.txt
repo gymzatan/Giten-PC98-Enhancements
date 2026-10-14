@@ -1,7 +1,7 @@
 GITEN MEGAMI TENSEI REDUX — START HERE
 
 Extract the entire ZIP, then open START HERE.html in your browser.
-The folder contains all three enhancement patches, the add-ons and the English
+The folder contains all three enhancement patches, the control features and the English
 manual.
 
 TO INSTALL ALL THREE
@@ -19,17 +19,18 @@ TO INSTALL ALL THREE
 Pass each newly saved result to the next step. Browser downloads may have a
 number added to their filenames; use the newest result you just saved.
 
-OPTIONAL ADD-ONS
-Open Apply Add-ons.html and select the disk you play (for example
-Giten_WIN.hdi). Tick what you want, apply, then save Giten_Addons.hdi.
+OPTIONAL KEYBOARD & GAMEPAD CONTROLS
+The controls and battle target prompt/pause are installed or removed together.
+
+Open Apply Controls.html and select the disk you play (for example
+Giten_WIN.hdi). Click Install Controls, then save Giten_Controls.hdi.
   Target prompt: while you pick a target in battle, the text box asks
     "Use on whom?" (English) or 「誰に使いますか？」 (Japanese), and battle time stops, so no enemy acts during your pick.
   Keyboard / gamepad controls: the stick walks; the D-pad moves the pointer between menu entries,
     options and targets; X goes to the command panel and back; A and B are
     the mouse buttons. For DOSBox-X, mapper-giten.map sets up an XInput pad
-    (see ADDONS.md).
-Apply the add-ons after the other patches. The same page takes an add-on
-out again.
+    (see CONTROLS.md).
+Apply the control features after the other patches. Remove Controls on the same page removes the complete patch.
 
 OTHER COMBINATIONS
 Original combat rules + repairs + new artwork: step 1, then step 3 using its output.
