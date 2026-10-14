@@ -25,6 +25,8 @@ The executable edits and message file must be present together. Partial installs
 
 The emulated PC-98 joystick provides the left stick and two mouse buttons. Keyboard hooks provide the arrow-key target navigation, Tab panel switching, Enter/Space confirmation, Esc/Backspace cancellation, W/A/S/D world-map walking and Shift+arrow free-pointer control. `mkmapper.py` maps an XInput pad's hat to arrows, X to Tab, Y to Ctrl and LB/RB to 4/6; the left stick and A/B remain the PC-98 joystick. Controller connection and mapping are emulator settings, not game-language detection.
 
+The distributable DOSBox-X configuration is `src/dosbox/dosbox-x.conf`. `mkenhancements.py` copies it with the generated `mapper-giten.map` into Controls and the complete bundle; `[sdl]` enables the mapper and `[autoexec]` mounts `Giten_Controls.hdi` and boots the player's `Boot.fdi`. The filenames are relative to the emulator folder. The player guide explains the explicit command replacement for self-booting images; no automatic boot-mode detection is added.
+
 `gamepad_test.py` executes the assembled routines under Unicorn and checks recognized Japanese/English program states. `enaddons_test.py` compares actual embedded HTML output to `addons.apply()` across original, Fixes, Rebalance and artwork combinations. Unrelated files and in-game saves are preserved. Emulator save states must be recreated after changes because they retain old running hooks.
 
 ## Battle-message pacing in Fixes
