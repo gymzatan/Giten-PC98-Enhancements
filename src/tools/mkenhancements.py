@@ -31,9 +31,9 @@ PACKAGES = {
             "Windows remake artwork for the PC-98 game. Works independently, or with Fixes and Rebalance."),
     "rebalance": ("Giten Rebalance (EN)", "Apply Rebalance.html", "Giten_Rebalanced.hdi",
                   "Reworked combat and progression. Apply Fixes first; Windows artwork is optional."),
-    "addons": ("Giten Add-ons (EN)", "Apply Add-ons.html", "Giten_Addons.hdi",
-               "Two optional add-ons for the PC-98 game: a battle target prompt that stops battle time, and gamepad "
-               "control. Each can be added or removed at any time, with or without the other patches."),
+    "addons": ("Giten Controls (EN)", "Apply Controls.html", "Giten_Controls.hdi",
+               "Keyboard and gamepad controls with the battle target prompt and target-selection pause. "
+               "These features are installed or removed together as one optional patch."),
 }
 # the add-on package's own extra file: the DOSBox-X mapper file for an XInput pad (tools/mkmapper.py)
 ADDON_EXTRA = "mapper-giten.map"
@@ -239,7 +239,7 @@ def documentation():
 
 def render_documentation():
     """Render the existing English documents without rebuilding game-derived references."""
-    order = ("README", "FIXES", "WINDOWS-ARTWORK", "REBALANCE", "ADDONS", "REFERENCE", "TROUBLESHOOTING", "CREDITS",
+    order = ("README", "FIXES", "WINDOWS-ARTWORK", "REBALANCE", "CONTROLS", "REFERENCE", "TROUBLESHOOTING", "CREDITS",
              "VALIDATION")
     sections = [f'<section id="{name}">' + markdown.markdown((DOCS / (name + ".md")).read_text(encoding="utf-8"),
                 extensions=["tables", "fenced_code"]) + "</section>" for name in order]
@@ -257,11 +257,8 @@ def page(kind, b64, core):
     title, _name, output, desc = PACKAGES[kind]
     css = webpayload.CSS
     if kind == "addons":
-        boxes = "".join(f'<label class="opt"><input type="checkbox" id="addon-{key}" data-addon="{key}">'
-                        f'<span><b>{html.escape(label)}</b><small>{html.escape(note)}</small></span></label>'
-                        for key, label, note in ADDON_OPTS)
-        return (ADDON_TEMPLATE.replace("{{TITLE}}", html.escape(title)).replace("{{DESC}}", html.escape(desc))
-                .replace("{{OUTPUT}}", output).replace("{{CHECKS}}", boxes).replace("{{MAPPER}}", ADDON_EXTRA)
+        return (CONTROLS_TEMPLATE.replace("{{TITLE}}", "Keyboard &amp; Gamepad Controls").replace("{{DESC}}", html.escape(desc))
+                .replace("{{OUTPUT}}", output).replace("{{MAPPER}}", ADDON_EXTRA)
                 .replace("{{CSS}}", css).replace("{{CORE}}", core.replace("</", "<\\/"))
                 .replace("{{PAYLOAD}}", b64))
     prereq = "Use the output of Apply Fixes.html." if kind == "rebalance" else "Select a supported Japanese or tested English PC-98 game image."
@@ -326,13 +323,7 @@ button:disabled{opacity:.5}#drop{border:2px dashed var(--line);padding:20px;bord
 '''
 
 
-# the add-ons (tools/addons.py), each a box on the add-on page
-ADDON_OPTS = (("target", "Target prompt", "Battle time stops while you pick a target, and the battle text box asks "
-                                          "“Use on whom?”"),
-              ("pad", "Keyboard / gamepad controls", "The stick walks; the D-pad moves the pointer between menu entries, options, "
-                                 "buttons and targets"))
-
-ADDON_TEMPLATE = r'''<!doctype html>
+CONTROLS_TEMPLATE = r'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{{TITLE}}</title><style>{{CSS}}
 main{max-width:850px;margin:40px auto;padding:0 24px}section{margin:24px 0;padding:24px;border:1px solid var(--line);background:var(--surface);border-radius:12px}
@@ -346,14 +337,14 @@ fieldset{margin:16px 0 0}fieldset:disabled .opt{opacity:.5;cursor:not-allowed}co
 <section><h2>1. Choose your image</h2><p>Select a supported Japanese or tested English PC-98 game image. Your selected file is read only. The result is downloaded as a separate HDI.</p>
 <div id="drop"><label for="image">Choose or drop an .hdi file</label><br><input id="image" type="file" accept=".hdi"></div>
 <p id="selected">No image selected.</p>
-<fieldset id="opts" disabled><legend>2. Tick the add-ons the image should have</legend><div class="opts">{{CHECKS}}</div>
-<p class="sub">The boxes start as the chosen image has them. Untick one to take that add-on out again.</p></fieldset>
-<button id="apply" disabled>3. Apply</button>
-<ol id="log" aria-live="polite"></ol><a id="save" class="download" hidden>4. Save {{OUTPUT}}</a></section>
+<h2>2. Install or remove Controls</h2>
+<p>Keyboard/gamepad controls and the battle target prompt/pause are one patch. Install adds both; Remove takes both out.</p>
+<button id="apply" disabled>Install Controls</button><button id="remove" disabled>Remove Controls</button>
+<ol id="log" aria-live="polite"></ol><a id="save" class="download" hidden>3. Save {{OUTPUT}}</a></section>
 <section><h2>Target prompt</h2>
 <p>When a command waits for its target (after you choose an attack, a skill or an item), the battle text box asks “Use on whom?” and battle time stops: no action gauge fills on either side until you pick a target or cancel with the right button. Choosing again after a cancel asks again.</p>
 <p>The original game stops the clock only while you pick an ally. While you point at an enemy, the enemies, bosses included, keep acting.</p>
-<p>The add-on changes six places in <code>DDS98.EXE</code> and adds <code>DDS98\MS00D9.BIN</code>, the question in your game's language.</p></section>
+<p>This battle optimization is included with the controls. It changes six places in <code>DDS98.EXE</code> and adds <code>DDS98\MS00D9.BIN</code>: “Use on whom?” in English or 「誰に使いますか？」 in Japanese.</p></section>
 <section><h2>Keyboard / gamepad controls</h2>
 <p>Play with a gamepad or the keyboard. The mouse still works.</p>
 <ul><li>The stick walks. In a dungeon, up steps forward, down turns around, and left and right turn. On the world map you walk straight in that direction; the keyboard's W, A, S and D also walk there.</li>
@@ -362,28 +353,25 @@ fieldset{margin:16px 0 0}fieldset:disabled .opt{opacity:.5;cursor:not-allowed}co
 <li>On the world map the D-pad walks as well. A short press of B or X moves the pointer to the commands on the right, where the D-pad picks one; another short press puts the pointer back where it was. Holding B is the right button (the small map).</li>
 <li>Hold Y (Ctrl) and the stick moves the pointer freely instead of walking: slowly at first, then faster, so you can click anywhere on the screen. The D-pad still jumps between targets. After you let go of Y, the stick walks again once you have let go of it too. On the keyboard, hold Shift and the arrow keys move the pointer the same way.</li>
 <li>LB and RB step sideways in a dungeon: they are the game's own 4 and 6 keys.</li></ul>
-<p>The add-on is one file, <code>DDS98\DDS98.COM</code>. When the game's start command <code>DDS98</code> runs, DOS starts this file first; it sets up the gamepad control and then starts <code>DDS98.EXE</code>. No startup file is changed, so the PepsimanGB boot floppy works as before.</p></section>
+<p>The control launcher is <code>DDS98\DDS98.COM</code>. When the game's start command <code>DDS98</code> runs, DOS starts this file first; it sets up the gamepad control and then starts <code>DDS98.EXE</code>. No startup file is changed, so the PepsimanGB boot floppy works as before.</p></section>
 <section><h2>Connecting a gamepad</h2>
 <p>The game reads a PC-98 joystick (one stick, two buttons) and the keyboard. Set up your emulator so that the left stick and A and B are the PC-98 joystick, the D-pad is the arrow keys, X is Tab, Y is Ctrl, and LB and RB are the 4 and 6 keys. Use the emulator's own joystick and key settings, or a tool such as Steam Input or JoyToKey.</p>
 <p>DOSBox-X: this package includes <code>{{MAPPER}}</code>, the default key and joystick settings of DOSBox-X 2026.10.01 with these assignments for an XInput gamepad. Put it beside your <code>dosbox-x.conf</code> and set <code>mapperfile = {{MAPPER}}</code> in its <code>[sdl]</code> section. DOSBox-X passes the stick to the emulated PC-98 only while a gamepad is connected.</p></section>
-<section><h2>Before playing</h2><p>Use an in-game save when adding or removing add-ons; make a backup first. Emulator save states contain the old running program and should not be used across a change.</p>
-<p>Apply this page last. Fixes and Rebalance check <code>DDS98.EXE</code> as a whole and refuse one that has the target prompt in it; to add them later, untick the target prompt here first, apply them, then tick it again. Windows Artwork keeps both add-ons, but on the English game with Fixes the disk has room for everything only with the artwork first.</p>
-<p>Each add-on's file takes one cluster of the disk. When the disk has too few free clusters (the English game with Fixes and Windows Artwork fills the reference disk), this page grows the image by whole cylinders at its end and says so in its log; no file moves.</p>
+<section><h2>Before playing</h2><p>Use an in-game save when installing or removing Controls; make a backup first. Emulator save states contain the old running program and should not be used across a change.</p>
+<p>Apply this page last. Fixes and Rebalance check <code>DDS98.EXE</code> as a whole and refuse one that has the target prompt in it; to add them later, remove Controls here first, apply them, then install Controls again. Windows Artwork keeps Controls, but on the English game with Fixes the disk has room for everything only with the artwork first.</p>
+<p>Each of the two new files takes one cluster of the disk. When the disk has too few free clusters (the English game with Fixes and Windows Artwork fills the reference disk), this page grows the image by whole cylinders at its end and says so in its log; no file moves.</p>
 <p>Everything runs locally. No image is uploaded; the page has no external scripts, fonts or network requests. It requires a browser with DecompressionStream support for deflate-raw.</p></section>
 </main><script>{{CORE}}</script>
 <script type="text/plain" id="payload">{{PAYLOAD}}</script>
 <script>
 (() => {
-  const input=document.getElementById('image'), button=document.getElementById('apply'), drop=document.getElementById('drop');
+  const input=document.getElementById('image'), button=document.getElementById('apply'), remove=document.getElementById('remove'), drop=document.getElementById('drop');
   const log=document.getElementById('log'), save=document.getElementById('save'), selected=document.getElementById('selected');
-  const opts=document.getElementById('opts'), boxes=[...document.querySelectorAll('[data-addon]')];
-  const NAMES={target:'Target prompt',pad:'Gamepad'};
   let chosen, info, url, unpacked, busy=false;
   function clearResult(){save.hidden=true;if(url){URL.revokeObjectURL(url);url=undefined;}log.replaceChildren();}
   function say(text,error=false){const li=document.createElement('li');li.textContent=text;if(error)li.className='error';log.appendChild(li);}
-  function wanted(){return Object.fromEntries(boxes.map(b=>[b.dataset.addon,b.checked]));}
-  function changed(){return !!info&&boxes.some(b=>b.checked!==info.addons[b.dataset.addon]);}
-  function refresh(){opts.disabled=busy||!info;button.disabled=busy||!changed();input.disabled=busy;}
+  function changed(on){return !!info&&(info.addons.target!==on||info.addons.pad!==on);}
+  function refresh(){button.disabled=busy||!changed(true);remove.disabled=busy||!changed(false);input.disabled=busy;}
   async function payload(){if(!unpacked)unpacked=await WebPatch.unpack(document.getElementById('payload').textContent.trim());return unpacked;}
   async function pick(file){
     if(busy)return;chosen=file;info=undefined;clearResult();refresh();
@@ -395,32 +383,33 @@ fieldset{margin:16px 0 0}fieldset:disabled .opt{opacity:.5;cursor:not-allowed}co
       const p=await payload(), bytes=new Uint8Array(await file.arrayBuffer());
       if(chosen!==file)return;
       const found=WebPatch.addonInspect(bytes,p);
-      const have=Object.keys(NAMES).filter(n=>found.addons[n]).map(n=>NAMES[n]);
+      const state=found.addons.target&&found.addons.pad?'Controls installed':
+        found.addons.target||found.addons.pad?'Partial Controls installation; Install completes both features, Remove removes both':'Controls not installed';
       selected.textContent=file.name+': '+(found.lang==='en'?'the English translation':'the Japanese game')+
-        '. Add-ons in it now: '+(have.length?have.join(', '):'none')+'.';
-      for(const b of boxes)b.checked=found.addons[b.dataset.addon];
+        '. '+state+'.';
       info=found;
     }catch(e){say(String(e.message||e),true);}
     refresh();
   }
   input.addEventListener('change',()=>pick(input.files[0]));
-  for(const b of boxes)b.addEventListener('change',refresh);
   for(const name of ['dragenter','dragover'])drop.addEventListener(name,e=>{e.preventDefault();if(!busy)drop.classList.add('over');});
   drop.addEventListener('dragleave',()=>drop.classList.remove('over'));
   drop.addEventListener('drop',e=>{e.preventDefault();drop.classList.remove('over');if(e.dataTransfer.files.length===1)pick(e.dataTransfer.files[0]);});
-  button.addEventListener('click',async()=>{
-    if(!chosen||!changed()||busy)return;busy=true;refresh();clearResult();
+  async function change(on){
+    if(!chosen||!changed(on)||busy)return;busy=true;refresh();clearResult();
     try{
       say('Reading the patch and selected image...');
       await new Promise(resolve=>setTimeout(resolve,30));
       const p=await payload(), bytes=new Uint8Array(await chosen.arrayBuffer());
-      const result=await WebPatch.enhance(bytes,p,'addons',say,wanted());
+      const result=await WebPatch.enhance(bytes,p,'addons',say,{target:on,pad:on});
       url=URL.createObjectURL(new Blob([result],{type:'application/octet-stream'}));
       save.href=url;save.download='{{OUTPUT}}';save.hidden=false;
       say('Finished. Save the new image below; the original file has not been changed.');
     }catch(e){say(String(e.message||e),true);}
     finally{busy=false;refresh();}
-  });
+  }
+  button.addEventListener('click',()=>change(true));
+  remove.addEventListener('click',()=>change(false));
 })();
 </script></body></html>
 '''
