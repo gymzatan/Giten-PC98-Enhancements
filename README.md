@@ -6,7 +6,7 @@ Four patch packages in one download: three enhancements and an optional keyboard
 
 ## Start here
 
-1. Download **[Giten-Megami-Tensei-Redux.zip](https://github.com/gymzatan/Giten-PC98-Enhancements/releases/download/english-enhancements/Giten-Megami-Tensei-Redux.zip)**. It contains Fixes, Windows Artwork, Rebalance, optional Add-ons and the English manual.
+1. Download **[Giten-Megami-Tensei-Redux.zip](https://github.com/gymzatan/Giten-PC98-Enhancements/releases/download/english-enhancements/Giten-Megami-Tensei-Redux.zip)**. It contains Fixes, Windows Artwork, Rebalance, optional Controls and the English manual.
 2. Extract the whole ZIP and open **`START HERE.html`** in your browser.
 3. To install all three, follow this sequence. **Use each newly saved disk as the next input.**
 
@@ -18,7 +18,7 @@ Four patch packages in one download: three enhancements and an optional keyboard
 
 **Play the final `Giten_WIN.hdi`.** In this sequence it contains all three patches. If you want original combat rules with repairs and new artwork, skip Rebalance and feed `Giten_Fixed.hdi` into Artwork. Artwork can also be used alone.
 
-**Optional add-ons:** open `Apply Add-ons.html` last, select the disk you play, tick keyboard/gamepad controls and/or the target prompt, and save `Giten_Addons.hdi`. The same page takes an add-on out again.
+**Optional control features:** open `Apply Controls.html` last, select the disk you play, click **Install Controls**, and save `Giten_Controls.hdi`. Use **Remove Controls** on the same page to remove the complete patch.
 
 For English play, apply Sneikkimies' translation **before** Redux. The translation remains a separate download. Use the PC-98 emulator and boot setup that runs your original copy; the PepsimanGB pre-made HDI needs its companion boot floppy. Restart and load an in-game save after changing patches.
 
@@ -28,7 +28,7 @@ For English play, apply Sneikkimies' translation **before** Redux. The translati
 
 #### Everyday improvements
 
-- **Keyboard controls:** W/Z/A/D move forward/back/left/right; Q/E turn; S turns around. Enter or Space advances dialogue and battle-message waits. Menus still use the mouse, unless the Gamepad add-on is installed.
+- **Keyboard controls:** W/Z/A/D move forward/back/left/right; Q/E turn; S turns around. Enter or Space advances dialogue and battle-message waits. Menus still use the mouse, unless the Controls patch is installed.
 - **Larger inventory:** ordinary item capacity increases from **48 to 111 slots**. The separate 16 body-part slots remain unchanged, and original saves can be loaded.
 - **Easier-to-read dialogue and battles:** dialogue endings that used to close immediately now wait for input. Battle messages pause for about one second, with the message being paused on shown (the original drew it only after the pause); a new click or advance key shortens the wait, while a click still held from choosing a target does not. The command panel's "no one to fight / talk to" style notices also stay about one second.
 - **Faster moon phases:** the visible phase advances after about **60 steps instead of 300**. Monthly chests, refillable vessels and other long-duration timers keep their original time scale.
@@ -71,14 +71,14 @@ Artwork works **independently**, or before/after either gameplay patch. It retai
 
 Rebalance requires **Fixes first**; Windows Artwork is optional. [Full Rebalance guide](REBALANCE.md) · [Exact formulas and numerical ledger](REFERENCE.md).
 
-### 4. Add-ons — Optional keyboard/gamepad controls and battle target pause
+### 4. Keyboard & Gamepad Controls — With integrated battle targeting
 
 - **Play menus and battles with the keyboard or a controller:** arrow keys / D-pad jump between clickable options and targets; Enter / A confirms, Esc / B cancels, and Tab / X switches between the main view and command/party panels. The mouse still works.
 - **Movement and free pointer control:** the left stick walks or turns; LB/RB strafe. Hold Y with the stick, or Shift with the arrow keys, to move the pointer freely. W/A/S/D also walk on the world map.
 - **Pause while choosing a battle target:** neither side's action gauge advances while you choose an enemy or ally. The question uses the selected game's language: **“Use on whom?”** in English, **「誰に使いますか？」** in Japanese.
-- **Choose independently and remove later:** the two checkboxes start with the selected disk's current settings. Tick or untick either and save a separate result. The ZIP includes an XInput mapper for DOSBox-X.
+- **One optional control patch:** keyboard/gamepad operation and the battle target prompt/pause are installed and removed together. The battle optimization is a necessary part of the controls. The ZIP includes an XInput mapper for DOSBox-X.
 
-Apply **Add-ons last**, after any other patches you want. It also works on the supported Japanese or tested English game without the other packages. Play the newly saved `Giten_Addons.hdi`. [Controls and setup](ADDONS.md).
+Apply **Controls last**, after any other patches you want. It also works on the supported Japanese or tested English game without the other packages. Play the newly saved `Giten_Controls.hdi`. [Controls and setup](CONTROLS.md).
 
 ## Choose your patches
 
@@ -87,7 +87,7 @@ Apply **Add-ons last**, after any other patches you want. It also works on the s
 | Fixes | Apply Fixes.html | Gameplay repairs and quality-of-life improvements | Supported Japanese or tested English game HDI |
 | Windows Artwork | Apply Windows Artwork.html | Windows remake graphics adapted to the PC-98 engine | Supported Japanese or tested English game HDI; Fixes is optional |
 | Rebalance | Apply Rebalance.html | New combat formulas, growth, boss tuning and learning pools | An image already processed by Fixes |
-| Add-ons | Apply Add-ons.html | Battle target prompt and gamepad control, each optional and removable | Supported Japanese or tested English game HDI; apply the other patches first |
+| Controls | Apply Controls.html | Keyboard/gamepad controls with the required battle target prompt and pause; installed/removed together | Supported Japanese or tested English game HDI; apply the other patches first |
 
 For the original combat rules with repairs, use **Fixes**. For redesigned combat, use **Fixes → Rebalance**. Add **Windows Artwork** whenever desired. Artwork works before or after either gameplay patch. You can also use Artwork alone on the original game.
 
@@ -100,7 +100,7 @@ For the original combat rules with repairs, use **Fixes**. For redesigned combat
 5. When applying another package, select the disk downloaded in step 4, not the original disk again.
 6. Mount the final disk in your emulator and start the game normally.
 
-The default download names are `Giten_Fixed.hdi`, `Giten_WIN.hdi`, `Giten_Rebalanced.hdi` and `Giten_Addons.hdi`. The name describes the most recent patch, not the complete set installed: an Artwork result can also contain Fixes and Rebalance. Renaming a disk does not add or remove patches.
+The default download names are `Giten_Fixed.hdi`, `Giten_WIN.hdi`, `Giten_Rebalanced.hdi` and `Giten_Controls.hdi`. The name describes the most recent patch, not the complete set installed: an Artwork result can also contain Fixes and Rebalance. Renaming a disk does not add or remove patches.
 
 The patch reads the selected file and creates a separate result in memory. It never writes back to your selected file. No image is uploaded, and no network connection, Python installation or command line is needed. Use a browser that supports `DecompressionStream` with `deflate-raw`; the page reports an error if decompression is unavailable.
 
@@ -108,7 +108,7 @@ The patch reads the selected file and creates a separate result in memory. It ne
 
 **The same four packages work with the supported Japanese HDI and the tested English-translated HDI.** `EN` identifies the English interface and documentation; these packages do not include the English translation itself.
 
-| Starting game | Fixes | Windows Artwork | Rebalance | Add-ons |
+| Starting game | Fixes | Windows Artwork | Rebalance | Controls |
 | --- | --- | --- | --- | --- |
 | Supported Japanese HDI | Supported | Supported, independently | Apply Fixes first | Supported; the target question is in Japanese |
 | Tested English fan-translated HDI | Supported; retains translated text | Supported, independently | Apply Fixes first | Supported; the target question is in English |
@@ -162,7 +162,7 @@ To return to the original graphics or rules, rebuild from your untouched origina
 - `FIXES.md`: repairs and convenience features.
 - `WINDOWS-ARTWORK.md`: graphics conversion, scope and compatibility.
 - `REBALANCE.md`: combat and progression rules.
-- `ADDONS.md`: the target prompt, gamepad control and connecting a gamepad.
+- `CONTROLS.md`: the target prompt, gamepad control and connecting a gamepad.
 - `REFERENCE.md`: exact derived-stat formulas, learning-pool additions and numerical edit ledger.
 - `Rebalance-Changes.csv`: machine-readable changes using original record IDs and byte offsets.
 - `TROUBLESHOOTING.md`: controls, booting, errors and saves.
