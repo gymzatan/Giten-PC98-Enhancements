@@ -29,7 +29,7 @@ Giten_WIN.hdi). Click Install Controls, then save Giten_Controls.hdi.
   Keyboard / gamepad controls: the stick walks; the D-pad moves the pointer between menu entries,
     options and targets; X goes to the command panel and back; A and B are
     the mouse buttons. For DOSBox-X, mapper-giten.map sets up an XInput pad
-    (see CONTROLS.md).
+    and dosbox-x.conf already enables it (see CONTROLS.md).
 Apply the control features after the other patches. Remove Controls on the same page removes the complete patch.
 
 OTHER COMBINATIONS
@@ -49,7 +49,11 @@ Close the emulator before patching. Work on a copy and back up your saves.
 The patches read your selected disk and download a separate result locally.
 Use the PC-98 emulator and boot setup with which your unmodified copy works.
 The PepsimanGB pre-made HDI needs its companion boot floppy: attach both and
-boot from the floppy. After changing patches, restart and load an in-game save.
+boot from the floppy. For the included dosbox-x.conf, put it and mapper-giten.map
+beside dosbox-x.exe, your final Giten_Controls.hdi, and your own companion
+floppy copied as Boot.fdi, then double-click the emulator. For a self-booting HDI
+or an existing emulator setup, follow CONTROLS.md.
+After changing patches, restart and load an in-game save.
 
 Open Documentation.html for all features, controls, compatibility and help.
 Project: gymzatan.

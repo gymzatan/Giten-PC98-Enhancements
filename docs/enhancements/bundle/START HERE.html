@@ -34,7 +34,7 @@ body{margin:0;background:#f4f1ea;color:#24231f;font:17px/1.65 system-ui,sans-ser
 <p>Select the disk you play (for example <code>Giten_WIN.hdi</code>), click <strong>Install Controls</strong> and save <code>Giten_Controls.hdi</code>:</p>
 <ul>
 <li><strong>Target prompt:</strong> while you pick a target in battle, the text box asks “Use on whom?” (English) or 「誰に使いますか？」 (Japanese), and battle time stops, so no enemy acts during your pick.</li>
-<li><strong>Keyboard / gamepad controls:</strong> the stick walks; the D-pad moves the pointer between menu entries, options and targets; X goes to the command panel and back; A and B are the mouse buttons. For DOSBox-X, <code>mapper-giten.map</code> sets up an XInput pad.</li>
+<li><strong>Keyboard / gamepad controls:</strong> the stick walks; the D-pad moves the pointer between menu entries, options and targets; X goes to the command panel and back; A and B are the mouse buttons. For DOSBox-X, the included <code>dosbox-x.conf</code> already enables <code>mapper-giten.map</code> for an XInput pad.</li>
 </ul>
 <p>Apply the control features after the other patches. Remove Controls on the same page removes the complete patch.</p>
 <h2>Prefer a different combination?</h2>
@@ -46,6 +46,7 @@ body{margin:0;background:#f4f1ea;color:#24231f;font:17px/1.65 system-ui,sans-ser
 </ul>
 <h2>Start the game</h2>
 <p>Mount your final HDI in the same PC-98 emulator setup that runs your original copy. The PepsimanGB pre-made hard disk also needs its companion boot floppy: mount both and boot from the floppy.</p>
+<p>To use the included DOSBox-X configuration, put <code>dosbox-x.conf</code> and <code>mapper-giten.map</code> beside your <code>dosbox-x.exe</code>, final <code>Giten_Controls.hdi</code>, and your own companion floppy copied as <code>Boot.fdi</code>, then double-click the emulator. The configuration mounts the hard disk and boots the floppy. For a self-booting image or an existing emulator setup, see <a href="CONTROLS.md">CONTROLS.md</a>.</p>
 <p>Restart the emulator and load an <strong>in-game save</strong> after changing patches. Emulator save states retain the previously running program.</p>
 <h2>Details and help</h2>
 <p><a href="Documentation.html">Open the complete English manual</a> for features, controls, compatibility, formulas, troubleshooting and credits.</p>
