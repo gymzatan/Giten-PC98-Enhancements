@@ -23,7 +23,7 @@ sys.path[:0] = [str(HERE), str(WORK)]
 
 STAGE = WORK / "build" / "enhancements"
 OUT = WORK / "dist" / "English"
-DOCS = WORK.parent / "docs" / "enhancements"
+DOCS = WORK / "docs" / "enhancements"
 PACKAGES = {
     "fixes": ("Giten Fixes (EN)", "Apply Fixes.html", "Giten_Fixed.hdi",
               "Gameplay repairs and quality-of-life improvements for the PC-98 game, preserving Japanese or tested English game text."),
@@ -93,7 +93,7 @@ def language_runs():
 
 
 def payload(kind, fixed, rebalanced):
-    import enhancement_plan, webpayload
+    import enhancement_plan, moonfast, webpayload
     blobs = []
     def take(files):
         refs = []
@@ -126,18 +126,26 @@ def payload(kind, fixed, rebalanced):
         if kind == "fixes":
             files = fixed
             required = {n: list(dict.fromkeys(forms(n, original.get(n)) + forms(n, b))) for n, b in files.items()}
+            required['DDS98.EXE'] = list(dict.fromkeys(required['DDS98.EXE'] +
+                forms('DDS98.EXE', moonfast.released_exe(fixed['DDS98.EXE']))))
         else:
             # Rebalance is a delta on the complete Fixes payload, including its shared prerequisites.
             files = {n: b for n, b in rebalanced.items() if b != fixed.get(n, original.get(n))}
             required = {n: list(dict.fromkeys(forms(n, fixed.get(n, original.get(n))) +
                                              forms(n, rebalanced.get(n, fixed.get(n, original.get(n))))))
                         for n in sorted(set(fixed) | set(files))}
+            required['DDS98.EXE'] = list(dict.fromkeys(required['DDS98.EXE'] +
+                forms('DDS98.EXE', moonfast.released_exe(fixed['DDS98.EXE'])) +
+                forms('DDS98.EXE', moonfast.released_exe(rebalanced['DDS98.EXE']))))
         english = STAGE / 'english-adaptation'
         en_original = load_files(english / 'source')
         en_fixed = load_files(english / 'fixed')
         en_rebalanced = load_files(english / 'rebalance')
         exe_forms = {label: forms('DDS98.EXE', data['DDS98.EXE']) for label, data in
                      (('original', en_original), ('fixed', en_fixed), ('rebalance', en_rebalanced))}
+        for label, data in (('fixed', en_fixed), ('rebalance', en_rebalanced)):
+            exe_forms[label] = list(dict.fromkeys(exe_forms[label] +
+                forms('DDS98.EXE', moonfast.released_exe(data['DDS98.EXE']))))
         en_plan = enhancement_plan.compile_plan(en_original, en_fixed, en_rebalanced, kind, exe_forms)
         import targetprompt
         manifest["enhancement"] = {"kind": kind, "files": take(files), "requires": required, "english": en_plan,

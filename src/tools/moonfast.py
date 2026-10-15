@@ -21,23 +21,29 @@ The fix
     live only while 00:23 is 0) is 27 steps from where the party lands by the shortest way through the
     building's walls, stairs and lifts - 189 minutes at most.
 
+What follows the accelerated moon
+    ET0019 lists fifteen treasure boxes - thirteen gem boxes that open only at 15/28, 520 マッカ, four
+    エンゼルヘアー. In the accelerated edition 8B56 clears their "emptied" flags on entering the
+    visible full moon, age 14 (15/28), by calling the game's existing 8B08 reset. A long rest that
+    skips this age cannot leave the party at a full moon with an empty box; the next reachable full
+    moon resets it. The age-15 reset is skipped so one full moon yields at most one gem per box.
+
 What keeps the original's pace
-    Three things of 8B56's are an allowance per phase or per month, and five times as many phases would
+    Two things of 8B56's are an allowance per phase or per month, and five times as many phases would
     give them five times as often:
       07:FD    コアシールド (one in the game, used up) keeps barrier and element floors from hurting the
                party until the moon changes (358E:7C25); every phase change clears it
       07:FE/FF ソーマの杯 and 櫛名田の酒甕 can each be used once until the next full moon; a phase change
                landing on age 14 clears them
-      ET0019   fifteen treasure boxes - thirteen gem boxes that open only at 15/28, 520 マッカ, four
-               エンゼルヘアー - whose "emptied" flags a phase change landing on age 15 clears (25CA:8B08)
-    Short jumps take the three out of 8B56 (25CA:8B65, 8C38, 8C57), leaving the relocated far calls they
-    skip as they are, and 8A08's call of 8B56 (25CA:8A45) goes to a new routine that calls it and then
+    The core shield's flag clear is skipped at 25CA:8B65. The age-14 branch at 8C38 calls the box
+    reset instead of the vessels' flag clears, and the age-15 branch at 8C57 is skipped. 8A08's call
+    of 8B56 (25CA:8A45) goes to a new routine that calls it and then
     keeps the original moon. That moon is a function of the game's total minutes T = 25CA:8DFE() =
     days·1440 + hours·60 + minutes: a new game zeroes both clocks (25CA:8954) and 8A66 gives both the
     same minutes, so the original moon has changed ⌊T/1520⌋ times and stands at age ⌊T/1520⌋ mod 28, and
     a call of 8A08 has begun an original phase when T mod 1520 < m. Then, as in the original and at the
-    same minutes, コアシールド ends, and when that phase is age 15 the boxes are full again. When it is age
-    14 the cup and the jar become due, and they fill at the next visible full moon: in the first call
+    same minutes, コアシールド ends. When that phase is age 14 the cup and the jar become due, and they
+    fill at the next visible full moon: in the first call
     that ends in one or passes through its start - the minutes since the visible moon last turned full,
     (age − 14 mod 28)·300 + DS:98E8, fewer than the call's - so a rest that sleeps through the full moon
     fills them too. Every original month thus gives them once, as the original does, at the first
@@ -102,12 +108,8 @@ moon:                           ; 8A45: in place of 8B56(bits); si = 8A66's bits
     mov cx, 28
     div cx                      ; dx = the age the original moon has come to
     sub dl, 14
-    jne moon_15
-    and byte ptr [{DUE:#x}], 0x7f       ; 14: 07:F0 = 0, the cup and the jar are due
-moon_15:
-    dec dl
     jne moon_give
-    call 0x8b08                 ; 15: the boxes of ET0019 are full again
+    and byte ptr [{DUE:#x}], 0x7f       ; 14: 07:F0 = 0, the cup and the jar are due
 moon_give:
     test byte ptr [{DUE:#x}], 0x80
     jne moon_done               ; the cup and the jar are not due
@@ -136,6 +138,10 @@ moon_load:                      ; 8CB7, a save being loaded: ax = its minutes in
     div cx
     mov word ptr [0x98e8], dx
     ret
+
+box_full:                      ; 8C3F: the visible full moon, before any chest can be opened
+    call 0x8b08                 ; the game's own ET0019 flag reset
+    jmp 0x8c57                 ; pass the vessel calls
 """
 
 
@@ -146,6 +152,13 @@ class MoonFixError(ValueError):
 CODE, AT = assemble(ROUTINE, org=CAVE)
 if CAVE + len(CODE) > CAVE_END:
     raise MoonFixError(f"新例程 {len(CODE)} 字节，超出了 25CA:{CAVE:04X}-{CAVE_END - 1:04X}")
+
+# The released accelerated-moon image used this exact routine and skipped the box reset at 8C57.
+# Keep its bytes only to recognize and upgrade that image without touching its saves or other edits.
+LEGACY_CODE = bytes.fromhex(
+    "56e8f2fd56570ee89400b9f005f7f139fa731d8026e17afb31d2b91c00f7f180ea0e7505"
+    "8026e07a7ffeca7503e878fdf606e07a807522a0ea982c0e74117302041c9869c02c0103"
+    "06e89839f8730a800ee07a808026e17afc5f5ec331d2b92c01f7f18916e898c3")
 
 
 def _near(org, text):
@@ -167,43 +180,57 @@ _SITES = [
      "25CA:8A08 在月相变化时不再直接调用 8B56，改调新例程"),
     (0x8B65, bytes.fromhex("6a07"), _near(0x8B65, "jmp 0x8b71"),
      "8B56 不再在每次月相变化时解除核心护盾（07:FD），交给新例程按原版节奏处理"),
-    (0x8C38, bytes.fromhex("803e"), _near(0x8C38, "jmp 0x8c57"),
-     "8B56 不再在满月时让苏摩之杯、栉名田之酒瓮可以再用（07:FE、07:FF），交给新例程"),
+    (0x8C38, bytes.fromhex("803e"), bytes.fromhex("803e"),
+     "8B56 在可见满月检查宝箱补充"),
+    (0x8C3F, _orig(0x8C3F, 3), _near(0x8C3F, f"jmp near {AT['box_full']:#x}"),
+     "可见满月时调用原有的 8B08 补满 ET0019 的宝箱，不提前补充苏摩之杯和栉名田之酒瓮"),
     (0x8C57, bytes.fromhex("803e"), _near(0x8C57, "jmp 0x8c61"),
-     "8B56 不再在满月次日补满 ET0019 的宝箱，交给新例程按原版节奏处理"),
+     "不在可见满月的次日再次补充宝箱"),
     (0x8CB7, bytes.fromhex("a3e898"), _near(0x8CB7, f"call {AT['moon_load']:#x}"),
      f"读档时把本相已过的分钟数取 {FAST} 的余数（原版存档可到 {PHASE - 1}）"),
-    (CAVE, _orig(CAVE, len(CODE)), CODE,
-     "新例程：按总分钟数推算原版的月相，核心护盾、杯与酒瓮、宝箱照原版节奏（放在未使用的 25CA:8D60）"),
+    (CAVE, _orig(CAVE, CAVE_END - CAVE), CODE + _orig(CAVE + len(CODE), CAVE_END - CAVE - len(CODE)),
+     "新例程：核心护盾、杯与酒瓮照原版节奏（放在未使用的 25CA:8D60）"),
 ]
 for _off, _a, _b, _why in _SITES:
     if len(_a) != len(_b):
         raise MoonFixError(f"25CA:{_off:04X} 改后的字节数与原来不同")
 EXE_SITES = [(HDR + SEG25 + off, a, b, why) for off, a, b, why in _SITES]
+LEGACY_EXE_SITES = [(HDR + SEG25 + off, a, LEGACY_CODE if off == CAVE else
+                     _near(0x8C38, "jmp 0x8c57") if off == 0x8C38 else
+                     a if off == 0x8C3F else
+                     bytes.fromhex("e80201") if off == 0x8CB7 else b, why)
+                    for off, a, b, why in _SITES]
+if len(LEGACY_CODE) != CAVE_END - CAVE:
+    raise MoonFixError("已发布月相例程的长度不对")
 
 
 def mend_exe(blob, revert=False):
-    """DDS98.EXE with the fix in (or out). A site holding neither form stops everything."""
+    """DDS98.EXE with the fix in (or out), including the released box-timer form."""
+    exe_state(blob)
     out = bytearray(blob)
     for off, orig, fixed, _why in EXE_SITES:
-        now = bytes(out[off:off + len(orig)])
-        if now not in (orig, fixed):
-            raise MoonFixError(f"{EXE} 第 {off:#x} 字节起既不是原版也不是修复后的内容")
         out[off:off + len(orig)] = orig if revert else fixed
     return bytes(out)
 
 
+def released_exe(blob):
+    """Recreate the released accelerated-moon program for exact upgrade signatures."""
+    if exe_state(blob) != "fixed":
+        raise MoonFixError(f"{EXE} 不是当前月相加速程序，不能还原已发布的宝箱计时版")
+    out = bytearray(blob)
+    for off, _orig, legacy, _why in LEGACY_EXE_SITES:
+        out[off:off + len(legacy)] = legacy
+    return bytes(out)
+
+
 def exe_state(blob):
-    """'orig' or 'fixed' - every site has to be in the same one."""
-    seen = set()
-    for off, orig, fixed, _why in EXE_SITES:
-        now = bytes(blob[off:off + len(orig)])
-        if now not in (orig, fixed):
-            raise MoonFixError(f"{EXE} 第 {off:#x} 字节起既不是原版也不是修复后的内容")
-        seen.add("orig" if now == orig else "fixed")
-    if len(seen) != 1:
-        raise MoonFixError(f"{EXE} 只改了一部分")
-    return seen.pop()
+    """'orig', 'fixed', or 'legacy'; all moon sites must match the same form."""
+    for label, sites, column in (("orig", EXE_SITES, 1), ("fixed", EXE_SITES, 2),
+                                 ("legacy", LEGACY_EXE_SITES, 2)):
+        if all(bytes(blob[off:off + len(orig)]) == (orig if column == 1 else fixed)
+               for off, orig, fixed, _why in sites):
+            return label
+    raise MoonFixError(f"{EXE} 的月相改动既不是原版、当前版，也不是已发布的宝箱计时版")
 
 
 def desc_forms(charmap=None, english=False):
