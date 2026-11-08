@@ -122,6 +122,7 @@ def payload(kind, fixed, rebalanced):
             "bpb": "eb45904e45432020352e3000040801000200070474f8060021000600c600000000000000800029151c1a35474954454e2020202020204641543132202020c600",
             "part": 50688, "total": 30393, "lastCylinder": 614}}
     else:
+        import reduxolder
         original = load_files(WORK / "files" / "DDS98")
         if kind == "fixes":
             files = fixed
@@ -137,6 +138,19 @@ def payload(kind, fixed, rebalanced):
             required['DDS98.EXE'] = list(dict.fromkeys(required['DDS98.EXE'] +
                 forms('DDS98.EXE', moonfast.released_exe(fixed['DDS98.EXE'])) +
                 forms('DDS98.EXE', moonfast.released_exe(rebalanced['DDS98.EXE']))))
+        # a disk an earlier release made (tools/reduxolder.py, redux_older.json) is updated in place: every file state
+        # such a disk can have is accepted, and the page writes this build's file over it. Fixes meets disks with an
+        # earlier Fixes; Rebalance meets those and disks with an earlier Rebalance, and also rewrites the Fixes files
+        # they still have in an older state.
+        older = reduxolder.load(kind)
+        for n, hs in older["jp"]["accept"].items():
+            if n not in required:
+                raise ValueError(f"{n}: redux_older.json is for another build; rerun tools/reduxolder.py")
+            required[n] = list(dict.fromkeys(required[n] + hs))
+        for n in older["jp"]["rewrite"]:
+            if n not in fixed or n in files:
+                raise ValueError(f"{n}: redux_older.json is for another build; rerun tools/reduxolder.py")
+            files[n] = fixed[n]
         english = STAGE / 'english-adaptation'
         en_original = load_files(english / 'source')
         en_fixed = load_files(english / 'fixed')
@@ -146,7 +160,12 @@ def payload(kind, fixed, rebalanced):
         for label, data in (('fixed', en_fixed), ('rebalance', en_rebalanced)):
             exe_forms[label] = list(dict.fromkeys(exe_forms[label] +
                 forms('DDS98.EXE', moonfast.released_exe(data['DDS98.EXE']))))
-        en_plan = enhancement_plan.compile_plan(en_original, en_fixed, en_rebalanced, kind, exe_forms)
+        # the English program states earlier releases left (whole file, written over like this build's); their
+        # scripts get record recipes from each old form (enhancement_plan.compile_plan older)
+        for label in ('fixed', 'rebalance'):
+            exe_forms[label] = list(dict.fromkeys(exe_forms[label] + older['en']['exe'][label]))
+        en_plan = enhancement_plan.compile_plan(en_original, en_fixed, en_rebalanced, kind, exe_forms,
+                                                older=older['en']['records'])
         import targetprompt
         manifest["enhancement"] = {"kind": kind, "files": take(files), "requires": required, "english": en_plan,
                                    "addon": targetprompt.MSG_FILE}

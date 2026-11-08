@@ -493,7 +493,8 @@
     const p = {cn: {}, art: null, enhancement: null, update: null, pace: null, options: null, editionSites: null,
                addons: null};
     for (const [edition, c] of Object.entries(m.cn)) p.cn[edition] = {files: take(c.files), drop: c.drop, autoexec: hex(c.autoexec)};
-    const sites = l => l.map(s => ({at: s.at, orig: hex(s.orig), fixed: hex(s.fixed)}));
+    const sites = l => l.map(s => ({at: s.at, orig: hex(s.orig), fixed: hex(s.fixed),
+                                    ...(s.legacy ? {legacy: hex(s.legacy)} : {})}));
     const siteSets = o => Object.fromEntries(Object.entries(o).map(([k, l]) => [k, sites(l)]));
     if (m.art !== null) p.art = {files: take(m.art.files), hashes: m.art.hashes, partition: m.art.partition,
              exe: {nospace: sites(m.art.exe.nospace), slotorder: sites(m.art.exe.slotorder)},
@@ -590,8 +591,11 @@
     let addons;
     try { addons = addonState(fs, p.addons); }
     catch (e) { if (e instanceof PatchError) throw new PatchError(`${e.message}，没有生成镜像。`); throw e; }
+    const optionInfo = optionsOf(fs, p.options);
+    const options = optionInfo === null ? null : {moon: optionInfo.moon, gap: optionInfo.gap};
     return {kind: "cn", edition: editionOf(fs.read(EXE_PATH), p), saves: savesIn(fs), art,
-            current: now === names.length, latest, pace: paceState(fs, p.pace), options: optionsOf(fs, p.options), addons};
+            current: now === names.length, latest, pace: paceState(fs, p.pace), options,
+            moon_upgrade: !!(optionInfo && optionInfo.moonUpgrade), addons};
   }
   function updateTalk(fs, upd, say) {
     let wrote = 0, made = 0;
@@ -667,13 +671,13 @@
   const OPTIONS = ["moon", "gap"];
   const OPTION_NAMES = {moon: "月相加速", gap: "等级差经验"};
   function optionExe(exe, o) {                       // options.exe_states
-    const out = {};
-    for (const name of OPTIONS) {
-      const form = siteForm(exe, o.sites[name]);
-      if (form === null) throw new PatchError(`镜像里的游戏程序认不出${OPTION_NAMES[name]}是开是关（它的几处既不是原版也不是打开的样子）`);
-      out[name] = form === "fixed";
-    }
-    return out;
+    const moonSites = o.sites.moon;
+    const moonForm = ["orig", "fixed", "legacy"].find(form => moonSites.every(s =>
+      same(exe.subarray(s.at, s.at + s.orig.length), s[form])));
+    if (!moonForm) throw new PatchError("镜像里的游戏程序认不出月相加速的状态");
+    const gapForm = siteForm(exe, o.sites.gap);
+    if (gapForm === null) throw new PatchError("镜像里的游戏程序认不出等级差经验的状态");
+    return {moon: moonForm !== "orig", gap: gapForm === "fixed", moonUpgrade: moonForm === "legacy"};
   }
   function descAt(plain, m) {                        // moonfast.desc_at: [start of コアシールド's description, end of its entry]
     const count = u16(plain, 0), offs = [];
@@ -712,7 +716,7 @@
   function applyOptions(fs, p, want, say) {          // options.apply
     const o = p.options, have = optionState(fs, o), changed = [];
     for (const name of OPTIONS) {
-      if (!(name in want) || want[name] === have[name]) continue;
+      if (!(name in want) || (want[name] === have[name] && !(name === "moon" && have.moonUpgrade))) continue;
       const exe = fs.read(EXE_PATH).slice();
       for (const s of o.sites[name]) exe.set(want[name] ? s.fixed : s.orig, s.at);
       if (name === "moon") {
@@ -727,7 +731,8 @@
         fs.replace(`${DIR}/${p.pace.summary}`, p.pace.dd[want.gap ? "gap" : "shown"]);
       }
       have[name] = want[name];
-      say(`${OPTION_NAMES[name]}：${want[name] ? "打开" : "关掉"}`);
+      if (name === "moon") have.moonUpgrade = false;
+      say(`${OPTION_NAMES[name]}：${want[name] ? (name === "moon" ? "打开（宝箱随可见月相补充）" : "打开") : "关掉"}`);
       changed.push(name);
     }
     return changed;
@@ -873,7 +878,8 @@
       return img.raw;
     }
     const doUpdate = update && !info.latest, doPace = pace && info.pace !== true;
-    const doOptions = options !== null && (info.options === null || Object.keys(options).some(n => options[n] !== info.options[n]));
+    const doOptions = options !== null && (info.options === null || (info.moon_upgrade && "moon" in options)
+      || Object.keys(options).some(n => options[n] !== info.options[n]));
     const doWin = art === "win" && !info.current, doPc = art === "pc98" && info.art !== "pc98";
     const doAddons = !!addons && Object.keys(addons).some(n => addons[n] !== info.addons[n]);
     if (!doUpdate && !doPace && !doOptions && !doWin && !doPc && !doAddons) throw new PatchError("这个镜像已经是这样了，没有要改的。");

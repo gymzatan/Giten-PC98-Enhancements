@@ -160,7 +160,46 @@ def file_plan(name, before, after):
     return dict(type='exact', before=hashlib.sha1(before).hexdigest(), data=after.hex())
 
 
-def compile_plan(original, fixed, rebalanced, kind, exe_forms):
+def bare(desc):
+    """A record description without its text bytes: what the instructions and branches must match."""
+    return [['T'] if d[0] == 'T' else d for d in desc]
+
+
+def older_records(old_blobs, target, settled):
+    """{(chunk, rid, cond): [step, ...]}: for each record of a script that an earlier release left different both
+    from `target` (this build's output of the file) and from `settled` (the state this plan's own edits start from),
+    the record recipe from that old record to the target's (record_plan), one per distinct old record. Earlier
+    releases changed instructions only, so every text part is copied from the player's disk; a step that would carry
+    text, or a release that added, removed or reordered records, raises."""
+    t_chunks, t_counts = script(target)
+    s_chunks = script(settled)[0] if settled is not None else None
+    out = {}
+    for blob in old_blobs:
+        o_chunks, o_counts = script(blob)
+        if o_counts != t_counts or len(o_chunks) != len(t_chunks):
+            raise ValueError('an earlier release changed the chunk layout')
+        for ci, (old, new) in enumerate(zip(o_chunks, t_chunks)):
+            olds = {(r.rid, r.cond): r.payload for r in old}
+            news = {(r.rid, r.cond): r.payload for r in new}
+            if len(olds) != len(old) or len(news) != len(new) or set(olds) != set(news):
+                raise ValueError(f'chunk {ci}: an earlier release added, removed or duplicated a record')
+            sets = {(r.rid, r.cond): r.payload for r in s_chunks[ci]} if s_chunks else {}
+            for key, payload in news.items():
+                if olds[key] == payload or olds[key] == sets.get(key):
+                    continue
+                step = record_plan(olds[key], payload)
+                if any(d[0] == 'T' and len(d) > 1 for d in step['before'] + step['after']):
+                    raise ValueError(f'chunk {ci}, record {key[0]:02X}: an earlier release changed its text')
+                steps = out.setdefault((ci,) + key, [])
+                if step not in steps:
+                    steps.append(step)
+    return out
+
+
+def compile_plan(original, fixed, rebalanced, kind, exe_forms, older=None):
+    """The checked edits that make this build's `kind` output from the English input. `older` =
+    {file: [[chunk, rid, cond, steps], ...]} (tools/redux_older.json en.records): each record an earlier release left
+    in another form gets the recipes from those forms ('older' on its edit), so such a disk is updated in place."""
     before = original if kind == 'fixes' else {**original, **fixed}
     output = fixed if kind == 'fixes' else rebalanced
     plans = {n: file_plan(n, before.get(n), data) for n, data in output.items()
@@ -190,6 +229,30 @@ def compile_plan(original, fixed, rebalanced, kind, exe_forms):
             elif change:
                 continue
             guards[n] = check
+    for n, entries in (older or {}).items():
+        target = {**before, **output}[n]
+        plan = plans.setdefault(n, dict(type='script', records=[], counts=[]))
+        if plan['type'] != 'script':
+            raise ValueError(f'{n}: an earlier release changed it; only scripts are updated record by record')
+        t_chunks = script(target)[0]
+        steps = set()
+        for ci, rid, cond, alts in entries:
+            cond = tuple(cond) if cond is not None else None
+            steps.add((ci, rid, cond))
+            edit = next((e for e in plan['records'] if (e['chunk'], e['rid'], e['cond']) == (ci, rid, cond)
+                         and 'add' not in e), None)
+            if edit is None:
+                # a record this plan leaves as it is: an edit that only checks it, with the way from the old form
+                [payload] = [r.payload for r in t_chunks[ci] if (r.rid, r.cond) == (rid, cond)]
+                edit = dict(chunk=ci, rid=rid, cond=cond, **record_plan(payload, payload))
+                plan['records'].append(edit)
+            if any(bare(a['after']) != bare(edit['after']) for a in alts):
+                raise ValueError(f'{n} chunk {ci}, record {rid:02X}: redux_older.json leads elsewhere than this '
+                                 f'build; rerun tools/reduxolder.py')
+            edit['older'] = [dict(before=a['before'], after=a['after'], recipe=a['recipe']) for a in alts]
+        if n in guards and guards[n]['type'] == 'script':
+            # those records are checked by their edits now, which also accept the old forms
+            guards[n]['records'] = [g for g in guards[n]['records'] if (g['chunk'], g['rid'], g['cond']) not in steps]
     return dict(files=plans, guards=guards, exe=exe_forms,
                 grammar=dict(prefix=ddsgrammar.PREFIX, alias=ddsgrammar.ALIAS,
                              commands=ddsgrammar.COMMANDS, values=ddsgrammar.VALUES,

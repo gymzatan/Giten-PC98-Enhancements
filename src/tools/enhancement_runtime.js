@@ -78,15 +78,18 @@
     const parts = enhancementAtoms(data, grammar);
     if (enhancementMatch(parts, plan.after)) return data;
     if (plan.guard) throw new PatchError('Required Fixes instruction is missing or modified.');
-    if (!enhancementMatch(parts, plan.before))
-      throw new PatchError('Instruction signature or branch target conflicts with this patch.');
-    const pieces = plan.recipe.map(x => x[0] === 'copy' ? parts[x[1]].raw : hex(x[1]));
+    // the record as the input game has it, or as an earlier release of this patch left it (tools/reduxolder.py):
+    // each has its own recipe to this patch's record
+    const step = enhancementMatch(parts, plan.before) ? plan :
+      (plan.older || []).find(o => enhancementMatch(parts, o.before));
+    if (!step) throw new PatchError('Instruction signature or branch target conflicts with this patch.');
+    const pieces = step.recipe.map(x => x[0] === 'copy' ? parts[x[1]].raw : hex(x[1]));
     const offsets = [0];
     for (const b of pieces) offsets.push(offsets[offsets.length - 1] + b.length);
     if (offsets[offsets.length - 1] >= 65535) throw new PatchError('Patched script record is too long.');
     const out = new Uint8Array(offsets[offsets.length - 1]);
     pieces.forEach((b, i) => out.set(b, offsets[i]));
-    plan.after.forEach((a, i) => {
+    step.after.forEach((a, i) => {
       if (a[0] === 'T') return;
       for (const [local, target] of a[1]) {
         if (target[0] === 'raw') throw new PatchError('Patched script has an invalid branch.');
