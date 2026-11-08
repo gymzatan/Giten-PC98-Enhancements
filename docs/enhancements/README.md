@@ -31,7 +31,7 @@ For English play, apply Sneikkimies' translation **before** Redux. The translati
 - **Keyboard controls:** W/Z/A/D move forward/back/left/right; Q/E turn; S turns around. Enter or Space advances dialogue and battle-message waits. Menus still use the mouse, unless the Controls patch is installed.
 - **Larger inventory:** ordinary item capacity increases from **48 to 111 slots**. The separate 16 body-part slots remain unchanged, and original saves can be loaded.
 - **Easier-to-read dialogue and battles:** dialogue endings that used to close immediately now wait for input. Battle messages pause for about one second, with the message being paused on shown (the original drew it only after the pause); a new click or advance key shortens the wait, while a click still held from choosing a target does not. The command panel's "no one to fight / talk to" style notices also stay about one second.
-- **Faster moon phases:** the visible phase advances after about **60 steps instead of 300**. Monthly chests, refillable vessels and other long-duration timers keep their original time scale.
+- **Faster moon phases:** the visible phase advances after about **60 steps instead of 300**. Monthly chests refill as each visible full moon begins. Refillable vessels and other long-duration timers keep their original time scale.
 
 #### Story, equipment, and combat repairs
 
@@ -103,6 +103,17 @@ For the original combat rules with repairs, use **Fixes**. For redesigned combat
 The default download names are `Giten_Fixed.hdi`, `Giten_WIN.hdi`, `Giten_Rebalanced.hdi` and `Giten_Controls.hdi`. The name describes the most recent patch, not the complete set installed: an Artwork result can also contain Fixes and Rebalance. Renaming a disk does not add or remove patches.
 
 The patch reads the selected file and creates a separate result in memory. It never writes back to your selected file. No image is uploaded, and no network connection, Python installation or command line is needed. Use a browser that supports `DecompressionStream` with `deflate-raw`; the page reports an error if decompression is unavailable.
+
+## Updating a disk from an earlier release
+
+A disk patched by an earlier Redux release, from the first one (8 October 2026) on, is updated in place. Its saves and other files are kept.
+
+- **Fixes only:** open the new `Apply Fixes.html` and select that disk.
+- **Fixes and Rebalance:** open the new `Apply Rebalance.html` and select that disk. It brings the Fixes part up to date as well. It also accepts a disk that has only an earlier Fixes.
+- **Windows Artwork and Controls:** earlier releases installed the same files as this one, so there is nothing to update.
+- **With Controls installed:** remove them on `Apply Controls.html` first, update, then install them again.
+
+The pages accept exactly the file states the earlier releases produced, on the Japanese game and on the tested English translation. English text is kept from your disk, as in a first installation.
 
 ## Japanese and English HDI compatibility
 
