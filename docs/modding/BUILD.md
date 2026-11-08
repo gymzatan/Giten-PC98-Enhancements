@@ -80,6 +80,8 @@ Outputs are the four individual ZIP packages plus `dist/Giten-Megami-Tensei-Redu
 
 `--pack-only` reuses already built payload directories after a documentation or interface edit. It does not validate or synthesize missing game inputs. `tools/webpatch.js` owns HDI/FAT operations; `tools/enhancement_runtime.js` applies the plans exported by `enhancement_plan.py`. `webpayload.py` packs the same manifest/blobs as the existing release.
 
+Disks made by earlier releases: `tools/redux_older.json` lists the file states the earlier releases left on the Japanese game and the tested English translation and, for the English scripts, the record recipes from those states to this build's records (instructions only; text is copied from the player's disk). `mkenhancements.py` adds them to the Fixes and Rebalance payloads, so those pages update such a disk in place. `python tools/reduxolder.py` generates the file from the maintainer's archive of the released pages and their outputs, which is not part of this repository. A build that changes the Fixes or Rebalance output of the affected records stops with a message: regenerate the file where the archive exists, or empty its lists to build without the update path.
+
 To rebuild only the complete ZIP after editing its guide, with the four already built ZIPs present:
 
 ```powershell
