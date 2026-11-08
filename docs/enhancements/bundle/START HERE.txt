@@ -38,6 +38,12 @@ Fixes only: step 1.
 Fixes + Rebalance with original artwork: steps 1 and 2.
 Artwork only: step 3, selecting your original Japanese or English game HDI.
 
+ALREADY PATCHED WITH AN EARLIER RELEASE
+Select that disk on the new pages; it is updated in place and keeps its saves.
+Fixes only: Apply Fixes.html. Fixes + Rebalance: Apply Rebalance.html (it
+updates Fixes too). Artwork and Controls need no update. If Controls are
+installed, remove them on Apply Controls.html first, then install them again.
+
 FOR ENGLISH PLAY
 Apply Sneikkimies' English translation to its required Japanese disk first,
 then apply Redux to that English result. The translation is a separate download:
