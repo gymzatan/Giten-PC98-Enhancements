@@ -22,7 +22,7 @@ def main():
     build.add_argument("--src", required=True)
     build.add_argument("--holds", required=True)
     build.add_argument("--output", required=True, type=Path)
-    build.add_argument("--english", action="store_true")
+    build.add_argument("--translation", help="The translation --src holds: a key of tools/redux_translations.py")
     build.add_argument("--rebalance", action="store_true")
     scripts = commands.add_parser("inspect-script", help="Show existing VM token identities and branches")
     scripts.add_argument("file", type=Path)
@@ -33,7 +33,8 @@ def main():
         subprocess.run([sys.executable, str(ROOT / "tools/extract.py"), str(args.image), str(args.output)], check=True)
     elif args.command == "build-files":
         import nativebuild
-        built = nativebuild.build(src=args.src, english=args.english, rebalance_on=args.rebalance, hold_path=args.holds)
+        built = nativebuild.build(src=args.src, translation=args.translation, rebalance_on=args.rebalance,
+                                  hold_path=args.holds)
         args.output.mkdir(parents=True, exist_ok=True)
         for name, blob in {**built["files"], **built["added"]}.items():
             (args.output / name).write_bytes(blob)
