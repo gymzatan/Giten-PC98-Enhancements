@@ -1,4 +1,8 @@
-"""Verify the shipped pages against the English BPS image and script-update variants."""
+"""Verify the shipped pages against each translation's reference image (tools/redux_translations.py) and
+script-update variants.
+
+python tools/english_enhancements_test.py [KEY...]   every translation when no key is given
+"""
 import hashlib
 import json
 from pathlib import Path
@@ -9,14 +13,15 @@ import ddsfile
 import ddsvm
 import enhancement_plan
 import mkenhancements as build
+import redux_translations
 from enhancements_test import content
 from fat12 import open_hdi
 from fat12w import Fat12W
 
 
-def main(image):
-    source = Path(image)
-    root = build.STAGE / 'english-adaptation'
+def main(key):
+    source = redux_translations.TRANSLATIONS[key]['reference']
+    root = redux_translations.TRANSLATIONS[key]['stage']
     out = root / 'verification'
     out.mkdir(exist_ok=True)
     original = content(source)
@@ -113,8 +118,9 @@ def main(image):
     (out / 'results.json').write_text(json.dumps(dict(cases=receipts, native_outputs_identical=True,
         future_text_and_added_records_preserved=True, relocated_branches_valid=True,
         conflicts_refused_atomically=True, input_sha256=original_hash), indent=2), encoding='utf-8')
-    print('Verified', len(receipts), 'page applications.')
+    print(key, 'verified', len(receipts), 'page applications.')
 
 
 if __name__ == '__main__':
-    main(sys.argv[1])
+    for key in sys.argv[1:] or redux_translations.TRANSLATIONS:
+        main(key)

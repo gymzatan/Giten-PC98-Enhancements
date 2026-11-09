@@ -2,7 +2,9 @@
 """Build the language-preserving enhancement patches with English interfaces through the existing game and web engines:
 Fixes, Windows Artwork, Rebalance, and the add-ons (tools/addons.py: target prompt, gamepad).
 
-python tools/mkenhancements.py --english-image <English.hdi>  build game payloads, pages, documentation and ZIP packages
+python tools/mkenhancements.py              build game payloads (the Japanese game's and each translation's of
+                                            tools/redux_translations.py, from its verified reference image), pages,
+                                            documentation and ZIP packages
 python tools/mkenhancements.py --pack-only  reuse build/enhancements game payloads after a documentation/UI edit
 python tools/mkenhancements.py --bundle-only  combine existing patch ZIPs with the START HERE guide
 """
@@ -26,7 +28,7 @@ OUT = WORK / "dist" / "English"
 DOCS = WORK / "docs" / "enhancements"
 PACKAGES = {
     "fixes": ("Giten Fixes (EN)", "Apply Fixes.html", "Giten_Fixed.hdi",
-              "Gameplay repairs and quality-of-life improvements for the PC-98 game, preserving Japanese or tested English game text."),
+              "Gameplay repairs and quality-of-life improvements for the PC-98 game, preserving its Japanese, English or Spanish game text."),
     "art": ("Giten Windows Artwork (EN)", "Apply Windows Artwork.html", "Giten_WIN.hdi",
             "Windows remake artwork for the PC-98 game. Works independently, or with Fixes and Rebalance."),
     "rebalance": ("Giten Rebalance (EN)", "Apply Rebalance.html", "Giten_Rebalanced.hdi",
@@ -72,24 +74,56 @@ def forms(name, blob):
     return sorted({hashlib.sha1(b).hexdigest() for b in variants})
 
 
-def language_runs():
-    """[[file offset, Japanese hex, English hex]]: every run of bytes the tested English translation changes in
-    DDS98.EXE (the status names and their pointers). The add-on page tells the image's language by them
-    (enhancement_runtime.js addonLanguage); tools/enaddons_test.py checks no other patch writes them."""
+def language_runs(key):
+    """[[file offset, Japanese hex, translated hex]]: every run of bytes a translation (tools/redux_translations.py)
+    changes in DDS98.EXE (its messages, the status names and their pointers). The add-on page tells the image's
+    language by them (enhancement_runtime.js addonLanguage); tools/enaddons_test.py checks no other patch writes
+    them."""
+    import redux_translations
     jp = (WORK / "files" / "DDS98" / "DDS98.EXE").read_bytes()
-    en = (STAGE / "english-adaptation" / "source" / "DDS98.EXE").read_bytes()
-    if len(jp) != len(en):
-        raise ValueError("The English DDS98.EXE is not as long as the Japanese one")
+    tr = (redux_translations.TRANSLATIONS[key]["stage"] / "source" / "DDS98.EXE").read_bytes()
+    if len(jp) != len(tr):
+        raise ValueError(f"{key}: its DDS98.EXE is not as long as the Japanese one")
     runs = []
     for i in range(len(jp)):
-        if jp[i] != en[i]:
+        if jp[i] != tr[i]:
             if runs and runs[-1][1] == i:
                 runs[-1][1] = i + 1
             else:
                 runs.append([i, i + 1])
     if not runs:
-        raise ValueError("The English DDS98.EXE is the Japanese one")
-    return [[a, jp[a:b].hex(), en[a:b].hex()] for a, b in runs]
+        raise ValueError(f"{key}: its DDS98.EXE is the Japanese one")
+    return [[a, jp[a:b].hex(), tr[a:b].hex()] for a, b in runs]
+
+
+def translation_plans(kind):
+    """[{key, name, lang, plan}] of the page: each translation's checked edits (enhancement_plan.compile_plan) from
+    its own reference files to this build's output of it. Only Sneikkimies' English translation has had earlier
+    releases (tools/redux_older.json)."""
+    import enhancement_plan, moonfast, redux_translations, reduxolder
+    older = reduxolder.load(kind)
+    out = []
+    for key, t in redux_translations.TRANSLATIONS.items():
+        source, fixed, rebalanced = (load_files(t["stage"] / d) for d in ("source", "fixed", "rebalance"))
+        exe_forms = {label: forms('DDS98.EXE', data['DDS98.EXE']) for label, data in
+                     (('original', source), ('fixed', fixed), ('rebalance', rebalanced))}
+        for label, data in (('fixed', fixed), ('rebalance', rebalanced)):
+            exe_forms[label] = list(dict.fromkeys(exe_forms[label] +
+                forms('DDS98.EXE', moonfast.released_exe(data['DDS98.EXE']))))
+        records = None
+        if key == "sneikkimies":
+            # the English program states earlier releases left (whole file, written over like this build's); their
+            # scripts get record recipes from each old form (enhancement_plan.compile_plan older)
+            for label in ('fixed', 'rebalance'):
+                exe_forms[label] = list(dict.fromkeys(exe_forms[label] + older['en']['exe'][label]))
+            records = older['en']['records']
+        plan = enhancement_plan.compile_plan(source, fixed, rebalanced, kind, exe_forms, older=records,
+                                             normalized=load_files(t["stage"] / "normalized"))
+        out.append({"key": key, "name": t["name"], "lang": t["lang"], "plan": plan})
+    hashes = [h for t in out for forms_ in t["plan"]["exe"].values() for h in forms_]
+    if len(hashes) != len(set(hashes)):
+        raise ValueError("two translations share a DDS98.EXE state: the page could not tell them apart")
+    return out
 
 
 def payload(kind, fixed, rebalanced):
@@ -107,16 +141,35 @@ def payload(kind, fixed, rebalanced):
         def ref(data):
             blobs.append(data)
             return len(blobs) - 1
-        jp, en = addons.files(None), addons.files(None, english=True)
-        if jp["pad"] != en["pad"]:
+        import redux_translations
+        texts, pads = {"jp": addons.files(None)["target"]}, {addons.files(None)["pad"]}
+        for key, t in redux_translations.TRANSLATIONS.items():
+            mine = addons.files(None, key)
+            if texts.setdefault(t["lang"], mine["target"]) != mine["target"]:
+                raise ValueError(f"{key}: its question differs from another {t['lang']} translation's")
+            pads.add(mine["pad"])
+        if len(pads) != 1:
             raise ValueError("The launcher depends on the language")
-        manifest["addons"] = {**webpayload.addon_part({"jp": jp["target"], "en": en["target"]}, jp["pad"], ref),
-                              "lang": language_runs()}
+        manifest["addons"] = {**webpayload.addon_part(texts, pads.pop(), ref),
+                              "translations": [{"key": key, "name": t["name"], "lang": t["lang"],
+                                                "runs": language_runs(key)}
+                                               for key, t in redux_translations.TRANSLATIONS.items()]}
         manifest["blobs"] = [len(b) for b in blobs]
         return webpayload.packed(manifest, blobs)[0]
     if kind == "art":
+        import redux_art, redux_translations
         files, hashes, exe = webpayload.art_part()
-        manifest["art"] = {"files": take(files), "hashes": hashes, "exe": exe, "partition": {
+        # the artwork merged with what a translation redraws in the same files (tools/redux_art.py)
+        jp_files = load_files(WORK / "files" / "DDS98")
+        alts = redux_art.alternatives(jp_files, files, {key: load_files(t["stage"] / "source")
+                                                        for key, t in redux_translations.TRANSLATIONS.items()})
+        alt = {}
+        for name, pairs in sorted(alts.items()):
+            for tr, merged in pairs:
+                blobs.append(merged)
+                alt.setdefault(name, []).append([hashlib.sha1(tr).hexdigest(), hashlib.sha1(merged).hexdigest(),
+                                                 len(blobs) - 1])
+        manifest["art"] = {"files": take(files), "hashes": hashes, "exe": exe, "alt": alt, "partition": {
             "header": "00000000000000000010000000aadb0100010000210000000600000067020000",
             "partition": "a18100000000010000000100000058024d532d444f5320362e32302020202020",
             "bpb": "eb45904e45432020352e3000040801000200070474f8060021000600c600000000000000800029151c1a35474954454e2020202020204641543132202020c600",
@@ -151,24 +204,9 @@ def payload(kind, fixed, rebalanced):
             if n not in fixed or n in files:
                 raise ValueError(f"{n}: redux_older.json is for another build; rerun tools/reduxolder.py")
             files[n] = fixed[n]
-        english = STAGE / 'english-adaptation'
-        en_original = load_files(english / 'source')
-        en_fixed = load_files(english / 'fixed')
-        en_rebalanced = load_files(english / 'rebalance')
-        exe_forms = {label: forms('DDS98.EXE', data['DDS98.EXE']) for label, data in
-                     (('original', en_original), ('fixed', en_fixed), ('rebalance', en_rebalanced))}
-        for label, data in (('fixed', en_fixed), ('rebalance', en_rebalanced)):
-            exe_forms[label] = list(dict.fromkeys(exe_forms[label] +
-                forms('DDS98.EXE', moonfast.released_exe(data['DDS98.EXE']))))
-        # the English program states earlier releases left (whole file, written over like this build's); their
-        # scripts get record recipes from each old form (enhancement_plan.compile_plan older)
-        for label in ('fixed', 'rebalance'):
-            exe_forms[label] = list(dict.fromkeys(exe_forms[label] + older['en']['exe'][label]))
-        en_plan = enhancement_plan.compile_plan(en_original, en_fixed, en_rebalanced, kind, exe_forms,
-                                                older=older['en']['records'])
         import targetprompt
-        manifest["enhancement"] = {"kind": kind, "files": take(files), "requires": required, "english": en_plan,
-                                   "addon": targetprompt.MSG_FILE}
+        manifest["enhancement"] = {"kind": kind, "files": take(files), "requires": required,
+                                   "translations": translation_plans(kind), "addon": targetprompt.MSG_FILE}
     manifest["blobs"] = [len(b) for b in blobs]
     return webpayload.packed(manifest, blobs)[0]
 
@@ -289,7 +327,8 @@ def page(kind, b64, core):
                 .replace("{{OUTPUT}}", output).replace("{{MAPPER}}", ADDON_EXTRA)
                 .replace("{{CSS}}", css).replace("{{CORE}}", core.replace("</", "<\\/"))
                 .replace("{{PAYLOAD}}", b64))
-    prereq = "Use the output of Apply Fixes.html." if kind == "rebalance" else "Select a supported Japanese or tested English PC-98 game image."
+    prereq = ("Use the output of Apply Fixes.html." if kind == "rebalance" else
+              "Select a PC-98 image of the Japanese game or of a supported translation.")
     return (TEMPLATE.replace("{{TITLE}}", html.escape(title)).replace("{{DESC}}", html.escape(desc))
             .replace("{{PREREQ}}", prereq).replace("{{OUTPUT}}", output).replace("{{KIND}}", kind)
             .replace("{{CSS}}", css).replace("{{CORE}}", core.replace("</", "<\\/"))
@@ -305,8 +344,8 @@ button:disabled{opacity:.5}#drop{border:2px dashed var(--line);padding:20px;bord
 #log{overflow-wrap:anywhere;line-height:1.7}#log .error{color:var(--bad)}[hidden]{display:none!important}h1{font-size:clamp(26px,5vw,38px);line-height:1.2}input{max-width:100%}
 </style></head><body><main>
 <p>GITEN MEGAMI TENSEI · TOKYO MOKUSHIROKU</p><h1>{{TITLE}}</h1><p>{{DESC}}</p>
-<p><strong>Supports the Japanese game and the tested English translation. Your game language is retained.</strong></p>
-<p>For English play, apply the translation BPS first, then these enhancements. Script text edits can remain compatible; changed event logic or program code must pass the patch checks. See the compatibility table and tested BPS in <a href="Documentation.html">Documentation.html</a>.</p>
+<p><strong>Supports the Japanese game, Sneikkimies' English translation and delacannon's English and Spanish translations (version 2026.11.03). Your game language is retained.</strong></p>
+<p>For translated play, apply the translation first, then these enhancements. Script text edits can remain compatible; changed event logic or program code must pass the patch checks. See the supported translations in <a href="Documentation.html">Documentation.html</a>.</p>
 <section><h2>1. Choose your image</h2><p>{{PREREQ}} Your selected file is read only. The result is downloaded as a separate HDI.</p>
 <div id="drop"><label for="image">Choose or drop an .hdi file</label><br><input id="image" type="file" accept=".hdi"></div>
 <p id="selected">No image selected.</p><button id="apply" disabled>2. Apply patch</button>
@@ -361,8 +400,8 @@ button:disabled{opacity:.5}#drop{border:2px dashed var(--line);padding:20px;bord
 fieldset{margin:16px 0 0}fieldset:disabled .opt{opacity:.5;cursor:not-allowed}code{font-family:var(--mono);overflow-wrap:anywhere}
 </style></head><body><main>
 <p>GITEN MEGAMI TENSEI · TOKYO MOKUSHIROKU</p><h1>{{TITLE}}</h1><p>{{DESC}}</p>
-<p><strong>Supports the Japanese game and the tested English translation, with or without Fixes, Rebalance and Windows Artwork. Your game language is retained.</strong></p>
-<section><h2>1. Choose your image</h2><p>Select a supported Japanese or tested English PC-98 game image. Your selected file is read only. The result is downloaded as a separate HDI.</p>
+<p><strong>Supports the Japanese game, Sneikkimies' English translation and delacannon's English and Spanish translations, with or without Fixes, Rebalance and Windows Artwork. Your game language is retained.</strong></p>
+<section><h2>1. Choose your image</h2><p>Select a PC-98 image of the Japanese game or of a supported translation. Your selected file is read only. The result is downloaded as a separate HDI.</p>
 <div id="drop"><label for="image">Choose or drop an .hdi file</label><br><input id="image" type="file" accept=".hdi"></div>
 <p id="selected">No image selected.</p>
 <h2>2. Install or remove Controls</h2>
@@ -372,7 +411,7 @@ fieldset{margin:16px 0 0}fieldset:disabled .opt{opacity:.5;cursor:not-allowed}co
 <section><h2>Target prompt</h2>
 <p>When a command waits for its target (after you choose an attack, a skill or an item), the battle text box asks “Use on whom?” and battle time stops: no action gauge fills on either side until you pick a target or cancel with the right button. Choosing again after a cancel asks again.</p>
 <p>The original game stops the clock only while you pick an ally. While you point at an enemy, the enemies, bosses included, keep acting.</p>
-<p>This battle optimization is included with the controls. It changes six places in <code>DDS98.EXE</code> and adds <code>DDS98\MS00D9.BIN</code>: “Use on whom?” in English or 「誰に使いますか？」 in Japanese.</p></section>
+<p>This battle optimization is included with the controls. It changes six places in <code>DDS98.EXE</code> and adds <code>DDS98\MS00D9.BIN</code>: “Use on whom?” in English, “¿Sobre quién?” in Spanish or 「誰に使いますか？」 in Japanese.</p></section>
 <section><h2>Keyboard / gamepad controls</h2>
 <p>Play with a gamepad or the keyboard. The mouse still works.</p>
 <ul><li>The stick walks. In a dungeon, up steps forward, down turns around, and left and right turn. On the world map you walk straight in that direction; the keyboard's W, A, S and D also walk there.</li>
@@ -413,7 +452,7 @@ fieldset{margin:16px 0 0}fieldset:disabled .opt{opacity:.5;cursor:not-allowed}co
       const found=WebPatch.addonInspect(bytes,p);
       const state=found.addons.target&&found.addons.pad?'Controls installed':
         found.addons.target||found.addons.pad?'Partial Controls installation; Install completes both features, Remove removes both':'Controls not installed';
-      selected.textContent=file.name+': '+(found.lang==='en'?'the English translation':'the Japanese game')+
+      selected.textContent=file.name+': '+found.name+
         '. '+state+'.';
       info=found;
     }catch(e){say(String(e.message||e),true);}
@@ -474,18 +513,16 @@ def main():
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--pack-only", action="store_true")
     mode.add_argument("--bundle-only", action="store_true", help="Combine the existing four patch ZIPs; no game inputs needed")
-    parser.add_argument("--english-image", type=Path, help="Verified English BPS output used to rebuild the native English payload")
     args = parser.parse_args()
     if args.bundle_only:
         render_documentation()
         bundle()
         return
     if not args.pack_only:
-        if args.english_image is None:
-            parser.error('A native rebuild requires --english-image; use --pack-only to reuse accepted payloads')
         build_files()
-        import english_enhancements
-        english_enhancements.build(args.english_image, STAGE / 'english-adaptation')
+        import english_enhancements, redux_translations
+        for key, t in redux_translations.TRANSLATIONS.items():
+            english_enhancements.build(key, t["reference"], t["stage"])
     fixed, rebalanced = load_files(STAGE / "fixed"), load_files(STAGE / "rebalance")
     core = english_core()
     documentation()

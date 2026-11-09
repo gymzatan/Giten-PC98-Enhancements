@@ -382,12 +382,16 @@
     const order = exeForm(exe, win.exe.slotorder, "DDS98.EXE 里分配颜色槽的那两处既不是原样也不是修改后的内容，" +
                           "补丁不认识这个版本的程序，没有写入任何东西。");
     const state = {ready: [], done: [], missing: [], other: []};
+    // what each file becomes: the artwork's, or for a file a translation redraws, the artwork merged with it
+    const data = {...win.files}, alt = win.alt || {};
     for (const name of Object.keys(win.files).sort()) {
       const blob = fs.read(`${DIR}/${name}`);
       if (blob === null) { state.missing.push(name); continue; }
       const got = await sha1(blob);
-      if (got === win.hashes[name].now) state.done.push(name);
+      const merged = (alt[name] || []).find(a => a.was === got || a.now === got);
+      if (got === win.hashes[name].now || merged && got === merged.now) state.done.push(name);
       else if (got === win.hashes[name].was) state.ready.push(name);
+      else if (merged) { data[name] = merged.data; state.ready.push(name); }
       else state.other.push(name);
     }
     say(`${Object.keys(win.files).length} 个素材文件：${state.ready.length} 个待替换，${state.done.length} 个已经是补丁版，` +
@@ -401,20 +405,20 @@
       let need = 0;
       for (const name of state.ready) {
         const e = fs.find(`${DIR}/${name}`);
-        need += Math.floor((win.files[name].length + fs.cs - 1) / fs.cs) - (e.cluster ? fs.chain(e.cluster).length : 0);
+        need += Math.floor((data[name].length + fs.cs - 1) / fs.cs) - (e.cluster ? fs.chain(e.cluster).length : 0);
       }
-      for (const name of state.missing) need += Math.floor((win.files[name].length + fs.cs - 1) / fs.cs);
+      for (const name of state.missing) need += Math.floor((data[name].length + fs.cs - 1) / fs.cs);
       const free = fs.freeClusters().length;
       if (need > free) throw new PatchError(`镜像里的空间不够：还要 ${need * fs.cs} 字节，只剩 ${free * fs.cs} 字节。`);
       let wrote = 0, made = 0;
       const delta = name => {
         const e = fs.find(`${DIR}/${name}`);
-        return Math.ceil(win.files[name].length / fs.cs) - (e && e.cluster ? fs.chain(e.cluster).length : 0);
+        return Math.ceil(data[name].length / fs.cs) - (e && e.cluster ? fs.chain(e.cluster).length : 0);
       };
       // Release shrinking resources before growing others; the preflight checks net capacity.
       for (const name of todo.sort((a, b) => delta(a) - delta(b) || a.localeCompare(b))) {
-        if (fs.find(`${DIR}/${name}`) === null) { fs.create(DIR, name, win.files[name]); made++; }
-        else { fs.replace(`${DIR}/${name}`, win.files[name]); wrote++; }
+        if (fs.find(`${DIR}/${name}`) === null) { fs.create(DIR, name, data[name]); made++; }
+        else { fs.replace(`${DIR}/${name}`, data[name]); wrote++; }
       }
       say(`写入 ${wrote} 个文件` + (made ? `，新增 ${made} 个` : "") + `，镜像里还剩 ${(free - need) * fs.cs} 字节`);
     }
@@ -496,9 +500,13 @@
     const sites = l => l.map(s => ({at: s.at, orig: hex(s.orig), fixed: hex(s.fixed),
                                     ...(s.legacy ? {legacy: hex(s.legacy)} : {})}));
     const siteSets = o => Object.fromEntries(Object.entries(o).map(([k, l]) => [k, sites(l)]));
+    // art.alt (the English pages, tools/redux_art.py): {file: [[sha1 of a translation's own file, sha1 of the
+    // artwork merged with it, the merged file's blob]]}
     if (m.art !== null) p.art = {files: take(m.art.files), hashes: m.art.hashes, partition: m.art.partition,
              exe: {nospace: sites(m.art.exe.nospace), slotorder: sites(m.art.exe.slotorder)},
-             pc98: m.art.pc98 ? take(m.art.pc98) : null, pc98sha: m.art.pc98sha || null, doors: m.art.doors || null};
+             pc98: m.art.pc98 ? take(m.art.pc98) : null, pc98sha: m.art.pc98sha || null, doors: m.art.doors || null,
+             alt: m.art.alt ? Object.fromEntries(Object.entries(m.art.alt).map(([name, l]) =>
+               [name, l.map(([was, now, i]) => ({was, now, data: blobs[i]}))])) : {}};
     if (m.update) p.update = {files: take(m.update.files), font: blobs[m.update.font]};
     if (m.pace) p.pace = {files: take(m.pace.files), summary: m.pace.summary, font: blobs[m.pace.font],
                           dd: Object.fromEntries(Object.entries(m.pace.dd).map(([k, i]) => [k, blobs[i]])),
@@ -506,8 +514,9 @@
     if (m.options) p.options = {moon: {...m.options.moon, forms: m.options.moon.forms.map(([a, b]) => [hex(a), hex(b)])},
                                 sites: siteSets(m.options.sites), defaults: m.options.defaults};
     if (m.edition) p.editionSites = sites(m.edition);
-    // the add-ons: the question in each language the page writes (zh for this page; jp and en for the English
-    // add-on page, which tells them apart by lang, the bytes the English translation changes in DDS98.EXE)
+    // the add-ons: the question in each language the page writes (zh for this page; jp, en and es for the English
+    // add-on page, which tells the image's language by `translations`: the bytes each translation it takes changes
+    // in DDS98.EXE)
     if (m.addons) {
       const t = m.addons.target;
       const texts = Object.fromEntries(Object.entries(t.texts).map(([lang, i]) => [lang, blobs[i]]));
@@ -515,7 +524,8 @@
         target: {hdr: t.hdr, name: t.name, texts, data: texts.zh || null,
                  sites: t.sites.map(([kind, off, orig, fixed]) => ({kind, off, orig: hex(orig), fixed: hex(fixed)}))},
         pad: {name: m.addons.pad.name, data: blobs[m.addons.pad.data]},
-        lang: m.addons.lang ? m.addons.lang.map(([at, jp, en]) => ({at, jp: hex(jp), en: hex(en)})) : null};
+        translations: m.addons.translations ? m.addons.translations.map(tr => ({...tr,
+          runs: tr.runs.map(([at, jp, own]) => ({at, jp: hex(jp), own: hex(own)}))})) : null};
     }
     if (m.enhancement) p.enhancement = {...m.enhancement, files: take(m.enhancement.files)};
     return p;
@@ -957,10 +967,13 @@
     if (changes.addon && fs.find(`${DIR}/${changes.addon}`) !== null)
       throw new PatchError("This image has the target prompt add-on, which changes DDS98.EXE. Untick it on " +
                            "Apply Add-ons.html, apply this patch, then tick it again. No output was created.");
-    const english = changes.english;
+    // a translation the English pages take (tools/redux_translations.py): its own plan, found by the program's hash
     const executable = fs.read(`${DIR}/DDS98.EXE`);
-    if (english && executable && Object.values(english.exe).some(hashes => hashes.includes(sha1hex(executable)))) {
-      structuralEnhance(fs, english, kind, say);
+    const exeHash = executable === null ? null : sha1hex(executable);
+    const translation = (changes.translations || []).find(t =>
+      Object.values(t.plan.exe).some(hashes => hashes.includes(exeHash)));
+    if (translation) {
+      structuralEnhance(fs, translation, kind, say);
       return img.raw;
     }
     const wrong = [];
@@ -969,6 +982,9 @@
       const hash = current === null ? null : sha1hex(current);
       if (!accepted.includes(hash)) wrong.push(name);
     }
+    if (wrong.includes("DDS98.EXE") && changes.translations) throw new PatchError(
+      "DDS98\\DDS98.EXE is neither the Japanese game's nor that of a supported translation (" +
+      changes.translations.map(t => t.name).join(", ") + "). No output was created.");
     if (wrong.length) throw new PatchError(
       (kind === "rebalance" ? "Apply the Fixes patch first. " : "A required game file is missing or modified. ") +
       "Unsupported files: " + wrong.join(", ") + ". No output was created.");

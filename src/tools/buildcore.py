@@ -119,7 +119,7 @@ def write_tables(files, *edit_tables, src=SRC):
     return wrote
 
 
-def repair_files(files, src=SRC, extras=True, rebalance_on=False, charmap=None, english=False):
+def repair_files(files, src=SRC, extras=True, rebalance_on=False, charmap=None, translation=None):
     added = {}
     # the world map's battle field goes in either way, like the negotiation questions: a battle
     # there then ends in black instead of showing that invisible map's ceiling and floor
@@ -140,11 +140,11 @@ def repair_files(files, src=SRC, extras=True, rebalance_on=False, charmap=None, 
     # says what each member really gains.
     build_fixes(files, storyfix, "剧情死局修复", src=src)
     build_fixes(files, checkfix, checkfix.NAME, src=src)
-    unshown = build_fixes(files, expshow, expshow.NAME, expshow.by_file(charmap, english=english), src)
+    unshown = build_fixes(files, expshow, expshow.NAME, expshow.by_file(charmap, translation=translation), src)
     # 等级差经验 changes how the experience is shared out, so the plain builds go without it and the
     # 再平衡版 carries it; the patch page's option (tools/options.py) puts it in or takes it out
     if rebalance_on:
-        build_fixes(files, expgap, expgap.NAME, expgap.by_file(charmap, english=english), src)
+        build_fixes(files, expgap, expgap.NAME, expgap.by_file(charmap, translation=translation), src)
     items = files.get(statfix.TABLE + ".BIN") or open(os.path.join(src, statfix.TABLE + ".BIN"), "rb").read()
     try:
         files[statfix.TABLE + ".BIN"] = statfix.apply_table(items)
@@ -172,7 +172,7 @@ def repair_files(files, src=SRC, extras=True, rebalance_on=False, charmap=None, 
     # the faster moon is an extra, like the keys: it changes the game's pace rather than mending it,
     # and the patch page's option (tools/options.py) takes it out. Its wording of コアシールド's
     # description goes with it
-    moon_forms = moonfast.desc_forms(charmap, english=english)
+    moon_forms = moonfast.desc_forms(charmap, translation=translation)
     if extras:
         try:
             files[moonfast.TABLE + ".BIN"] = moonfast.mend_table(files[moonfast.TABLE + ".BIN"], moon_forms)

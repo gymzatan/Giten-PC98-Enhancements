@@ -86,10 +86,11 @@ def decode_text(raw):
         c = raw[i]
         if 0x81 <= c <= 0x9F or 0xE0 <= c <= 0xFC:
             pair = raw[i:i + 2]
-            if c >= 0xEB:
+            try:
+                # codes JIS X 0208 leaves unassigned (cp932 has none of them below EB) are gaiji too
+                out.append("{gaiji:" + pair.hex().upper() + "}" if c >= 0xEB else pair.decode("cp932"))
+            except UnicodeDecodeError:
                 out.append("{gaiji:" + pair.hex().upper() + "}")
-            else:
-                out.append(pair.decode("cp932"))
             i += 2
         else:
             out.append(raw[i:i + 1].decode("cp932"))

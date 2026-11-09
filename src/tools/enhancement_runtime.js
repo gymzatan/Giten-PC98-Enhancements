@@ -75,9 +75,24 @@
   }
 
   function enhancementRecord(data, plan, grammar) {
-    const parts = enhancementAtoms(data, grammar);
-    if (enhancementMatch(parts, plan.after)) return data;
+    let parts = null;
+    try { parts = enhancementAtoms(data, grammar); } catch (e) { if (!(e instanceof PatchError)) throw e; }
+    if (parts && enhancementMatch(parts, plan.after)) return data;
     if (plan.guard) throw new PatchError('Required Fixes instruction is missing or modified.');
+    // a record of the translation's own that does not parse: the commands its patch overwrote go back in place
+    // first (tools/layoutrepair.py), each span holding exactly the translation's bytes
+    if (plan.repair && !(parts && enhancementMatch(parts, plan.before))) {
+      const fixed = data.slice();
+      for (const [offset, oldHex, newHex] of plan.repair) {
+        const old = hex(oldHex);
+        if (!same(fixed.subarray(offset, offset + old.length), old))
+          throw new PatchError('The translation\'s record differs from the one this patch repairs.');
+        fixed.set(hex(newHex), offset);
+      }
+      data = fixed;
+      parts = enhancementAtoms(data, grammar);
+    }
+    if (!parts) throw new PatchError('The record does not parse.');
     // the record as the input game has it, or as an earlier release of this patch left it (tools/reduxolder.py):
     // each has its own recipe to this patch's record
     const step = enhancementMatch(parts, plan.before) ? plan :
@@ -92,9 +107,11 @@
     step.after.forEach((a, i) => {
       if (a[0] === 'T') return;
       for (const [local, target] of a[1]) {
-        if (target[0] === 'raw') throw new PatchError('Patched script has an invalid branch.');
         const field = offsets[i] + local;
-        put16(out, field, (offsets[target[0]] + target[1] - field - 2) & 65535);
+        // a branch of the game's own into no part of the record (MS0031 has several): its operand as the build
+        // left it
+        if (target[0] === 'raw') put16(out, field, target[1]);
+        else put16(out, field, (offsets[target[0]] + target[1] - field - 2) & 65535);
       }
     });
     if (!enhancementMatch(enhancementAtoms(out, grammar), plan.after))
@@ -211,7 +228,10 @@
     return encrypt(plain, word);
   }
 
-  function structuralEnhance(fs, plan, kind, say) {
+  // t: one translation of the page (tools/mkenhancements.py payload): {key, name, lang, plan}
+  function structuralEnhance(fs, t, kind, say) {
+    const plan = t.plan;
+    say(`Image: ${t.name}.`);
     const hash = sha1hex(fs.read(`${DIR}/DDS98.EXE`));
     const state = Object.keys(plan.exe).find(k => plan.exe[k].includes(hash));
     if (kind === 'fixes' && state === 'rebalance') throw new PatchError('This image already has Rebalance. Fixes cannot downgrade it.');
@@ -229,22 +249,24 @@
       catch (e) { throw new PatchError(name + ': ' + e.message + ' No output was created.'); }
     }
     translate(fs, {files, drop:[], autoexec:null}, say);
-    say('Applied checked record and field edits. Existing English text, saves and DOS boot files are preserved.');
+    say('Applied checked record and field edits. The translation\'s text, saves and DOS boot files are preserved.');
   }
 
-  // The add-ons (tools/addons.py) on a Japanese or English image, with or without the other patches. The image's
-  // language is what DDS98.EXE says: every byte the English translation changes there (a.lang) holds either all of
-  // the Japanese game's values or all of the translation's; no other patch writes them. The question goes in that
-  // language. A Chinese image keeps its add-ons on its own Chinese patch page.
+  // The add-ons (tools/addons.py) on a Japanese or translated image, with or without the other patches. The image's
+  // language is what DDS98.EXE says: every byte a translation changes there (a.translations[].runs) holds either all
+  // of the Japanese game's values or all of that translation's; no other patch writes them. The question goes in
+  // that language. A Chinese image keeps its add-ons on its own Chinese patch page. -> {lang, name}
   function addonLanguage(fs, a) {
     if (fs.find(`${DIR}/CNFONT.DAT`) !== null)
       throw new PatchError('This image has the Chinese translation. Add or remove its add-ons with the Chinese patch page. No output was created.');
     const exe = fs.read(`${DIR}/DDS98.EXE`);
     if (exe === null) throw new PatchError('DDS98\\DDS98.EXE was not found. Select a Giten game image.');
-    const all = lang => a.lang.every(r => same(exe.subarray(r.at, r.at + r[lang].length), r[lang]));
-    if (all('en')) return 'en';
-    if (all('jp')) return 'jp';
-    throw new PatchError('DDS98.EXE is neither the Japanese game nor the tested English translation. No output was created.');
+    const reads = (runs, side) => runs.every(r => same(exe.subarray(r.at, r.at + r[side].length), r[side]));
+    const own = a.translations.find(t => reads(t.runs, 'own'));
+    if (own) return {lang: own.lang, name: own.name};
+    if (a.translations.every(t => reads(t.runs, 'jp'))) return {lang: 'jp', name: 'the Japanese game'};
+    throw new PatchError('DDS98.EXE is neither the Japanese game nor a supported translation (' +
+                         a.translations.map(t => t.name).join(', ') + '). No output was created.');
   }
 
   function addonsFor(a, lang) {
@@ -303,30 +325,31 @@
     return [openHdi(out), k];
   }
 
-  // What the add-on page shows for a chosen image: {lang: 'jp' | 'en', addons: {target, pad}}.
+  // What the add-on page shows for a chosen image: {lang: 'jp' | 'en' | 'es', name, addons: {target, pad}}.
   function addonInspect(bytes, p) {
     const img = opened(bytes);
     const fs = new Fat(img.disk, img.part);
-    const lang = addonLanguage(fs, p.addons);
-    try { return {lang, addons: addonState(fs, addonsFor(p.addons, lang))}; }
+    const {lang, name} = addonLanguage(fs, p.addons);
+    try { return {lang, name, addons: addonState(fs, addonsFor(p.addons, lang))}; }
     catch (e) { if (e instanceof PatchError) throw new PatchError(e.message + '. No output was created.'); throw e; }
   }
+
+  const LANGUAGES = {jp: 'Japanese', en: 'English', es: 'Spanish'};
 
   // Each add-on in or out as want ({target, pad}: true in, false out) says: a new array, the given one left alone.
   // With nothing to change it refuses.
   function addonEnhance(bytes, p, say, want) {
-    if (!p.addons || !p.addons.lang) throw new PatchError('This page has no add-on payload.');
+    if (!p.addons || !p.addons.translations) throw new PatchError('This page has no add-on payload.');
     let img = opened(bytes);
     let fs = new Fat(img.disk, img.part);
-    const lang = addonLanguage(fs, p.addons);
+    const {lang, name} = addonLanguage(fs, p.addons);
     const a = addonsFor(p.addons, lang);
     let have;
     try { have = addonState(fs, a); }
     catch (e) { if (e instanceof PatchError) throw new PatchError(e.message + '. No output was created.'); throw e; }
     if (!want || !ADDONS.some(n => n in want && want[n] !== have[n]))
       throw new PatchError('This image already has the add-ons as ticked. Nothing to change.');
-    say(lang === 'en' ? 'English translation detected; the target question is in English.' :
-        'Japanese game detected; the target question is in Japanese.');
+    say(`Image: ${name}; the target question is in ${LANGUAGES[lang]}.`);
     const more = addonShortfall(fs, a, want, have);
     if (more) {
       const [grown, k] = addonGrow(img, more);

@@ -135,13 +135,22 @@ class Wording:
         return [(at, a, b)], b""
 
 
-def by_file(charmap=None, english=False):
+# the line's wording in the translations the English pages take (tools/redux_translations.py), the same number
+# of bytes: the tested English "<party> gained N EXP." drops the party; delacannon's "<leader> etc N EXP gained"
+# (dict3[19]) keeps it, the pad after the line giving the room
+TRANSLATED = {"sneikkimies": (b"\x04\x19 gained ", b"Each gets "),
+              "delacannon-en": (b" EXP gained \x1f\x57", b" EXP each".ljust(14)),
+              "delacannon-es": (b" EXP ganados\x1f\x57", b" EXP cada uno ")}
+
+
+def by_file(charmap=None, translation=None):
     """The script edits. The Chinese wording is encoded with the build's charmap, so it is known only
-    to a build; without one only the Japanese original's can be found."""
+    to a build; without one only the Japanese original's can be found, or with `translation` that
+    translation's (TRANSLATED)."""
     forms = [("の経験を積".encode("cp932") + b"\x08\x5f",           # dict7[95]「んだ」
               "ずつ獲得した".encode("cp932"))]
-    if english:
-        forms = [(b"\x04\x19 gained ", b"Each gets ")]
+    if translation:
+        forms = [TRANSLATED[translation]]
     if charmap is not None:
         from textbuild import encode_plain
         forms.append((encode_plain("获得了", charmap), encode_plain("各获得", charmap)))

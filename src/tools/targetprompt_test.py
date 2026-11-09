@@ -37,12 +37,13 @@ WORK = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 import ddsfile  # noqa: E402
 import targetprompt as tp  # noqa: E402
+from cnmap import CharMap  # noqa: E402
 from fat12 import open_hdi  # noqa: E402
 from fat12w import Fat12W  # noqa: E402
 from mz import MZ, overlays  # noqa: E402
 
 SRC = os.path.join(WORK, "files", "DDS98")
-JP = os.path.join(WORK, "inputs", "Japanese.hdi")
+JP = os.path.join(os.path.dirname(WORK), "Giten Megami Tensei - Tokyo Mokushiroku.hdi")
 LOAD = 0x1000
 DS = LOAD + 0x48FC                      # DGROUP
 SEG358 = LOAD + tp.SEG
@@ -192,14 +193,19 @@ def entry_checks(fixed):
 def message_checks():
     print("== MS00D9.BIN")
     check(not os.path.exists(os.path.join(SRC, tp.MSG_FILE)), "原版没有这个文件")
-    for label, charmap, english in (("日文", None, False), ("英文", None, True)):
-        parsed = ddsfile.parse(tp.message_file(charmap, english))
+    cm = CharMap((), os.path.join(WORK, "text", "cnmap.json"))
+    for label, charmap, translation in (("中文", cm, None), ("日文", None, None), ("英文", None, "sneikkimies"),
+                                        ("delacannon 英文", None, "delacannon-en"),
+                                        ("delacannon 西班牙文", None, "delacannon-es")):
+        parsed = ddsfile.parse(tp.message_file(charmap, translation))
         ok = (len(parsed) == 1 and len(parsed[0]) == 1 and parsed[0][0].rid == tp.RECORD
-              and parsed[0][0].cond is None and parsed[0][0].payload == tp.payload(charmap, english)
+              and parsed[0][0].cond is None and parsed[0][0].payload == tp.payload(charmap, translation)
               and parsed[0][0].payload.endswith(b"\x0a\x00"))
         check(ok, f"{label}：一个块，记录 0 是问话加换行")
-    check(tp.payload(None, True) == b"Use on whom?\n\x00" and
-          tp.payload(None, False) == "誰に使いますか？\n".encode("cp932") + b"\x00", "日文、英文的问话")
+    check(tp.payload(None, "delacannon-es") == b"\xbfSobre qui\xc9n?\x0a\x00", "西班牙文问话用 delacannon 字体的 ¿ 和 é")
+    check(not cm.dirty, "中文问话的字都已在字符映射里")
+    check(tp.payload(None, "sneikkimies") == tp.payload(None, "delacannon-en") == b"Use on whom?\n\x00" and
+          tp.payload(None) == "誰に使いますか？\n".encode("cp932") + b"\x00", "日文、英文的问话")
 
 
 def image_checks():

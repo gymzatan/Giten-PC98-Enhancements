@@ -75,6 +75,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from asm86 import assemble  # noqa: E402
 from tables import ITEM_HEADER, chunks_bytes, chunks_of, string_table  # noqa: E402
+import redux_translations  # noqa: E402
 
 SRC = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "files", "DDS98")
 NAME = "月相加速"
@@ -233,13 +234,31 @@ def exe_state(blob):
     raise MoonFixError(f"{EXE} 的月相改动既不是原版、当前版，也不是已发布的宝箱计时版")
 
 
-def desc_forms(charmap=None, english=False):
+# the description in the translations the English pages take (tools/redux_translations.py), the same number of
+# bytes. delacannon's tool wrote its short text over the end of the Japanese one, so the field shows 77 bytes
+# of Japanese, a stray lead byte and then "egates certain penalties." / "nula ciertas penalizaciones.": the whole
+# field is rewritten.
+_DELACANNON_HEAD = bytes.fromhex(
+    "8c8e82aa95cf89bb82b782e982dc82c581418370815b83658342815b82c991ce82b782e9a2946a96828c8b8a45a382cc835f8381"
+    "815b83578b7982d1a291ae90ab835f8393835783")
+TRANSLATED = {
+    "sneikkimies": (b"Negates all environment damage until the next full moon.",
+                 b"Negates environment damage for up to 3000 game minutes. "),
+    "delacannon-en": (_DELACANNON_HEAD + b"Negates certain penalties.      ",
+                      b"Negates environment damage for up to 3000 game minutes.".ljust(104)),
+    "delacannon-es": (_DELACANNON_HEAD + b"Anula ciertas penalizaciones.   ",
+                      redux_translations.encode("delacannon-es", "Anula el daño del entorno hasta 3000 minutos "
+                                                                 "de juego.").ljust(104)),
+}
+
+
+def desc_forms(charmap=None, translation=None):
     """(original, new) bytes of the head of コアシールド's description, one pair per version: the Japanese
-    original's always, this build's when its charmap is given - the Chinese is known only to a build."""
+    original's always, this build's when its charmap is given - the Chinese is known only to a build - or with
+    `translation` that translation's (TRANSLATED)."""
     forms = [tuple(t.encode("cp932") for t in DESC_JP)]
-    if english:
-        forms = [(b"Negates all environment damage until the next full moon.",
-                  b"Negates environment damage for up to 3000 game minutes. ")]
+    if translation:
+        forms = [TRANSLATED[translation]]
     if charmap is not None:
         from textbuild import encode_plain
         forms.append(tuple(encode_plain(t, charmap) for t in DESC_CN))

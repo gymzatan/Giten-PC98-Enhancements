@@ -23,7 +23,8 @@ for. The Japanese original has exactly the same gaps.
 text/talkgaps.json lists the lines the build adds: `file`, `chunk`, `record` (hex), `zh`, and `click`
 (default true: the record ends with a click wait, as every line of its kind does; false writes the text
 alone, for a question the menu follows straight away). `where` says where it is asked and `model` which
-line of another file it follows. Each line goes into the file of the pack that asks for it and belongs
+line of another file it follows. `jp`, `en` and `es` are the line for the Japanese game and for the
+translations the English pages take (tools/redux_translations.py: each translation's `talk` key). Each line goes into the file of the pack that asks for it and belongs
 to it alone - the demon's ID file, or the talk type's own MS60xx/MS61xx file - so no other demon's
 negotiation changes. The record is added to the chunk as a new record; the build fails if the file
 already has one with that id.
@@ -259,11 +260,13 @@ def audit(game, entries=((0xE0, 0x00),)):
 
 def main(argv):
     from buildcore import JapaneseText
-    key = "en" if "--english" in argv else "jp"
+    import redux_translations
+    key = argv[argv.index("--translation") + 1] if "--translation" in argv else None
+    text_key = redux_translations.TRANSLATIONS[key]["talk"] if key else "jp"
     lines = load()
-    bad = problems(JapaneseText(), None, lines, key)
+    bad = problems(redux_translations.Text(key) if key else JapaneseText(), None, lines, text_key)
     for row in lines:
-        print(f"{row['file']} {row['chunk']:02X}:{row['record']:02X} {row[key]}")
+        print(f"{row['file']} {row['chunk']:02X}:{row['record']:02X} {row[text_key]}")
     for where, problem in bad:
         print(where, problem)
     return bool(bad)

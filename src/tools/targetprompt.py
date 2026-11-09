@@ -60,7 +60,7 @@ GO = CAVE + 0x29                        # 4145: on to 5236
 FLAG = 0x415E                           # 358E:415E
 UNIT = 0x5236                           # 358E:5236, the member's unit
 SHOW = 0x88DC                           # 25CA:88DC
-TEXTS = {"zh": "对谁使用？", "jp": "誰に使いますか？", "en": "Use on whom?"}
+TEXTS = {"zh": "对谁使用？", "jp": "誰に使いますか？", "en": "Use on whom?", "es": "¿Sobre quién?"}
 CHARS = set(TEXTS["zh"])
 
 CAVE_ORIG = bytes.fromhex(
@@ -155,21 +155,23 @@ def apply_to(blob, revert=False):
     return bytes(out)
 
 
-def payload(charmap=None, english=False):
+def payload(charmap=None, translation=None):
     """Record 0: the question and a line end. charmap: a Chinese build's; None for the game's own encoding (the
-    Japanese text, or the English with english)."""
-    if english:
-        return TEXTS["en"].encode("ascii") + b"\x0a\x00"
+    Japanese text, or with `translation` its language's in its encoding: tools/redux_translations.py)."""
+    if translation:
+        import redux_translations
+        lang = redux_translations.TRANSLATIONS[translation]["lang"]
+        return redux_translations.encode(translation, TEXTS[lang]) + b"\x0a\x00"
     if charmap is None:
         return TEXTS["jp"].encode("cp932") + b"\x0a\x00"
     from textbuild import encode_unit
     return encode_unit(TEXTS["zh"] + "\n", charmap) + b"\x00"
 
 
-def message_file(charmap=None, english=False):
+def message_file(charmap=None, translation=None):
     """MS00D9.BIN: one chunk holding record 0."""
     import ddsfile
-    return ddsfile.build([[ddsfile.Record(RECORD, None, payload(charmap, english))]])
+    return ddsfile.build([[ddsfile.Record(RECORD, None, payload(charmap, translation))]])
 
 
 # ---- on an image's files (tools/addons.py): the program's sites and the message file, in or out together

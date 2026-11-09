@@ -4,13 +4,13 @@ The code is MIT licensed. Inputs and generated game-derived data are excluded. S
 
 | Area | Modules |
 | --- | --- |
-| Shared build | `buildcore`, `nativebuild`, `english_enhancements`, `mkenhancements`, `webpayload` |
+| Shared build | `buildcore`, `nativebuild`, `english_enhancements`, `mkenhancements`, `webpayload`, `redux_translations`, `layoutrepair`, `delacannoncompat` |
 | Disk and executable formats | `fat12`, `fat12w`, `gameimage`, `mz`, `mzinfo`, `ddscrypt` |
 | Scripts | `ddsfile`, `ddsvm`, `ddsgrammar`, `ddstext`, `units`, `textbuild`, `checkvm`, `ddsdis` |
 | Game fixes | `exekeys`, `bagexpand`, `exefix`, `storyfix`, `checkfix`, `statfix`, `skillfix`, `expshow`, `expgap`, `ctxfree`, `vmswap`, `moonfast`, `holds`, `talkwait`, `talkgaps` |
 | Graphics and palette repairs | `battlefield`, `worldbackdrop`, `nospace`, `slotorder`, `mapdoors` |
 | Numeric edits and redesign | `records`, `p2fields`, `etfields`, `balance`, `poolfix`, `rebalance` |
-| Artwork | `fcimage`, `fcencode`, `fcfit`, `gfx`, `winbmps`, `wintex`, `windoor`, `winfit`, `winrooms`, `winshare`, `winhud`, `mkwinpatch`, `winpatch`, `winsource`, `winresult`, `artbuild` |
+| Artwork | `fcimage`, `fcencode`, `fcfit`, `gfx`, `winbmps`, `wintex`, `windoor`, `winfit`, `winrooms`, `winshare`, `winhud`, `mkwinpatch`, `winpatch`, `winsource`, `winresult`, `artbuild`, `redux_art` |
 | Editors | `demoned`, `gamedata`, `prepare_editor`, `fcedit`, `build_editor` |
 | Assembly and analysis | `asm16`, `asm86`, `rmtest`, `int86scan`, `vmscan`, `mkgrammar`, `fileref`, `msdump`, `modmap` |
 | Web runtime | `webpatch.js`, `enhancement_runtime.js`, English message map and `webpatch_run.js` |

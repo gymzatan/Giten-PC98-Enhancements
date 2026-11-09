@@ -2,25 +2,25 @@
 """enaddons_test.py - the English add-on page (dist/English/Giten Add-ons (EN)/Apply Add-ons.html, tools/mkenhancements.py)
 run under Node the way the page runs it (tools/webpatch_run.js), against tools/addons.py on the same images.
 
-  * the language bytes (mkenhancements.language_runs): no Fixes, Rebalance, artwork or target-prompt byte, Japanese or
-    English, falls in them;
-  * on eight images - the Japanese reference HDI and the tested English one, each as it is, with Fixes, with Fixes and
-    Rebalance, and with those and Windows Artwork, all made by the shipped English pages: the page reads the right
-    language and no add-on; both add-ons in give the image tools/addons.py gives, byte for byte (the disk grown by
-    tools/hdigrow.py when, and only when, it has fewer free clusters than the files take: the English disk with
-    Fixes and the artwork has none), with the question in the image's language; the page then reads both; the
-    target prompt out, then the gamepad out, each as tools/addons.py does, end with the image's every file as
-    before; the same ticks again are refused;
+  * the language bytes of every translation (mkenhancements.language_runs, tools/redux_translations.py): no Fixes,
+    Rebalance, artwork or target-prompt byte, on the Japanese game or a translation, falls in them;
+  * on sixteen images - the Japanese reference HDI and each translation's reference image, each as it is, with
+    Fixes, with Fixes and Rebalance, and with those and Windows Artwork, all made by the shipped English pages: the
+    page reads the right language and no add-on; both add-ons in give the image tools/addons.py gives, byte for
+    byte (the disk grown by tools/hdigrow.py when, and only when, it has fewer free clusters than the files take:
+    Sneikkimies' English disk with Fixes and the artwork has none), with the question in the image's language; the
+    page then reads both; the target prompt out, then the gamepad out, each as tools/addons.py does, end with the
+    image's every file as before; the same ticks again are refused;
   * the order with the other pages: Fixes refuses an image with the target prompt, and Rebalance a Fixes image with
-    it, each saying the add-on is why; Fixes over the gamepad alone keeps DDS98.COM and gives the Fixes files; Windows Artwork before or after both
-    add-ons gives the same files (the Japanese game with Fixes, the English game without; on the English Fixes disk
-    the artwork after the add-ons is two clusters short and refuses);
-  * refused, with no output: a Chinese image, an English DDS98.EXE with one run of the language bytes put back to
-    the Japanese, a DDS98.COM that is not the add-on's, MS00D9.BIN without the program's sites;
+    it, each saying the add-on is why; Fixes over the gamepad alone keeps DDS98.COM and gives the Fixes files;
+    Windows Artwork before or after both add-ons gives the same files (with Fixes, except on Sneikkimies' English
+    disk, where the artwork after the add-ons is two clusters short and refuses: there without Fixes);
+  * refused, with no output: a Chinese image, a translation's DDS98.EXE with one run of its language bytes put back
+    to the Japanese, a DDS98.COM that is not the add-on's, MS00D9.BIN without the program's sites;
   * the gamepad's hooks are recognised in every image's DDS98.EXE (tools/gamepad_test.py --exe);
   * the input images are unchanged.
 
-    enaddons_test.py [--japanese HDI] [--english HDI]
+    enaddons_test.py [--japanese HDI] [--chinese HDI]
 """
 import argparse
 import hashlib
@@ -38,13 +38,19 @@ import ddsfile  # noqa: E402
 import hdigrow  # noqa: E402
 import mkenhancements as build  # noqa: E402
 import nospace  # noqa: E402
+import redux_translations  # noqa: E402
 import slotorder  # noqa: E402
 import targetprompt  # noqa: E402
 from fat12 import open_hdi  # noqa: E402
 from fat12w import Fat12W  # noqa: E402
 
-JP = WORK / "inputs" / "Japanese.hdi"
-EN = build.STAGE / "english-translation-test" / "English.hdi"
+JP = WORK / "Giten Megami Tensei (PC-9801)_Dumped by PepsimanGB" / "Pre-Made Hard Disk and Boot Floppy" / "Giten Megami Tensei HD.hdi"
+CN = WORK / "build" / "Giten_CN.hdi"
+TR = redux_translations.TRANSLATIONS
+# the images' labels: the Japanese game (no translation) and each translation
+BASES = {"jp": None, "en": "sneikkimies", "den": "delacannon-en", "des": "delacannon-es"}
+# the bases whose Fixes disk has too few clusters for the artwork once the add-ons are in
+SHORT = {"en"}
 OUT = build.STAGE / "verification-addons"
 BOTH = {"target": True, "pad": True}
 fails = 0
@@ -94,9 +100,10 @@ def inspect(src):
     return r["inspect"] if r["ok"] else r
 
 
-def python_addons(src, want, english):
-    """tools/addons.py on src, the disk grown first (tools/hdigrow.py) when the change does not fit."""
-    payload = addons.files(None, english)
+def python_addons(src, want, key):
+    """tools/addons.py on src (a translation key's image, or None: the Japanese game's), the disk grown first
+    (tools/hdigrow.py) when the change does not fit."""
+    payload = addons.files(None, key)
     raw = bytearray(Path(src).read_bytes())
     v = hdigrow.volume(raw)
     disk = raw[v["hdr"]:]
@@ -124,43 +131,47 @@ def variant(src, label, edit):
 def language_checks():
     print("== 语言字节")
     lang = set()
-    for at, jp, _en in build.language_runs():
-        lang |= set(range(at, at + len(jp) // 2))
+    for key in TR:
+        for at, jp, _tr in build.language_runs(key):
+            lang |= set(range(at, at + len(jp) // 2))
     rd = lambda p: p.read_bytes()  # noqa: E731
     jp = rd(WORK / "files" / "DDS98" / "DDS98.EXE")
-    en = rd(build.STAGE / "english-adaptation" / "source" / "DDS98.EXE")
+    bases = {"日文": jp}
     forms = {"日文 Fixes": (jp, rd(build.STAGE / "fixed" / "DDS98.EXE")),
-             "日文 Rebalance": (jp, rd(build.STAGE / "rebalance" / "DDS98.EXE")),
-             "英文 Fixes": (en, rd(build.STAGE / "english-adaptation" / "fixed" / "DDS98.EXE")),
-             "英文 Rebalance": (en, rd(build.STAGE / "english-adaptation" / "rebalance" / "DDS98.EXE"))}
-    for base in (jp, en):
-        forms[f"{'英文' if base is en else '日文'} 美术"] = (base, slotorder.apply_to(nospace.apply_to(base)))
-        forms[f"{'英文' if base is en else '日文'} 选择对象时暂停"] = (base, targetprompt.apply_to(base))
+             "日文 Rebalance": (jp, rd(build.STAGE / "rebalance" / "DDS98.EXE"))}
+    for key, t in TR.items():
+        bases[key] = rd(t["stage"] / "source" / "DDS98.EXE")
+        forms[f"{key} Fixes"] = (bases[key], rd(t["stage"] / "fixed" / "DDS98.EXE"))
+        forms[f"{key} Rebalance"] = (bases[key], rd(t["stage"] / "rebalance" / "DDS98.EXE"))
+    for label, base in bases.items():
+        forms[f"{label} 美术"] = (base, slotorder.apply_to(nospace.apply_to(base)))
+        forms[f"{label} 选择对象时暂停"] = (base, targetprompt.apply_to(base))
     for label, (base, made) in forms.items():
         hit = [i for i in lang if made[i] != base[i]]
         check(not hit, f"{label}不写语言字节（共 {len(lang)} 字节）")
 
 
-def image_checks(name, img, english):
+def image_checks(name, img, key):
     print(f"== {name}")
     before = content(img)
     got = inspect(img)
-    check(got == {"lang": "en" if english else "jp", "addons": {"target": False, "pad": False}}, f"读出 {got}")
+    want = ({"lang": TR[key]["lang"], "name": TR[key]["name"]} if key else {"lang": "jp", "name": "the Japanese game"})
+    check(got == {**want, "addons": {"target": False, "pad": False}}, f"读出 {got}")
     both = page("addons", img, f"{name}_both", BOTH)
-    check(both.read_bytes() == python_addons(img, BOTH, english), "两项都加：和 tools/addons.py 逐字节相同")
+    check(both.read_bytes() == python_addons(img, BOTH, key), "两项都加：和 tools/addons.py 逐字节相同")
     grown = both.stat().st_size - img.stat().st_size
     _r, hdr, disk, part = open_hdi(str(img))
     free = len(Fat12W(disk, part).free_clusters())
     check((grown > 0) == (free < 2), f"空簇 {free}：{'加大了 ' + str(grown) + ' 字节' if grown else '没有加大'}")
     files = content(both)
     msg = ddsfile.parse(files["DDS98/" + targetprompt.MSG_FILE])
-    check(msg[0][0].payload == targetprompt.payload(None, english), f"问话：{msg[0][0].payload!r}")
+    check(msg[0][0].payload == targetprompt.payload(None, key), f"问话：{msg[0][0].payload!r}")
     check(inspect(both)["addons"] == BOTH, "加上之后读出两项都在")
     no_target = page("addons", both, f"{name}_pad", {"target": False})
-    check(no_target.read_bytes() == python_addons(both, {"target": False}, english), "去掉选择对象时暂停：和 tools/addons.py 相同")
+    check(no_target.read_bytes() == python_addons(both, {"target": False}, key), "去掉选择对象时暂停：和 tools/addons.py 相同")
     check(inspect(no_target)["addons"] == {"target": False, "pad": True}, "读出只剩手柄操作")
     none = page("addons", no_target, f"{name}_none", {"pad": False})
-    check(none.read_bytes() == python_addons(no_target, {"pad": False}, english), "再去掉手柄操作：和 tools/addons.py 相同")
+    check(none.read_bytes() == python_addons(no_target, {"pad": False}, key), "再去掉手柄操作：和 tools/addons.py 相同")
     check(content(none) == before, "两项都去掉后每个文件都和原来一样")
     page("addons", both, f"{name}_again", BOTH, refuse=True)
     return both
@@ -169,23 +180,26 @@ def image_checks(name, img, english):
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--japanese", type=Path, default=JP)
-    ap.add_argument("--english", type=Path, default=EN)
+    ap.add_argument("--chinese", type=Path, default=CN)
     a = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
-    sums = {p: hashlib.sha256(p.read_bytes()).hexdigest() for p in (a.japanese, a.english)}
+    sources = {lang: (a.japanese if key is None else TR[key]["reference"]) for lang, key in BASES.items()}
+    sums = {p: hashlib.sha256(p.read_bytes()).hexdigest() for p in (*sources.values(), a.chinese)}
     language_checks()
 
-    images, withboth = {}, {}
-    for lang, src in (("jp", a.japanese), ("en", a.english)):
+    images, withboth, keys = {}, {}, {}
+    for lang, src in sources.items():
         images[lang] = src
         images[f"{lang}_fixed"] = page("fixes", src, f"{lang}_fixed")
         images[f"{lang}_rebalanced"] = page("rebalance", images[f"{lang}_fixed"], f"{lang}_rebalanced")
         images[f"{lang}_rebalanced_art"] = page("art", images[f"{lang}_rebalanced"], f"{lang}_rebalanced_art")
+        for name in (lang, f"{lang}_fixed", f"{lang}_rebalanced", f"{lang}_rebalanced_art"):
+            keys[name] = BASES[lang]
     for name, img in images.items():
-        withboth[name] = image_checks(name, img, name.startswith("en"))
+        withboth[name] = image_checks(name, img, keys[name])
 
     print("== 和其他补丁的先后")
-    for lang in ("jp", "en"):
+    for lang in BASES:
         for msg in (page("fixes", withboth[lang], f"{lang}_both_fixes", refuse=True),
                     page("rebalance", withboth[f"{lang}_fixed"], f"{lang}_fixed_both_rebalance", refuse=True)):
             check("target prompt add-on" in msg, "拒绝时说明是选择对象时暂停挡住了")
@@ -194,25 +208,30 @@ def main():
         want = {**content(images[f"{lang}_fixed"]), "DDS98/" + addons.FILES["pad"]: addons.files()["pad"]}
         check(content(fixed_pad) == want, f"{lang}：手柄操作之后打 Fixes，文件和 Fixes 加 DDS98.COM 相同")
         art_before = page("addons", page("art", images[f"{lang}_fixed"], f"{lang}_fixed_art"), f"{lang}_fixed_art_both", BOTH)
-        if lang == "jp":
+        if lang not in SHORT:
             art_after = page("art", withboth[f"{lang}_fixed"], f"{lang}_fixed_both_art")
             check(content(art_after) == content(art_before), f"{lang}：Windows 美术在附加补丁之前、之后，文件相同")
         else:
-            # the English Fixes disk has two clusters too few for the artwork once the add-ons are in
+            # Sneikkimies' English Fixes disk has two clusters too few for the artwork once the add-ons are in
             page("art", withboth[f"{lang}_fixed"], f"{lang}_fixed_both_art", refuse=True)
             art_after = page("art", withboth[lang], f"{lang}_both_art")
             art_first = page("addons", page("art", images[lang], f"{lang}_art"), f"{lang}_art_both", BOTH)
             check(content(art_after) == content(art_first), f"{lang}（不打 Fixes）：Windows 美术在附加补丁之前、之后，文件相同")
 
     print("== 拒绝")
-    first = build.language_runs()[0]
+    page("addons", a.chinese, "chinese", BOTH, refuse=True)
+    check(not inspect(a.chinese).get("ok", True), "中文镜像：读取时就拒绝")
+    for lang, key in BASES.items():
+        if key is None:
+            continue
+        first = build.language_runs(key)[0]
 
-    def mixed(fs):
-        exe = bytearray(fs.read_chain(fs.find("DDS98/DDS98.EXE")["cluster"], fs.find("DDS98/DDS98.EXE")["size"]))
-        jp = bytes.fromhex(first[1])
-        exe[first[0]:first[0] + len(jp)] = jp
-        fs.replace("DDS98/DDS98.EXE", bytes(exe))
-    page("addons", variant(a.english, "mixed_input", mixed), "mixed", BOTH, refuse=True)
+        def mixed(fs, first=first):
+            exe = bytearray(fs.read_chain(fs.find("DDS98/DDS98.EXE")["cluster"], fs.find("DDS98/DDS98.EXE")["size"]))
+            jp = bytes.fromhex(first[1])
+            exe[first[0]:first[0] + len(jp)] = jp
+            fs.replace("DDS98/DDS98.EXE", bytes(exe))
+        page("addons", variant(sources[lang], f"{lang}_mixed_input", mixed), f"{lang}_mixed", BOTH, refuse=True)
     foreign = variant(a.japanese, "foreign_input", lambda fs: fs.create("DDS98", addons.FILES["pad"], b"\xb8\x00\x4c\xcd\x21"))
     page("addons", foreign, "foreign", {"target": True}, refuse=True)
     half = variant(a.japanese, "half_input", lambda fs: fs.create("DDS98", targetprompt.MSG_FILE,

@@ -366,14 +366,26 @@ class Line:
         return expshow.Wording.edits(self, payload, end)
 
 
-def by_file(charmap=None, english=False):
+VALUE = b"\x1f\x02\x4f\x00\x04"                                   # 4F0004, 经验值显示修复's reading
+# the translations the English pages take (tools/redux_translations.py), from 经验值显示修复's line
+# (tools/expshow.py TRANSLATED): the tested English "Each gets" -> "Hero gets"; delacannon's line names the
+# leader alone (dict3[1A], which its dict3[19] "<leader> etc" calls) and says the gain
+TRANSLATED = {"sneikkimies": (b"Each gets ", b"Hero gets "),
+              "delacannon-en": (b"\x04\x19" + VALUE + b" EXP each".ljust(14),
+                                b"\x04\x1a" + VALUE + b" EXP gained".ljust(14)),
+              "delacannon-es": (b"\x04\x19" + VALUE + b" EXP cada uno ",
+                                b"\x04\x1a" + VALUE + b" EXP ganados".ljust(14))}
+
+
+def by_file(charmap=None, translation=None):
     """The script edit, made on 经验值显示修复's record. The Chinese wording is encoded with the build's
-    charmap, so it is known only to a build; without one only the Japanese original's can be found."""
-    value = b"\x1f\x02\x4f\x00\x04"                                   # 4F0004, that fix's reading
+    charmap, so it is known only to a build; without one only the Japanese original's can be found, or
+    with `translation` that translation's (TRANSLATED)."""
+    value = VALUE
     forms = [(b"\x04\x19" + value + b"\x03\x0f" + "ずつ獲得した".encode("cp932"),   # 〈一行〉たちは X ＥＸＰ…
               "主人公は".encode("cp932") + value + b"\x03\x0f" + "獲得！".encode("cp932"))]
-    if english:
-        forms = [(b"Each gets ", b"Hero gets ")]
+    if translation:
+        forms = [TRANSLATED[translation]]
     if charmap is not None:
         from textbuild import encode_plain
         forms.append((b"\x04\x19" + encode_plain("各获得", charmap), encode_plain("主角获得", charmap)))

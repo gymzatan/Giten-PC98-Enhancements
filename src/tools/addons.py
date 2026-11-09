@@ -29,11 +29,11 @@ class AddonError(ValueError):
     pass
 
 
-def files(charmap=None, english=False):
-    """{add-on: its file's bytes}: the question for the build's charmap (None: the game's own encoding, the English
-    with english) and the launcher."""
+def files(charmap=None, translation=None):
+    """{add-on: its file's bytes}: the question for the build's charmap (None: the game's own encoding, or with
+    `translation` that translation's language: tools/redux_translations.py) and the launcher."""
     com, _labels = gamepad.build()
-    return {"target": targetprompt.message_file(charmap, english), "pad": com}
+    return {"target": targetprompt.message_file(charmap, translation), "pad": com}
 
 
 def state(fs, payload):

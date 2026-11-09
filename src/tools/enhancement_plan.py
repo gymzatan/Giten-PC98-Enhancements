@@ -116,7 +116,22 @@ def spans(a, b):
     return out
 
 
-def file_plan(name, before, after):
+def _repaired(name, ci, old, normalized):
+    """The record `old` as the build's normalized input has it, for a record of the translation's that does not
+    parse (tools/layoutrepair.py restores its commands in place): the normalized payload and the byte spans
+    from old to it."""
+    if normalized is None:
+        raise ValueError(f'{name}/{ci}/{old.rid:02X}: the record does not parse')
+    hits = [v for v in script(normalized)[0][ci] if (v.rid, v.cond) == (old.rid, old.cond)]
+    if len(hits) != 1 or len(hits[0].payload) != len(old.payload):
+        raise ValueError(f'{name}/{ci}/{old.rid:02X}: no repair of the same length for a record that does not parse')
+    return hits[0].payload, spans(old.payload, hits[0].payload)
+
+
+def file_plan(name, before, after, normalized=None):
+    """normalized: the file as the build's normalized input has it (tools/english_enhancements.py), for the
+    records of `before` that do not parse: their edit carries `repair`, the byte spans that make them the
+    normalized record, and the recipe starts from that."""
     if before is None:
         return dict(type='add', data=after.hex())
     if name.startswith(('MS', 'ID')) and name.endswith('.BIN'):
@@ -136,8 +151,12 @@ def file_plan(name, before, after):
                 elif len(matches) != 1:
                     raise ValueError(f'{name}/{ci}/{r.rid:02X}: ambiguous identity')
                 elif matches[0].payload != r.payload:
-                    edits.append(dict(chunk=ci, rid=r.rid, cond=r.cond,
-                                      **record_plan(matches[0].payload, r.payload)))
+                    try:
+                        plan = record_plan(matches[0].payload, r.payload)
+                    except ddsvm.ParseError:
+                        start, repair = _repaired(name, ci, matches[0], normalized)
+                        plan = dict(record_plan(start, r.payload), repair=repair)
+                    edits.append(dict(chunk=ci, rid=r.rid, cond=r.cond, **plan))
         return dict(type='script', records=edits, counts=count_edits)
     if name in ('ET0001.BIN', 'ET0004.BIN'):
         a, b = records.plain_of(before), records.plain_of(after)
@@ -196,18 +215,21 @@ def older_records(old_blobs, target, settled):
     return out
 
 
-def compile_plan(original, fixed, rebalanced, kind, exe_forms, older=None):
-    """The checked edits that make this build's `kind` output from the English input. `older` =
+def compile_plan(original, fixed, rebalanced, kind, exe_forms, older=None, normalized=None):
+    """The checked edits that make this build's `kind` output from a translation's input. `older` =
     {file: [[chunk, rid, cond, steps], ...]} (tools/redux_older.json en.records): each record an earlier release left
-    in another form gets the recipes from those forms ('older' on its edit), so such a disk is updated in place."""
+    in another form gets the recipes from those forms ('older' on its edit), so such a disk is updated in place.
+    `normalized`: the build's normalized input ({file: bytes}), for the input's records that do not parse
+    (file_plan)."""
+    normalized = normalized or {}
     before = original if kind == 'fixes' else {**original, **fixed}
     output = fixed if kind == 'fixes' else rebalanced
-    plans = {n: file_plan(n, before.get(n), data) for n, data in output.items()
+    plans = {n: file_plan(n, before.get(n), data, normalized.get(n)) for n, data in output.items()
              if data != before.get(n)}
     guards = {}
     if kind == 'rebalance':
         for n, data in fixed.items():
-            check = file_plan(n, original.get(n), data)
+            check = file_plan(n, original.get(n), data, normalized.get(n))
             change = plans.get(n)
             if n == 'DDS98.EXE':
                 continue
