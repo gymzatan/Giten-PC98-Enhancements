@@ -15,14 +15,14 @@ Node is needed only to run the browser patch under `webpatch_run.js`; the distri
 
 ## Inputs and directories
 
-The source contains no game image or artwork. Supply a clean Japanese PC-98 HDI, and the English BPS output if building the English payloads. Obtain the English translation separately from [Sneikkimies' translation release](https://www.romhacking.net/translations/7343/). Keep your original image unchanged.
+The source contains no game image or artwork. Supply a clean Japanese PC-98 HDI and, to build the pages' translation payloads, each translation's reference image (`tools/redux_translations.py`): Sneikkimies' English BPS output as `build/enhancements/english-translation-test/English.hdi` (the translation is a separate download from [Sneikkimies' translation release](https://www.romhacking.net/translations/7343/)), and delacannon's English and Spanish as `build/enhancements/delacannon/Delacannon_EN.hdi` and `Delacannon_ES.hdi`, made by [its page patcher](https://github.com/delacannon/giten-megami-tensei-tokyo-mokushiroku-i18n) (`src/components/patcher.ts`, commit `406c4dc`, version 2026.11.03) from the Japanese reference HDI. Each is checked by its SHA-256 (`text/english_compatibility.json`, `text/delacannon_compatibility.json`). Keep your original image unchanged.
 
 ```powershell
 python redux.py extract inputs\Japanese.hdi files
 python redux.py extract inputs\English.hdi files\English
 ```
 
-The main build expects `files/DDS98/`. These files supply checked executable bytes, numeric baselines and original graphics. The English reference is separately extracted and normalized by `english_enhancements.py`; do not replace the Japanese reference directory with it.
+The main build expects `files/DDS98/`. These files supply checked executable bytes, numeric baselines and original graphics. Each translation's reference is extracted and normalized by `english_enhancements.py` into its own stage directory; do not replace the Japanese reference directory with one.
 
 | Path relative to `src/` | Purpose |
 | --- | --- |
@@ -30,8 +30,9 @@ The main build expects `files/DDS98/`. These files supply checked executable byt
 | `run/holdflow.py`, `run/mk_holds.py` | Existing interpreter-flow analysis and pacing recipe generation |
 | `run/win_to_pc98.py` | Windows BMP catalogue, placement, matching and conversion decisions |
 | `text/holds.json` | Authored Japanese battle pacing recipe, using original token identities |
-| `text/talkgaps.json` | Authored Japanese/English missing negotiation prompts |
-| `text/english_compatibility.json` | Checked repairs for the exact English reference |
+| `text/talkgaps.json` | Authored Japanese/English/Spanish missing negotiation prompts |
+| `text/english_compatibility.json` | Checked repairs for Sneikkimies' exact English reference |
+| `text/delacannon_compatibility.json` | Command, span, branch and list-padding repairs for delacannon's references (`tools/delacannoncompat.py`) |
 | `text/artwork-recipe.json` | Frame selection and authored palette/placement decisions; no pixels |
 | `balance.json`, `balance_redesign.json` | Checked numeric adjustments for Fixes and Rebalance |
 | `build/`, `dist/`, `files/`, `inputs/` | Local inputs and generated outputs; never committed |
@@ -47,14 +48,14 @@ python redux.py build-files --src files/DDS98 --holds text/holds.json --output b
 
 `nativebuild.build()` calls the existing repair modules in `buildcore.repair_files()`. `rebalance_on=True` means the complete native Fixes + Rebalance output, not a patch applicable to an untouched image. `mkenhancements.py` computes the delta and prerequisite guards for the public Rebalance installer.
 
-For another *valid* native English script set, first generate pacing using its own token positions:
+For another *valid* translated script set, first generate pacing using its own token positions:
 
 ```powershell
-python run/mk_holds.py --english --src files/English/DDS98 --output build/english-holds.json
-python redux.py build-files --src files/English/DDS98 --holds build/english-holds.json --output build/english-fixed --english
+python run/mk_holds.py --translation sneikkimies --src files/English/DDS98 --output build/english-holds.json
+python redux.py build-files --src files/English/DDS98 --holds build/english-holds.json --output build/english-fixed --translation sneikkimies
 ```
 
-The tested translation has specific malformed counts/branches; its ordinary extraction cannot be passed straight to that command. Use `english_enhancements.build()` through the full package command below. Its exact build-reference hash is intentional; it is separate from the runtime installer's structural matching.
+The supported translations' references need repairs first (malformed counts and branches in Sneikkimies'; commands delacannon's patcher overwrote, restored by `tools/layoutrepair.py`), so their ordinary extraction cannot be passed straight to that command. Use `english_enhancements.build()` through the full package command below. Its exact build-reference hash is intentional; it is separate from the runtime installer's structural matching.
 
 ## Windows artwork
 
@@ -70,17 +71,17 @@ The batch helper re-fits pictures using the recorded palette decisions and the e
 
 ## Build the three offline installers
 
-With the Japanese files, verified English HDI and `build/winpatch.zip` prepared:
+With the Japanese files, the translations' reference images and `build/winpatch.zip` prepared:
 
 ```powershell
-python tools/mkenhancements.py --english-image inputs/English.hdi
+python tools/mkenhancements.py
 ```
 
-Outputs are the four individual ZIP packages plus `dist/Giten-Megami-Tensei-Redux.zip`, and editable installer folders under `dist/English/`. The complete ZIP includes all four standalone patch pages, shared documentation and a `START HERE.html` guide. The builder keeps its accepted filenames: `(EN)` refers to the interface/documentation language. Its input handling preserves Japanese or tested English game text.
+Outputs are the four individual ZIP packages plus `dist/Giten-Megami-Tensei-Redux.zip`, and editable installer folders under `dist/English/`. The complete ZIP includes all four standalone patch pages, shared documentation and a `START HERE.html` guide. The builder keeps its accepted filenames: `(EN)` refers to the interface/documentation language. Its input handling preserves the Japanese game's or a supported translation's text.
 
 `--pack-only` reuses already built payload directories after a documentation or interface edit. It does not validate or synthesize missing game inputs. `tools/webpatch.js` owns HDI/FAT operations; `tools/enhancement_runtime.js` applies the plans exported by `enhancement_plan.py`. `webpayload.py` packs the same manifest/blobs as the existing release.
 
-Disks made by earlier releases: `tools/redux_older.json` lists the file states the earlier releases left on the Japanese game and the tested English translation and, for the English scripts, the record recipes from those states to this build's records (instructions only; text is copied from the player's disk). `mkenhancements.py` adds them to the Fixes and Rebalance payloads, so those pages update such a disk in place. `python tools/reduxolder.py` generates the file from the maintainer's archive of the released pages and their outputs, which is not part of this repository. A build that changes the Fixes or Rebalance output of the affected records stops with a message: regenerate the file where the archive exists, or empty its lists to build without the update path.
+Disks made by earlier releases: `tools/redux_older.json` lists the file states the earlier releases left on the Japanese game and Sneikkimies' English translation and, for its scripts, the record recipes from those states to this build's records (instructions only; text is copied from the player's disk). `mkenhancements.py` adds them to the Fixes and Rebalance payloads, so those pages update such a disk in place. `python tools/reduxolder.py` generates the file from the maintainer's archive of the released pages and their outputs, which is not part of this repository. A build that changes the Fixes or Rebalance output of the affected records stops with a message: regenerate the file where the archive exists, or empty its lists to build without the update path.
 
 To rebuild only the complete ZIP after editing its guide, with the four already built ZIPs present:
 
