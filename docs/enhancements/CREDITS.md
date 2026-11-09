@@ -6,8 +6,10 @@
 
 **Reference disk preservation:** the PepsimanGB PC-9801 dump's pre-made hard disk and companion boot floppy were used to check input compatibility. That credit identifies the tested source; this release does not include or grant redistribution rights to the complete game, DOS boot media or emulator firmware.
 
-The 23 newly supplied negotiation prompts are enhancement-project additions, provided in Japanese and English. Existing translated dialogue remains the work of the translation project. EXP summary and Core Shield wording are adjusted where the enhancement changes what they describe.
+The 23 newly supplied negotiation prompts are enhancement-project additions, provided in Japanese, English and Spanish. Existing translated dialogue remains the work of the translation projects. EXP summary and Core Shield wording are adjusted where the enhancement changes what they describe.
 
 **English translation:** [Sneikkimies' ongoing translation project](https://github.com/sneikkimies/giten-translation), distributed separately through [Romhacking.net](https://www.romhacking.net/translations/7343/). Its tested BPS is identified by checksum in README.md. These enhancement packages do not distribute the translation BPS and do not claim authorship of its translated text.
+
+**English and Spanish translation:** [delacannon's translation](https://github.com/delacannon/giten-megami-tensei-tokyo-mokushiroku-i18n), patched in the browser on its own page. Its tested release is identified in README.md. These enhancement packages do not distribute it and do not claim authorship of its translated text; they restore the Japanese game's commands where its patcher overwrote them.
 
 All documentation needed to install and understand these patches is included in English. The input game's language and existing translation coverage are retained.

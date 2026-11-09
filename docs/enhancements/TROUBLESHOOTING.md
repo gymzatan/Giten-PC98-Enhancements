@@ -25,13 +25,13 @@ First confirm the unmodified game boots in the same emulator configuration. The 
 
 Use a PC-98 emulator configuration. A standard IBM-compatible DOS machine is not the target platform. Configure the emulator's hard-disk path to the final downloaded HDI; a newly saved file is not automatically mounted. The existing floppy's startup script launches the game without manually typing its executable name when mounted as intended.
 
-## Can I use an English-translated HDI?
+## Can I use a translated HDI?
 
-Yes, all four packages support the tested English BPS output identified in README.md. Apply that translation first, then Fixes and optionally Rebalance; Artwork can be applied independently or in either supported order. The original PepsimanGB HDI is Japanese until the translation BPS is applied.
+Yes, all four packages support the three translations identified in README.md: Sneikkimies' English BPS, and delacannon's English and Spanish (version 2026.11.03). Apply the translation first, then Fixes and optionally Rebalance; Artwork can be applied independently or in either supported order. The original PepsimanGB HDI is Japanese until a translation is applied.
 
 ## The patch reports unsupported files
 
-A required program, resource or instruction does not match an accepted state. For an English script conflict, the error identifies the file, chunk and record ID. Text-only changes can work, but changed event logic or executable code requires a compatibility update. If applying Rebalance, apply Fixes first and select that saved result. If Fixes or Rebalance names `DDS98.EXE` on a disk with the target prompt control component, untick the target prompt on `Apply Controls.html` first, apply Fixes or Rebalance, then tick it again. Keep a copy of the updated translation and report the exact conflict.
+A required program, resource or instruction does not match an accepted state. For a translated script conflict, the error identifies the file, chunk and record ID. Text-only changes can work, but changed event logic or executable code requires a compatibility update. If applying Rebalance, apply Fixes first and select that saved result. If Fixes or Rebalance names `DDS98.EXE` on a disk with the target prompt control component, untick the target prompt on `Apply Controls.html` first, apply Fixes or Rebalance, then tick it again. Keep a copy of the updated translation and report the exact conflict.
 
 If you installed custom balance changes, keep that customized image separately. These packages do not merge arbitrary modifications. Renaming a file does not bypass the checks.
 

@@ -1,8 +1,11 @@
 # Giten Megami Tensei Redux
 
-Four patch packages in one download: three enhancements and an optional keyboard/gamepad and target-pause package for **Giten Megami Tensei: Tokyo Mokushiroku on PC-98**, supporting the original Japanese game and the tested English fan translation. All patch interfaces and documentation are in English. The selected game's language is retained.
+Four patch packages in one download: three enhancements and an optional keyboard/gamepad and target-pause package for **Giten Megami Tensei: Tokyo Mokushiroku on PC-98**, supporting the original Japanese game and three fan translations: Sneikkimies' English, and delacannon's English and Spanish. All patch interfaces and documentation are in English. The selected game's language is retained.
 
-**English translation patch:** the English translation supported by Redux comes from [Sneikkimies](https://www.romhacking.net/community/8677/)' [Giten Megami Tensei translation release](https://www.romhacking.net/translations/7343/). It is distributed separately from the Redux enhancements.
+**Translation patches:** both are distributed separately from the Redux enhancements.
+
+- [Sneikkimies](https://www.romhacking.net/community/8677/)' [Giten Megami Tensei translation release](https://www.romhacking.net/translations/7343/) (English, a BPS patch).
+- [delacannon's English and Spanish translation](https://github.com/delacannon/giten-megami-tensei-tokyo-mokushiroku-i18n), version 2026.11.03 (patched in the browser on [its page](https://delacannon.github.io/giten-megami-tensei-tokyo-mokushiroku-i18n/), or offline from its release).
 
 ## Start here
 
@@ -12,7 +15,7 @@ Four patch packages in one download: three enhancements and an optional keyboard
 
 | Open | Select | Save |
 | --- | --- | --- |
-| `Apply Fixes.html` | Your Japanese game HDI, or the English-translated HDI | `Giten_Fixed.hdi` |
+| `Apply Fixes.html` | Your Japanese game HDI, or the translated HDI | `Giten_Fixed.hdi` |
 | `Apply Rebalance.html` | The `Giten_Fixed.hdi` just saved | `Giten_Rebalanced.hdi` |
 | `Apply Windows Artwork.html` | The `Giten_Rebalanced.hdi` just saved | `Giten_WIN.hdi` |
 
@@ -20,7 +23,7 @@ Four patch packages in one download: three enhancements and an optional keyboard
 
 **Optional control features:** open `Apply Controls.html` last, select the disk you play, click **Install Controls**, and save `Giten_Controls.hdi`. Use **Remove Controls** on the same page to remove the complete patch.
 
-For English play, apply Sneikkimies' translation **before** Redux. The translation remains a separate download. Use the PC-98 emulator and boot setup that runs your original copy; the PepsimanGB pre-made HDI needs its companion boot floppy. Restart and load an in-game save after changing patches.
+For translated play, apply the translation **before** Redux. The translation remains a separate download. Use the PC-98 emulator and boot setup that runs your original copy; the PepsimanGB pre-made HDI needs its companion boot floppy. Restart and load an in-game save after changing patches.
 
 ## Features
 
@@ -75,19 +78,19 @@ Rebalance requires **Fixes first**; Windows Artwork is optional. [Full Rebalance
 
 - **Play menus and battles with the keyboard or a controller:** arrow keys / D-pad jump between clickable options and targets; Enter / A confirms, Esc / B cancels, and Tab / X switches between the main view and command/party panels. The mouse still works.
 - **Movement and free pointer control:** the left stick walks or turns; LB/RB strafe. Hold Y with the stick, or Shift with the arrow keys, to move the pointer freely. W/A/S/D also walk on the world map.
-- **Pause while choosing a battle target:** neither side's action gauge advances while you choose an enemy or ally. The question uses the selected game's language: **“Use on whom?”** in English, **「誰に使いますか？」** in Japanese.
+- **Pause while choosing a battle target:** neither side's action gauge advances while you choose an enemy or ally. The question uses the selected game's language: **“Use on whom?”** in English, **“¿Sobre quién?”** in Spanish, **「誰に使いますか？」** in Japanese.
 - **One optional control patch:** keyboard/gamepad operation and the battle target prompt/pause are installed and removed together. The battle optimization is a necessary part of the controls. The Controls and complete ZIPs include `dosbox-x.conf` and an XInput `mapper-giten.map` for DOSBox-X, with the mapper already enabled. The configuration uses the supported disk's companion boot floppy; the setup guide also explains self-booting images and existing emulator configurations.
 
-Apply **Controls last**, after any other patches you want. It also works on the supported Japanese or tested English game without the other packages. Play the newly saved `Giten_Controls.hdi`. [Controls and setup](CONTROLS.md).
+Apply **Controls last**, after any other patches you want. It also works on the supported Japanese game or a supported translation without the other packages. Play the newly saved `Giten_Controls.hdi`. [Controls and setup](CONTROLS.md).
 
 ## Choose your patches
 
 | Patch | Open this file | Purpose | Prerequisite |
 | --- | --- | --- | --- |
-| Fixes | Apply Fixes.html | Gameplay repairs and quality-of-life improvements | Supported Japanese or tested English game HDI |
-| Windows Artwork | Apply Windows Artwork.html | Windows remake graphics adapted to the PC-98 engine | Supported Japanese or tested English game HDI; Fixes is optional |
+| Fixes | Apply Fixes.html | Gameplay repairs and quality-of-life improvements | Supported Japanese or translated game HDI |
+| Windows Artwork | Apply Windows Artwork.html | Windows remake graphics adapted to the PC-98 engine | Supported Japanese or translated game HDI; Fixes is optional |
 | Rebalance | Apply Rebalance.html | New combat formulas, growth, boss tuning and learning pools | An image already processed by Fixes |
-| Controls | Apply Controls.html | Keyboard/gamepad controls with the required battle target prompt and pause; installed/removed together | Supported Japanese or tested English game HDI; apply the other patches first |
+| Controls | Apply Controls.html | Keyboard/gamepad controls with the required battle target prompt and pause; installed/removed together | Supported Japanese or translated game HDI; apply the other patches first |
 
 For the original combat rules with repairs, use **Fixes**. For redesigned combat, use **Fixes → Rebalance**. Add **Windows Artwork** whenever desired. Artwork works before or after either gameplay patch. You can also use Artwork alone on the original game.
 
@@ -113,24 +116,40 @@ A disk patched by an earlier Redux release, from the first one (8 October 2026) 
 - **Windows Artwork and Controls:** earlier releases installed the same files as this one, so there is nothing to update.
 - **With Controls installed:** remove them on `Apply Controls.html` first, update, then install them again.
 
-The pages accept exactly the file states the earlier releases produced, on the Japanese game and on the tested English translation. English text is kept from your disk, as in a first installation.
+The pages accept exactly the file states the earlier releases produced, on the Japanese game and on Sneikkimies' English translation. English text is kept from your disk, as in a first installation. (delacannon's translation is new in this release.)
 
-## Japanese and English HDI compatibility
+## Japanese and translated HDI compatibility
 
-**The same four packages work with the supported Japanese HDI and the tested English-translated HDI.** `EN` identifies the English interface and documentation; these packages do not include the English translation itself.
+**The same four packages work with the supported Japanese HDI and the three supported translations.** `EN` identifies the English interface and documentation; these packages do not include any translation.
 
 | Starting game | Fixes | Windows Artwork | Rebalance | Controls |
 | --- | --- | --- | --- | --- |
 | Supported Japanese HDI | Supported | Supported, independently | Apply Fixes first | Supported; the target question is in Japanese |
-| Tested English fan-translated HDI | Supported; retains translated text | Supported, independently | Apply Fixes first | Supported; the target question is in English |
+| Sneikkimies' English HDI | Supported; retains translated text | Supported, independently | Apply Fixes first | Supported; the target question is in English |
+| delacannon's English HDI (2026.11.03) | Supported; retains translated text and repairs the translation's broken commands | Supported, independently; keeps the translation's English status labels and list headers | Apply Fixes first | Supported; the target question is in English |
+| delacannon's Spanish HDI (2026.11.03) | Supported; retains translated text and repairs the translation's broken commands | Supported, independently; keeps the translation's Spanish status labels and list headers | Apply Fixes first | Supported; the target question is in Spanish |
 
-For English play, first apply the [English translation BPS](https://www.romhacking.net/translations/7343/) to its required untouched Japanese HDI. Then apply these enhancements to that English result. Applying the translation BPS after enhancements fails its source checksum.
+First apply the translation to its required untouched Japanese HDI: [Sneikkimies' BPS](https://www.romhacking.net/translations/7343/), or [delacannon's patcher](https://delacannon.github.io/giten-megami-tensei-tokyo-mokushiroku-i18n/) (English or Español). Then apply these enhancements to that result. A translation applied after the enhancements fails its own source checks.
 
-English scripts are patched by chunk, record ID and checked instruction structure. Existing text is copied from your input, and branch offsets are recalculated when instructions are inserted. Dialogue length, line wrapping and additional unrelated records are not tied to whole-script checksums. Numerical edits address data records through their pointer tables. The specific repaired EXP wording, Core Shield description and newly supplied negotiation prompts are in English.
+Translated scripts are patched by chunk, record ID and checked instruction structure. Existing text is copied from your input, and branch offsets are recalculated when instructions are inserted. Dialogue length, line wrapping and additional unrelated records are not tied to whole-script checksums. Numerical edits address data records through their pointer tables. The specific repaired EXP wording, Core Shield description and newly supplied negotiation prompts are in the translation's language. The page tells the translations apart by their `DDS98.EXE`.
 
-### Future English translation updates
+### delacannon's translation: repaired commands
 
-Text edits that retain the relevant instruction structure can continue to work, including longer dialogue and newlines; these cases were tested. Unrelated records and complete printable replacements for the previously missing negotiation questions are retained. A change to a required opcode, event operand, branch destination or numeric field causes a precise conflict report and no output. The executable must still be one of the verified English program states. An update that changes executable code or affected event logic needs a new compatibility check; arbitrary future releases are not automatically certified.
+delacannon's patcher keeps every script record at its Japanese byte length and pads the text with a one-frame wait command. Its parser misreads the operands of some commands as dictionary words and writes their translation over them: jumps, conditions, menu entries, returns and name prints turn into letters (for example "DB", "Gun ", "Hay " or "ou!"), so events, menus and the staircase prompt run differently from the Japanese game. Fixes puts the Japanese commands back and keeps every byte of the translated text:
+
+- **311 commands (English) and 320 (Spanish) in 48 script files**, restored byte for byte from the Japanese game.
+- **Eleven English and twelve Spanish lines** where the damage reached a name print or the text itself: the cut-off name prints are completed, a stray Japanese conjunction and two leftover Japanese characters become padding, and a status line holding only a name gets its newline back.
+- **Four English and two Spanish jumps** that land at the start of a line: they now jump to the translation's own start of that line, instead of into the middle of a name. One English jump (`MS000E`) lands in the middle of a line whose word order the translation changed; it is left as the translation has it.
+- **Lists:** the wait command the translation pads with ends a list's line early, so a list built from such a line is drawn from half of it. In the Spanish game this breaks **Continue**: the save list is drawn over the screen and no save can be loaded. In the 21 English and 19 Spanish records that build a list (the save and load lists, a bar's drink menu, the debug menus), Fixes turns those waits into spaces, which keeps each line at its Japanese width.
+- **Core Shield's description,** which the translation left as Japanese text followed by "Negates certain penalties.", is written in full in the translation's language with the Fixes moon timer.
+
+The translation's own word choices, untranslated passages and the waits it puts at the end of battle messages are kept as they are.
+
+### Future translation updates
+
+For Sneikkimies' translation, text edits that retain the relevant instruction structure can continue to work, including longer dialogue and newlines; these cases were tested. Unrelated records and complete printable replacements for the previously missing negotiation questions are retained. A change to a required opcode, event operand, branch destination or numeric field causes a precise conflict report and no output. The executable must still be one of the verified program states. An update that changes executable code or affected event logic needs a new compatibility check; arbitrary future releases are not automatically certified.
+
+For delacannon's translation the pages take its 2026.11.03 release. Its text padding is part of each record's checked structure, so a later release with retranslated text, or with a new `DDS98.EXE`, is reported as a conflict until Redux is rebuilt for it.
 
 The Japanese path continues to check its accepted native file states. Artwork validates graphics and its executable patch sites independently. These checks protect other modifications from being overwritten.
 
@@ -142,15 +161,14 @@ The reference input is the PepsimanGB **Pre-Made Hard Disk and Boot Floppy** edi
 - SHA-256: `33ba81310d5cbf0e8459c5f09ea50360715591129a46f72c94e1b1ec0c49e77f`.
 - This particular HDI is the Japanese game, not an English translation: 1,548 game files, including the executable and dialogue scripts, are byte-identical to the Japanese baseline. The included English readme explains setup; it does not indicate translated game text.
 
-The patch checks the game files it depends on, rather than requiring that entire-disk checksum. A different disk layout can therefore work if the required files are identical. Custom executable, script, map or balance edits may be rejected. Start from the supported Japanese game or its tested English translation; compatibility with other modifications is not guaranteed.
+The patch checks the game files it depends on, rather than requiring that entire-disk checksum. A different disk layout can therefore work if the required files are identical. Custom executable, script, map or balance edits may be rejected. Start from the supported Japanese game or a supported translation of it; compatibility with other modifications is not guaranteed.
 
-The tested English reference was made with the supplied `giten.bps`:
+The translations' references were made from that Japanese HDI:
 
-- BPS SHA-256: `844f8cb5bad009f3f7e2fa179187b0d96b524d860223957dedb6497acab5e6d2`.
-- BPS source/target CRC32: `821888c0` / `68968b59`.
-- English HDI SHA-256: `c0ad091cc3dea998d81046ffdb418d8c392c0abe0f41c986776634a93db511b7`.
+- **Sneikkimies' English**, with the supplied `giten.bps`: BPS SHA-256 `844f8cb5bad009f3f7e2fa179187b0d96b524d860223957dedb6497acab5e6d2`, source/target CRC32 `821888c0` / `68968b59`; English HDI SHA-256 `c0ad091cc3dea998d81046ffdb418d8c392c0abe0f41c986776634a93db511b7`.
+- **delacannon's English and Spanish**, with its page patcher (repository commit `406c4dc`, version 2026.11.03): English HDI SHA-256 `2a7c211995d61b0a7340e633bb6ffd0384142e808ce48966b4f266b9c55afbd3`, Spanish HDI SHA-256 `db4cf5c07e1374ed3f466405b199ac9690b6997193619aba6f8c2132e4490304`.
 
-The whole-disk checksum identifies the tested reference; it is not a requirement for script-text updates at runtime. The translation's existing coverage is retained, including any passages it still leaves in Japanese. These enhancements do not complete the translation.
+The whole-disk checksums identify the tested references; they are not a requirement at runtime. Each translation's existing coverage is retained, including any passages it still leaves in Japanese. These enhancements do not complete a translation.
 
 ## Booting the PepsimanGB edition
 

@@ -2,7 +2,7 @@
 
 Apply **Fixes first**, then select that output in `Apply Rebalance.html`. Windows Artwork may be installed before or after this step. This package redesigns combat and progression while retaining the selected game's language.
 
-**Input compatibility:** the supported Japanese or tested English game after Fixes. Both languages use the same numerical rules and record IDs. English script text is retained through checked record edits; see README.md for future-update compatibility.
+**Input compatibility:** the supported Japanese game or a supported translation after Fixes. Every language uses the same numerical rules and record IDs. Translated script text is retained through checked record edits; see README.md for future-update compatibility.
 
 ## What changes
 

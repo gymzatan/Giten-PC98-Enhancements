@@ -2,7 +2,7 @@
 
 Fixes repairs gameplay defects and adds convenience features while retaining the selected Japanese or English game text and its font. The battle formulas remain those of the original game after correcting the implementation defects below. Rebalance is a separate, optional package.
 
-**Input compatibility:** the supported Japanese game and the tested English translation listed in README.md. English scripts receive checked edits to individual records and retain the input text; the Japanese path uses its accepted native files.
+**Input compatibility:** the supported Japanese game and the three translations listed in README.md: Sneikkimies' English, delacannon's English and Spanish. Translated scripts receive checked edits to individual records and retain the input text; the Japanese path uses its accepted native files. On delacannon's translation Fixes also restores the script commands its patcher overwrote (README.md, "delacannon's translation: repaired commands").
 
 ## Inventory and stability
 
