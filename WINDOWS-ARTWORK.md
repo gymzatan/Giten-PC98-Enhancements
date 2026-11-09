@@ -1,8 +1,8 @@
 # Windows Artwork
 
-This independent patch adapts graphics from the Windows remake for the PC-98 game. It can be applied to the supported Japanese or tested English image, a Fixes image, or a Fixes + Rebalance image. It does not require the Fixes package and does not translate game text.
+This independent patch adapts graphics from the Windows remake for the PC-98 game. It can be applied to the supported Japanese image or a supported translation's, a Fixes image, or a Fixes + Rebalance image. It does not require the Fixes package and does not translate game text.
 
-**English translation compatibility is verified for the BPS reference identified in README.md**, including standalone Artwork and combinations with Fixes/Rebalance. Existing dialogue is retained. Other translations or updates must still pass the graphics and executable-site checks.
+**Translation compatibility is verified for the references identified in README.md**, including standalone Artwork and combinations with Fixes/Rebalance. Existing dialogue is retained. delacannon's translation redraws two pictures the artwork also changes: the status labels (`FC0000.BIN`) and the demon lists' table headers (`FC0110.BIN`). On its disks the artwork writes those files with both: the remake's frame, compass plate and needle, and the translation's English or Spanish lettering, checked pixel by pixel. Other translations or updates must still pass the graphics and executable-site checks.
 
 ## Replaced graphics
 

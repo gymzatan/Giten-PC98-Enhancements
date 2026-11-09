@@ -2,9 +2,9 @@
 
 `Apply Controls.html` installs keyboard/gamepad controls together with the battle target prompt and target-selection pause. The battle optimization is a necessary part of the control patch. Click **Install Controls** to install both, or **Remove Controls** to remove both. The fourth patch as a whole is optional; its components are not separate choices.
 
-It works on the supported Japanese game and the tested English translation, with or without Fixes, Rebalance and Windows Artwork, and saves `Giten_Controls.hdi`. If an image has only one component from an older installer, Install completes the package and Remove removes both. Neither action is selected automatically.
+It works on the supported Japanese game and the three supported translations, with or without Fixes, Rebalance and Windows Artwork, and saves `Giten_Controls.hdi`. If an image has only one component from an older installer, Install completes the package and Remove removes both. Neither action is selected automatically.
 
-The page tells the game's language from `DDS98.EXE`: the English translation changes 576 bytes there (the status names and their pointers), and no other patch writes those bytes. A program whose bytes match neither language is refused.
+The page tells the game's language from `DDS98.EXE`: each translation changes its own bytes there (Sneikkimies' 576, the status names and their pointers; delacannon's about 3,200, its messages and labels), and no other patch writes those bytes. The question is in that translation's language: English or Spanish. A program whose bytes match neither the Japanese game nor one translation is refused.
 
 ## Target prompt
 
@@ -67,7 +67,7 @@ Giten_Controls.hdi    The final image saved by Apply Controls.html
 Boot.fdi             Your own Giten Megami Tensei Boot FD.fdi, copied and renamed
 ```
 
-Double-click `dosbox-x.exe`. The configuration uses PC-9821, 16 MB RAM and relative filenames, attaches `Giten_Controls.hdi`, and boots from `Boot.fdi`. This is the boot setup required by the supported PepsimanGB pre-made HDI, in Japanese or with the tested English translation. The emulator, game image and boot floppy are supplied by you.
+Double-click `dosbox-x.exe`. The configuration uses PC-9821, 16 MB RAM and relative filenames, attaches `Giten_Controls.hdi`, and boots from `Boot.fdi`. This is the boot setup required by the supported PepsimanGB pre-made HDI, in Japanese or with a supported translation. The emulator, game image and boot floppy are supplied by you.
 
 **An HDI that already boots by itself:** replace both commands under `[autoexec]` in the supplied configuration with this single command:
 
