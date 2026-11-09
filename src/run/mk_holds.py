@@ -49,12 +49,12 @@ import holds  # noqa: E402
 
 cli = argparse.ArgumentParser()
 cli.add_argument('--src', default=hf.SRC)
-cli.add_argument('--english', action='store_true')
+cli.add_argument('--translation', help='the translation --src holds (tools/redux_translations.py)')
 cli.add_argument('--native', action='store_true', help='Use original CP932 text without a translation database')
 cli.add_argument('--output', default=holds.PATH)
 args = cli.parse_args()
-if args.english and args.output == holds.PATH:
-    cli.error('English analysis requires its own --output')
+if args.translation and args.output == holds.PATH:
+    cli.error('A translation\'s analysis requires its own --output')
 OUT = args.output
 DEFAULT = 60
 CLICK_LED = {("MS00DD", 0, r) for r in range(0x51, 0x56)}   # the summary's victory lines, before its click
@@ -67,19 +67,41 @@ def key_of(place):
     return k
 
 
-S = hf.Scripts(args.src, args.english, native=args.native)
-if args.english:
+# what a translation changes about the connectors: the records whose unit is one there and not in the Japanese
+# game (add), and the Japanese connectors that are none there (drop, by record). In delacannon's English the
+# "⏎Also, " of MS00DD 4C is a plain sentence fragment: every road goes on to the status line on its line; so are
+# its Spanish 4C and 4D. Its Spanish "⏎Y " of MS00DD 1B is padded with 1F57, which ends the run: the message ends
+# there (the result line of MS00DD 1C is never shown), and the "Y" gets its own hold.
+# `unheld`: categories a translation lets end a message where no hold can go.
+TRANSLATED_CONNECTORS = {
+    "sneikkimies": dict(add={
+        'MS00DE/0/9@0000': 'Actor prefix; the supplied translation can skip every predicate.',
+        'MS00DE/0/10@0000': 'Actor prefix; the supplied translation can skip every predicate.',
+    }, drop=()),
+    "delacannon-en": dict(add={}, drop=('MS00DD/0/76',), unheld={
+        'MS00DC/0/6@0003': 'its dictionary word dict3[12] ends "is" with 1F57, which ends the run inside that shared '
+                           'word, where no hold can go',
+        'MS00DC/0/13@0007': 'the same: "blinded " is followed by dict3[12] "is" and its 1F57',
+    }),
+    "delacannon-es": dict(add={}, drop=('MS00DD/0/27', 'MS00DD/0/76', 'MS00DD/0/77'), unheld={
+        'MS00DC/0/6@0003': 'its dictionary word dict3[12] ends "es" with 1F57, which ends the run inside that shared '
+                           'word, where no hold can go',
+    }),
+}
+S = hf.Scripts(args.src, args.translation, native=args.native)
+if args.translation:
     # The accepted connector identities are records; their final unit moves with translation.
     CONNECTORS = {}
+    change = TRANSLATED_CONNECTORS[args.translation]
     for label, why in hf.CONNECTORS.items():
         key, _ = holds.parse_place(label)
+        if f'{key[0]}/0/{key[2]}' in change['drop']:
+            continue
         units = S.source[(int(key[0][2:], 16), key[2])][2]
         unit = units[0] if key[2] == 27 else units[-1]
         CONNECTORS[f'{key[0]}/0/{key[2]}@{unit.start:04X}'] = why
-    CONNECTORS.update({
-        'MS00DE/0/9@0000': 'Actor prefix; the supplied translation can skip every predicate.',
-        'MS00DE/0/10@0000': 'Actor prefix; the supplied translation can skip every predicate.',
-    })
+    CONNECTORS.update(change['add'])
+UNHELD =TRANSLATED_CONNECTORS[args.translation].get('unheld', {}) if args.translation else {}
 zh_of = {}
 for key, (payload, toks, units, zh) in S.source.items():
     for n, u in enumerate(units):
@@ -231,8 +253,10 @@ flow2 = hf.Flow(recs2, S.on_roots, True)
 off2 = hf.Flow(recs2, S.off_roots, False)
 bad = {n: v for n, v in flow2.notes.items() if n in ("double", "empty", "mismatch", "split", "no-000") and v}
 gaps = {c: n for c, n in flow2.gaps().items() if c not in connectors and not (c in entries and entries[c]["hold"] == 0)
-        and key_of(c) not in hf.ANSWERED}
+        and key_of(c) not in hf.ANSWERED and c not in UNHELD}
 reach = sorted(hid[1] for hid in hf.holds_met(off2, recs2) if hid[0] == "added")
+if set(UNHELD) - set(flow2.gaps()):
+    raise SystemExit(f"UNHELD lists what ends no message unheld: {sorted(set(UNHELD) - set(flow2.gaps()))}")
 if bad or gaps or reach:
     raise SystemExit(f"the table does not check: {dict((n, sorted(map(str, v))[:5]) for n, v in bad.items())} "
                      f"gaps {sorted(gaps)[:10]} reachable where waiting is off {reach[:10]}")

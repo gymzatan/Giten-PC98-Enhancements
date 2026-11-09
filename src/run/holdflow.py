@@ -215,9 +215,11 @@ class Record:
 class Scripts:
     """The records a battle message can reach, with their translations, ready to be built."""
 
-    def __init__(self, src=SRC, english=False, native=False):
-        self.src, self.english, self.native = src, english, native
-        self.native = True
+    def __init__(self, src=SRC, translation=None, native=False):
+        """translation: the translation src holds (tools/redux_translations.py), None for the Japanese game; the
+        text is always the files' own."""
+        self.src, self.translation, self.native = src, translation, native
+        self.native = native or not translation
         self.texts = ScriptInputs(src)
         self.charmap = JapaneseText()
         self.dicts = Dicts(Corpus(src))
@@ -298,9 +300,10 @@ class Scripts:
                 recs[key] = Record(key, self.source[key], self.charmap, commands, appends, owners)
             except ValueError as exc:
                 raise ValueError(f'{stem(key[0])}/{key[1]:02X}: {exc}') from exc
-        for name, fixes in expshow.by_file(None if self.english else self.charmap, english=self.english).items():
+        for name, fixes in expshow.by_file(None if self.translation else self.charmap,
+                                           translation=self.translation).items():
             for fix in fixes:
-                if self.english and isinstance(fix, expshow.Wording):
+                if self.translation and isinstance(fix, expshow.Wording):
                     continue
                 rec = recs[(int(name[2:], 16), fix.rid)]
                 sites, _block = fix.edits(rec.payload, len(rec.payload))
@@ -567,7 +570,7 @@ class Texts:
     placeholders."""
 
     def __init__(self, scripts):
-        self.holder = {} if scripts.english or scripts.native else scripts.charmap.holder
+        self.holder = {} if scripts.translation or scripts.native else scripts.charmap.holder
 
     def token(self, rec, j):
         t = rec.toks[j]
