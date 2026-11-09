@@ -9,14 +9,14 @@ body{margin:0;background:#f4f1ea;color:#24231f;font:17px/1.65 system-ui,sans-ser
 </style>
 </head>
 <body><main>
-<p>PC-98 · JAPANESE AND ENGLISH GAME SUPPORT</p>
+<p>PC-98 · JAPANESE, ENGLISH AND SPANISH GAME SUPPORT</p>
 <h1>Giten Megami Tensei Redux</h1>
 <p class="lead">One download. Three enhancement patches and one optional Controls package.</p>
 <p>This folder contains <strong>Fixes</strong>, <strong>Windows Artwork</strong>, <strong>Rebalance</strong> and the <strong>Controls</strong>, plus the complete English documentation. Keep the extracted files together.</p>
 <h2>Before you start</h2>
 <ol>
 <li>Use a copy of your supported PC-98 <code>.hdi</code> game disk. Close the emulator and back up your game and saves.</li>
-<li><strong>Playing in English?</strong> Apply <a href="https://www.romhacking.net/translations/7343/">Sneikkimies' English translation</a> to its required Japanese image first. Then use the English result below. Redux retains your game's language; the translation is a separate download.</li>
+<li><strong>Playing in English or Spanish?</strong> Apply the translation to its required Japanese image first: <a href="https://www.romhacking.net/translations/7343/">Sneikkimies' English translation</a>, or <a href="https://delacannon.github.io/giten-megami-tensei-tokyo-mokushiroku-i18n/">delacannon's English or Spanish translation</a> (version 2026.11.03). Then use the translated result below. Redux retains your game's language; the translation is a separate download.</li>
 <li>For each patch: select the HDI, click <strong>Apply patch</strong>, then click <strong>Save</strong>. Processing is local; your disk is never uploaded.</li>
 </ol>
 <h2>Install all three patches</h2>
@@ -24,7 +24,7 @@ body{margin:0;background:#f4f1ea;color:#24231f;font:17px/1.65 system-ui,sans-ser
 <div class="table-scroll"><table>
 <thead><tr><th>Step</th><th>Select this input</th><th>Save this result</th><th>What it adds</th></tr></thead>
 <tbody>
-<tr><td><a class="patch" href="Apply Fixes.html" target="_blank" rel="noopener">1. Apply Fixes</a></td><td>Your Japanese game HDI, or the English-translated HDI</td><td><code>Giten_Fixed.hdi</code></td><td>Easier keyboard controls, 111 inventory slots and game repairs</td></tr>
+<tr><td><a class="patch" href="Apply Fixes.html" target="_blank" rel="noopener">1. Apply Fixes</a></td><td>Your Japanese game HDI, or the translated HDI</td><td><code>Giten_Fixed.hdi</code></td><td>Easier keyboard controls, 111 inventory slots and game repairs</td></tr>
 <tr><td><a class="patch" href="Apply Rebalance.html" target="_blank" rel="noopener">2. Apply Rebalance</a></td><td><code>Giten_Fixed.hdi</code> saved in step 1</td><td><code>Giten_Rebalanced.hdi</code></td><td>Revised combat, character growth, skills and boss tuning</td></tr>
 <tr><td><a class="patch" href="Apply Windows Artwork.html" target="_blank" rel="noopener">3. Apply Windows Artwork</a></td><td><code>Giten_Rebalanced.hdi</code> saved in step 2</td><td><code>Giten_WIN.hdi</code></td><td>Windows remake environments, demon artwork, title and metal interface frame</td></tr>
 </tbody></table></div>
@@ -33,7 +33,7 @@ body{margin:0;background:#f4f1ea;color:#24231f;font:17px/1.65 system-ui,sans-ser
 <p><a class="patch" href="Apply Controls.html" target="_blank" rel="noopener">Apply Controls</a></p>
 <p>Select the disk you play (for example <code>Giten_WIN.hdi</code>), click <strong>Install Controls</strong> and save <code>Giten_Controls.hdi</code>:</p>
 <ul>
-<li><strong>Target prompt:</strong> while you pick a target in battle, the text box asks “Use on whom?” (English) or 「誰に使いますか？」 (Japanese), and battle time stops, so no enemy acts during your pick.</li>
+<li><strong>Target prompt:</strong> while you pick a target in battle, the text box asks “Use on whom?” (English), “¿Sobre quién?” (Spanish) or 「誰に使いますか？」 (Japanese), and battle time stops, so no enemy acts during your pick.</li>
 <li><strong>Keyboard / gamepad controls:</strong> the stick walks; the D-pad moves the pointer between menu entries, options and targets; X goes to the command panel and back; A and B are the mouse buttons. For DOSBox-X, the included <code>dosbox-x.conf</code> already enables <code>mapper-giten.map</code> for an XInput pad.</li>
 </ul>
 <p>Apply the control features after the other patches. Remove Controls on the same page removes the complete patch.</p>
@@ -42,7 +42,7 @@ body{margin:0;background:#f4f1ea;color:#24231f;font:17px/1.65 system-ui,sans-ser
 <li><strong>Original combat rules with repairs and new artwork:</strong> apply step 1, then step 3 using <code>Giten_Fixed.hdi</code>. Rebalance is optional.</li>
 <li><strong>Fixes only:</strong> apply step 1 and play <code>Giten_Fixed.hdi</code>.</li>
 <li><strong>Fixes + Rebalance, original artwork:</strong> apply steps 1 and 2 and play <code>Giten_Rebalanced.hdi</code>.</li>
-<li><strong>Artwork only:</strong> open step 3 and select your Japanese or English game HDI directly. It works independently.</li>
+<li><strong>Artwork only:</strong> open step 3 and select your Japanese or translated game HDI directly. It works independently.</li>
 </ul>
 <h2>Already patched with an earlier release?</h2>
 <p>Select that disk on the new pages; it is updated in place and keeps its saves. Fixes only: <strong>Apply Fixes</strong>. Fixes + Rebalance: <strong>Apply Rebalance</strong>, which updates Fixes too. Artwork and Controls need no update. If Controls are installed, remove them on <strong>Apply Controls</strong> first and install them again afterwards.</p>

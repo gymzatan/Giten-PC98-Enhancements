@@ -6,7 +6,7 @@ manual.
 
 TO INSTALL ALL THREE
 1. Open Apply Fixes.html.
-   Input: your Japanese PC-98 HDI, or your English-translated HDI.
+   Input: your Japanese PC-98 HDI, or your translated HDI.
    Apply, then save Giten_Fixed.hdi.
 2. Open Apply Rebalance.html.
    Input: the Giten_Fixed.hdi you just saved.
@@ -25,7 +25,7 @@ The controls and battle target prompt/pause are installed or removed together.
 Open Apply Controls.html and select the disk you play (for example
 Giten_WIN.hdi). Click Install Controls, then save Giten_Controls.hdi.
   Target prompt: while you pick a target in battle, the text box asks
-    "Use on whom?" (English) or 「誰に使いますか？」 (Japanese), and battle time stops, so no enemy acts during your pick.
+    "Use on whom?" (English), "¿Sobre quién?" (Spanish) or 「誰に使いますか？」 (Japanese), and battle time stops, so no enemy acts during your pick.
   Keyboard / gamepad controls: the stick walks; the D-pad moves the pointer between menu entries,
     options and targets; X goes to the command panel and back; A and B are
     the mouse buttons. For DOSBox-X, mapper-giten.map sets up an XInput pad
@@ -36,7 +36,7 @@ OTHER COMBINATIONS
 Original combat rules + repairs + new artwork: step 1, then step 3 using its output.
 Fixes only: step 1.
 Fixes + Rebalance with original artwork: steps 1 and 2.
-Artwork only: step 3, selecting your original Japanese or English game HDI.
+Artwork only: step 3, selecting your original Japanese or translated game HDI.
 
 ALREADY PATCHED WITH AN EARLIER RELEASE
 Select that disk on the new pages; it is updated in place and keeps its saves.
@@ -44,10 +44,12 @@ Fixes only: Apply Fixes.html. Fixes + Rebalance: Apply Rebalance.html (it
 updates Fixes too). Artwork and Controls need no update. If Controls are
 installed, remove them on Apply Controls.html first, then install them again.
 
-FOR ENGLISH PLAY
-Apply Sneikkimies' English translation to its required Japanese disk first,
-then apply Redux to that English result. The translation is a separate download:
-https://www.romhacking.net/translations/7343/
+FOR ENGLISH OR SPANISH PLAY
+Apply the translation to its required Japanese disk first, then apply Redux to
+that result. The translations are separate downloads:
+Sneikkimies' English: https://www.romhacking.net/translations/7343/
+delacannon's English and Spanish (version 2026.11.03):
+https://delacannon.github.io/giten-megami-tensei-tokyo-mokushiroku-i18n/
 Redux retains your selected game's language.
 
 BEFORE PLAYING
